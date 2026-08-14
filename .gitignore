@@ -1,0 +1,10 @@
+# Temporary deployment artifacts
+lambda.zip
+site.zip
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS metadata
+.DS_Store
