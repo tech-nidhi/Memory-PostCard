@@ -1757,47 +1757,25 @@
       img.src = currentPostcardData.image_url;
     });
 
-    // DEMO FALLBACK GENERATOR
+    // DEMO REAL SCENE GENERATOR
     function generateDemoResponse(payload) {
       const themeKey = payload.theme || payload.theme_id || "rainyDay";
       const themesMap = {
-        rainyDay: { name: "Rainy Day", mood: "Reflective", style: "Realistic 35mm", c1: "#2B3A4A", c2: "#4A6B82", c3: "#1C2530", c4: "#0D131A" },
-        snowyMorning: { name: "Snowy Morning", mood: "Quiet & Serene", style: "Winter Fine Art", c1: "#E0F2FE", c2: "#7DD3FC", c3: "#1E293B", c4: "#0F172A" },
-        sunsetEscape: { name: "Sunset Escape", mood: "Nostalgic & Expansive", style: "Golden Hour Photography", c1: "#FDE68A", c2: "#F97316", c3: "#7C2D12", c4: "#451A03" },
-        autumnPath: { name: "Autumn Path", mood: "Nostalgic & Warm", style: "Autumn Landscape", c1: "#FED7AA", c2: "#EA580C", c3: "#7C2D12", c4: "#361102" },
-        mountainCalling: { name: "Mountain Calling", mood: "Adventurous & Grand", style: "High Altitude Landscape", c1: "#BAE6FD", c2: "#0284C7", c3: "#0C4A6E", c4: "#032030" },
-        cozyEvening: { name: "Cozy Evening", mood: "Intimate & Peaceful", style: "Warm Interior Art", c1: "#FEF3C7", c2: "#D97706", c3: "#78350F", c4: "#451A03" },
-        vintageVibes: { name: "Vintage Vibes", mood: "Historical & Timeless", style: "1950s 35mm Film", c1: "#FDE8CD", c2: "#B45309", c3: "#582C0E", c4: "#2D1505" },
-        cityLights: { name: "City Lights", mood: "Energetic & Electric", style: "Night Urban Street", c1: "#DDD6FE", c2: "#7C3AED", c3: "#2E1065", c4: "#0F051D" },
-        watercolorDream: { name: "Watercolor Dream", mood: "Dreamy & Whimsical", style: "Fine Art Watercolor", c1: "#F472B6", c2: "#A855F7", c3: "#4C1D95", c4: "#1E0638" },
-        monsoonMemories: { name: "Monsoon Memories", mood: "Nostalgic & Evocative", style: "Monsoon Photography", c1: "#99F6E4", c2: "#0D9488", c3: "#115E59", c4: "#042F2C" }
+        snowyMorning: { name: "Snowy Morning", mood: "Quiet & Serene", style: "Winter Fine Art", photo: "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=1152&h=768&fit=crop&q=85&auto=format" },
+        rainyDay: { name: "Rainy Day", mood: "Reflective & Peaceful", style: "Cinematic 35mm", photo: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=1152&h=768&fit=crop&q=85&auto=format" },
+        cityLights: { name: "City Lights", mood: "Energetic & Electric", style: "Night Urban Street", photo: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1152&h=768&fit=crop&q=85&auto=format" },
+        sunsetEscape: { name: "Sunset Escape", mood: "Nostalgic & Expansive", style: "Golden Hour Travel", photo: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1152&h=768&fit=crop&q=85&auto=format" },
+        autumnPath: { name: "Autumn Path", mood: "Nostalgic & Warm", style: "Autumn Landscape", photo: "https://images.unsplash.com/photo-1507499739999-097706ad8914?w=1152&h=768&fit=crop&q=85&auto=format" },
+        mountainCalling: { name: "Mountain Calling", mood: "Adventurous & Grand", style: "High Altitude Landscape", photo: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1152&h=768&fit=crop&q=85&auto=format" },
+        cozyEvening: { name: "Cozy Evening", mood: "Intimate & Peaceful", style: "Warm Interior Art", photo: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1152&h=768&fit=crop&q=85&auto=format" },
+        vintageVibes: { name: "Vintage Vibes", mood: "Historical & Timeless", style: "1950s 35mm Film", photo: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1152&h=768&fit=crop&q=85&auto=format" },
+        watercolorDream: { name: "Watercolor Dream", mood: "Dreamy & Whimsical", style: "Fine Art Watercolor", photo: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1152&h=768&fit=crop&q=85&auto=format" },
+        monsoonMemories: { name: "Monsoon Memories", mood: "Nostalgic & Evocative", style: "Monsoon Photography", photo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1152&h=768&fit=crop&q=85&auto=format" }
       };
 
       const tObj = themesMap[themeKey] || themesMap.rainyDay;
       const loc = payload.location || "Somewhere Peaceful";
       const time = payload.time || "21 Aug 2026";
-
-      const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="1152" height="768" viewBox="0 0 1152 768">
-          <defs>
-            <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="${tObj.c1}"/>
-              <stop offset="100%" stop-color="${tObj.c2}"/>
-            </linearGradient>
-            <linearGradient id="overlay" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="${tObj.c3}" stop-opacity="0.88"/>
-              <stop offset="100%" stop-color="${tObj.c4}" stop-opacity="0.95"/>
-            </linearGradient>
-          </defs>
-          <rect width="1152" height="768" fill="url(#bg)"/>
-          <circle cx="576" cy="300" r="240" fill="${tObj.c2}" opacity="0.35"/>
-          <path d="M0 460 Q288 380 576 460 T1152 460 L1152 768 L0 768 Z" fill="url(#overlay)"/>
-          <path d="M0 550 Q384 470 768 550 T1152 550 L1152 768 L0 768 Z" fill="${tObj.c4}"/>
-          <text x="576" y="690" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="#FFFDF9" text-anchor="middle" letter-spacing="6" opacity="0.85">${tObj.name.toUpperCase()} · ${loc.toUpperCase()}</text>
-        </svg>
-      `;
-
-      const encodedSvg = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 
       return {
         title: `${tObj.name.toUpperCase()} MEMORY`,
@@ -1809,10 +1787,10 @@
         style: tObj.style,
         location: loc,
         time: time,
-        image_url: encodedSvg,
+        image_url: tObj.photo,
         generated_at: time,
         created_label: "Created automatically this morning (8:00 AM)",
-        creative_reasoning: `Selected ${tObj.name} theme for immersive visual storytelling and environment depth.`
+        creative_reasoning: `Selected ${tObj.name} theme with real high-resolution scene artwork for visual storytelling depth.`
       };
     }
 

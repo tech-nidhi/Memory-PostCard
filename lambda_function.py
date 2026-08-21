@@ -3,6 +3,8 @@ import os
 import uuid
 import base64
 import logging
+import urllib.request
+import urllib.parse
 from datetime import datetime
 import boto3
 from botocore.exceptions import ClientError
@@ -25,127 +27,117 @@ CORS_HEADERS = {
     "Content-Type": "application/json"
 }
 
-# 10 STRUCTURED IMMERSIVE VISUAL THEMES
+# 10 IMMERSIVE REAL VISUAL SCENE THEMES
 THEMES = {
-    "rainyDay": {
-        "id": "rainyDay",
-        "name": "Rainy Day",
-        "mood": "Reflective & Peaceful",
-        "style": "Cinematic 35mm Photography",
-        "environment": "A quiet old European or Indian city street outside a vintage café with warm glowing windows",
-        "weather": "Active heavy rainfall, mist, water droplets glistening on surfaces, wet cobblestones",
-        "lighting": "Overcast natural daylight mixed with warm yellow window lights and street lamp reflections on wet pavement",
-        "props": ["dark umbrella", "steaming coffee cup on window ledge", "puddles with sky reflections", "rain-streaked glass"],
-        "composition": "Eye-level 35mm street view, deep atmospheric perspective, cinematic wet reflections",
-        "palette": ("#2B3A4A", "#4A6B82", "#1C2530", "#0D131A")
-    },
     "snowyMorning": {
         "id": "snowyMorning",
         "name": "Snowy Morning",
         "mood": "Quiet & Serene",
         "style": "Winter Fine Art Photography",
-        "environment": "A snow-covered timber cabin in a quiet mountain pine forest village",
-        "weather": "Gently falling snow, frost-laden pine branches, visible cold air mist, crisp winter atmosphere",
-        "lighting": "Pale soft winter morning sunlight casting gentle golden rays over cold blue snow drifts",
-        "props": ["snow-capped wooden rooftops", "smoke rising softly from chimney", "deep footprints in fresh snow", "warm golden window light"],
-        "composition": "Wide landscape composition framing the cabin among towering pine trees, high crisp detail",
-        "palette": ("#E0F2FE", "#7DD3FC", "#1E293B", "#0F172A")
+        "environment": "A remote alpine wooden cabin surrounded by snow-covered pine trees in a mountain valley at dawn",
+        "weather": "Gentle snowfall, frost-laden pine branches, cold air mist",
+        "lighting": "Soft cold blue morning light with warm golden light glowing through cabin windows",
+        "props": ["snow-covered wooden cabin", "fresh footprints in snow", "pine trees", "chimney smoke", "snowy rooftops"],
+        "photo_url": "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=1152&h=768&fit=crop&q=85&auto=format"
     },
-    "sunsetEscape": {
-        "id": "sunsetEscape",
-        "name": "Sunset Escape",
-        "mood": "Nostalgic & Expansive",
-        "style": "Golden Hour Landscape Photography",
-        "environment": "A dramatic coastal cliff viewpoint overlooking a tranquil ocean bay or desert highway",
-        "weather": "Clear warm evening sky with thin wispy clouds illuminated in radiant pink and gold",
-        "lighting": "Low sun near the horizon, intense golden hour glare, long dramatic shadows, radiant sunset glow",
-        "props": ["silhouette of coastal rocks or palm trees", "glistening ocean surface", "winding coastal path"],
-        "composition": "Cinematic wide-angle view, sun positioned near lower third horizon, dramatic scale",
-        "palette": ("#FDE68A", "#F97316", "#7C2D12", "#451A03")
-    },
-    "autumnPath": {
-        "id": "autumnPath",
-        "name": "Autumn Path",
-        "mood": "Nostalgic & Warm",
-        "style": "Rich Autumn Landscape Photography",
-        "environment": "A winding gravel trail through an old forest park lined with ancient maple trees",
-        "weather": "Crisp autumn breeze, falling golden leaves drifting in the air, soft distant forest mist",
-        "lighting": "Warm late-afternoon amber sunlight filtering through orange and scarlet leaves",
-        "props": ["blanket of crimson and golden fallen leaves covering ground", "rustic wooden fence", "old iron street lamp"],
-        "composition": "Leading lines following the winding path into the glowing forest canopy",
-        "palette": ("#FED7AA", "#EA580C", "#7C2D12", "#361102")
-    },
-    "mountainCalling": {
-        "id": "mountainCalling",
-        "name": "Mountain Calling",
-        "mood": "Adventurous & Grand",
-        "style": "High-Altitude Wilderness Photography",
-        "environment": "Majestic alpine mountain peaks towering above a green valley and pine forest ridge",
-        "weather": "Swirling mountain peak clouds, crisp thin air, dramatic sunbeams breaking through mist",
-        "lighting": "Bright high-altitude sunlight contrasting sharp rocky ridges with deep shadow valleys",
-        "props": ["narrow hiking trail on cliff edge", "distant mountain stream", "tiny human figure for epic scale"],
-        "composition": "Low-angle grand wilderness landscape, vertical mountain majesty, deep atmospheric depth",
-        "palette": ("#BAE6FD", "#0284C7", "#0C4A6E", "#032030")
-    },
-    "cozyEvening": {
-        "id": "cozyEvening",
-        "name": "Cozy Evening",
-        "mood": "Intimate & Peaceful",
-        "style": "Warm Interior Fine Art Photography",
-        "environment": "A warm rustic reading corner inside a timber cabin beside a rain-beaded window",
-        "weather": "Quiet evening rain visible through window glass, warm indoor sanctuary",
-        "lighting": "Soft amber glow from a vintage desk lamp and flickering fireplace embers",
-        "props": ["stack of old hardcover books", "steaming ceramic mug of tea", "chunky knit wool blanket", "glowing candle"],
-        "composition": "Medium close-up still life framing the cozy nook, shallow depth of field, warm rich bokeh",
-        "palette": ("#FEF3C7", "#D97706", "#78350F", "#451A03")
-    },
-    "vintageVibes": {
-        "id": "vintageVibes",
-        "name": "Vintage Vibes",
-        "mood": "Historical & Timeless",
-        "style": "Authentic 1950s 35mm Analog Film",
-        "environment": "A classic 1950s train platform or European cobble town square",
-        "weather": "Clear soft retro afternoon air, fine analog film grain, subtle vintage sepia warmth",
-        "lighting": "Soft golden vintage natural daylight, muted contrast characteristic of classic film",
-        "props": ["vintage leather suitcase", "classic 1950s automobile in background", "old analog clock tower", "iron benches"],
-        "composition": "Classic documentary-style 35mm framing, rich organic texture, nostalgic timeless depth",
-        "palette": ("#FDE8CD", "#B45309", "#582C0E", "#2D1505")
+    "rainyDay": {
+        "id": "rainyDay",
+        "name": "Rainy Day",
+        "mood": "Reflective & Peaceful",
+        "style": "Cinematic 35mm Street Photography",
+        "environment": "A quiet old European city street during heavy evening rain outside a cozy café",
+        "weather": "Active heavy rainfall, rain droplets on glass, puddles, mist",
+        "lighting": "Overcast natural light mixed with warm yellow window lights and street lamp reflections on wet road",
+        "props": ["dark umbrellas", "wet reflective pavement", "puddles", "steaming coffee cup", "rain coats"],
+        "photo_url": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=1152&h=768&fit=crop&q=85&auto=format"
     },
     "cityLights": {
         "id": "cityLights",
         "name": "City Lights",
         "mood": "Energetic & Electric",
         "style": "Nighttime Urban Street Photography",
-        "environment": "A bustling downtown avenue flanked by towering skyscrapers and illuminated storefronts",
-        "weather": "Nighttime mist after rain, wet asphalt reflecting bright city lights",
-        "lighting": "Vibrant cyan, magenta, and amber neon signs, glowing shop windows, passing car headlights",
-        "props": ["yellow city taxis", "pedestrians holding umbrellas", "glowing street signs", "wet road reflections"],
-        "composition": "Dynamic urban perspective looking down a glowing avenue, rich color contrast",
-        "palette": ("#DDD6FE", "#7C3AED", "#2E1065", "#0F051D")
+        "environment": "A dense busy Tokyo street in Shibuya with illuminated Japanese storefronts and skyscrapers",
+        "weather": "Nighttime urban mist, light rain reflections on asphalt",
+        "lighting": "Vibrant cyan, magenta, and amber neon signs, glowing storefronts, traffic headlights",
+        "props": ["yellow city taxis", "pedestrians crossing", "glowing neon signage", "wet road reflections"],
+        "photo_url": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1152&h=768&fit=crop&q=85&auto=format"
+    },
+    "sunsetEscape": {
+        "id": "sunsetEscape",
+        "name": "Sunset Escape",
+        "mood": "Nostalgic & Expansive",
+        "style": "Golden Hour Travel Photography",
+        "environment": "A quiet tropical beach at sunset with orange sun touching the horizon",
+        "weather": "Clear warm evening sky with gold and pink illuminated clouds",
+        "lighting": "Intense golden hour sunlight, long shadows, warm atmospheric haze",
+        "props": ["silhouette of palm trees", "gentle waves reflecting sunset colors", "vintage van near shoreline"],
+        "photo_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1152&h=768&fit=crop&q=85&auto=format"
+    },
+    "autumnPath": {
+        "id": "autumnPath",
+        "name": "Autumn Path",
+        "mood": "Nostalgic & Warm",
+        "style": "Rich Autumn Landscape Photography",
+        "environment": "A narrow gravel forest path during peak autumn lined with tall maple trees",
+        "weather": "Crisp autumn breeze, subtle distant forest mist",
+        "lighting": "Warm late-afternoon amber sunlight filtering through orange and crimson canopy",
+        "props": ["blanket of scarlet and golden fallen leaves covering ground", "rustic wooden fence", "old street lamp"],
+        "photo_url": "https://images.unsplash.com/photo-1507499739999-097706ad8914?w=1152&h=768&fit=crop&q=85&auto=format"
+    },
+    "mountainCalling": {
+        "id": "mountainCalling",
+        "name": "Mountain Calling",
+        "mood": "Adventurous & Grand",
+        "style": "High-Altitude Wilderness Photography",
+        "environment": "Enormous alpine mountain peaks rising above a green valley and pine forest ridge",
+        "weather": "Swirling mountain peak clouds, crisp thin air, dramatic sunbeams breaking through mist",
+        "lighting": "Bright high-altitude sunlight contrasting sharp rocky ridges with deep shadow valleys",
+        "props": ["narrow hiking trail on cliff edge", "lone hiker for scale", "distant mountain stream"],
+        "photo_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1152&h=768&fit=crop&q=85&auto=format"
+    },
+    "cozyEvening": {
+        "id": "cozyEvening",
+        "name": "Cozy Evening",
+        "mood": "Intimate & Peaceful",
+        "style": "Warm Interior Fine Art Photography",
+        "environment": "A cozy wooden cabin interior at night with an open book and tea mug on a table",
+        "weather": "Rain visible through window glass, warm indoor sanctuary",
+        "lighting": "Soft amber table lamp glow, flickering fireplace embers in background",
+        "props": ["open hardcover book", "steaming ceramic mug of tea", "knitted blanket", "glowing candle"],
+        "photo_url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1152&h=768&fit=crop&q=85&auto=format"
+    },
+    "vintageVibes": {
+        "id": "vintageVibes",
+        "name": "Vintage Vibes",
+        "mood": "Historical & Timeless",
+        "style": "1950s 35mm Analog Film Photography",
+        "environment": "A classic 1950s European railway station with mid-century architecture",
+        "weather": "Soft analog film grain, subtle vintage sepia warmth",
+        "lighting": "Soft golden vintage natural daylight, muted contrast characteristic of classic 35mm film",
+        "props": ["vintage leather suitcase", "classic 1950s automobile", "analog clock tower", "historical clothing"],
+        "photo_url": "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1152&h=768&fit=crop&q=85&auto=format"
     },
     "watercolorDream": {
         "id": "watercolorDream",
         "name": "Watercolor Dream",
         "mood": "Dreamy & Whimsical",
-        "style": "Masterful Fine Art Watercolor Painting",
-        "environment": "A dreamy wildflower meadow surrounding a serene lake and distant rolling hills",
-        "weather": "Soft misty air, delicate painterly clouds, gentle color washes across the sky",
-        "lighting": "Soft luminous pastel daylight, gentle watercolor pigment gradients",
-        "props": ["blooming lavender and poppies", "gentle water ripples", "soft painted cottage in distance"],
-        "composition": "Painterly impressionistic landscape with visible cold-press paper texture and soft bleeds",
-        "palette": ("#F472B6", "#A855F7", "#4C1D95", "#1E0638")
+        "style": "Masterpiece Fine Art Watercolor Painting",
+        "environment": "A dreamy wildflower meadow surrounding a serene lake and rolling hills at sunrise",
+        "weather": "Soft misty air, delicate painterly clouds, gentle color washes",
+        "lighting": "Luminous pastel daylight, soft watercolor pigment gradients",
+        "props": ["blooming lavender and poppies", "gentle water ripples", "visible wet-on-wet watercolor washes"],
+        "photo_url": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1152&h=768&fit=crop&q=85&auto=format"
     },
     "monsoonMemories": {
         "id": "monsoonMemories",
         "name": "Monsoon Memories",
         "mood": "Nostalgic & Evocative",
         "style": "Atmospheric Indian Monsoon Photography",
-        "environment": "An Indian neighborhood street beside a roadside chai stall under a tin roof",
+        "environment": "An Indian street in Mumbai during a heavy monsoon downpour beside a roadside chai stall",
         "weather": "Heavy monsoon downpour, dark dramatic rain clouds, water streaming off tin roof",
-        "lighting": "Overcast stormy monsoon sky contrasted with warm yellow lantern glow from tea stall",
-        "props": ["cutting chai glasses", "black umbrellas", "glistening wet palm trees", "rainwater puddles"],
-        "composition": "Atmospheric street scene framing the warm chai stall against rain-soaked greenery",
-        "palette": ("#99F6E4", "#0D9488", "#115E59", "#042F2C")
+        "lighting": "Overcast stormy sky contrasted with warm yellow lantern glow from tea stall",
+        "props": ["steaming cutting chai glasses", "black umbrellas", "glistening wet palm trees", "wet bitumen road"],
+        "photo_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1152&h=768&fit=crop&q=85&auto=format"
     }
 }
 
@@ -192,76 +184,29 @@ def put_s3_json(bucket: str, key: str, data: dict):
         ContentType='application/json'
     )
 
-def create_theme_svg_bytes(theme_key: str, memory: str, location: str) -> tuple[bytes, str]:
-    """Generate high-quality vector artwork tailored to the specific visual theme."""
-    theme = THEMES.get(theme_key, THEMES["rainyDay"])
-    c1, c2, c3, c4 = theme["palette"]
-    title_text = theme["name"].upper()
-    loc_clean = (location or "POSTCARD").upper()
-
-    svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1152" height="768" viewBox="0 0 1152 768">
-  <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="{c1}"/>
-      <stop offset="100%" stop-color="{c2}"/>
-    </linearGradient>
-    <linearGradient id="overlayGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="{c3}" stop-opacity="0.88"/>
-      <stop offset="100%" stop-color="{c4}" stop-opacity="0.95"/>
-    </linearGradient>
-  </defs>
-  <rect width="1152" height="768" fill="url(#bgGrad)"/>
-  <circle cx="576" cy="300" r="240" fill="{c2}" opacity="0.35"/>
-  <path d="M0 460 Q288 380 576 460 T1152 460 L1152 768 L0 768 Z" fill="url(#overlayGrad)"/>
-  <path d="M0 550 Q384 470 768 550 T1152 550 L1152 768 L0 768 Z" fill="{c4}"/>
-  <text x="576" y="690" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="#FFFDF9" text-anchor="middle" letter-spacing="6" opacity="0.85">{title_text} · {loc_clean}</text>
-</svg>"""
-    return svg_content.encode('utf-8'), "image/svg+xml"
-
-def build_rich_image_prompt(theme: dict, user_memory: str) -> str:
-    """Build an explicit 13-point detailed visual prompt for Bedrock Nova Canvas."""
-    props_str = ", ".join(theme['props'])
-    return f"""High-resolution {theme['style']} of {theme['environment']}.
-Atmosphere & Weather: {theme['weather']}.
-Lighting: {theme['lighting']}.
-Visual elements & details: {props_str}.
-Composition: {theme['composition']}.
-Context: Inspired by memory '{user_memory or theme['name']}'.
-Camera & Optics: 35mm lens, atmospheric depth, sharp environmental details, realistic texture.
-DO NOT render any text, letters, words, titles, labels, or watermarks inside the generated artwork."""
-
-def generate_illustration(theme: dict, user_memory: str, location: str) -> tuple[bytes, str, str]:
-    """Call Amazon Nova Canvas with rich environment prompt or fallback to vector theme artwork."""
-    image_prompt = build_rich_image_prompt(theme, user_memory)
-    logger.info(f"Generating image prompt for theme '{theme['name']}': {image_prompt}")
-
-    body = {
-        "taskType": "TEXT_IMAGE",
-        "textToImageParams": {
-            "text": image_prompt
-        },
-        "imageGenerationConfig": {
-            "numberOfImages": 1,
-            "height": 768,
-            "width": 1152,
-            "cfgScale": 8.5
-        }
-    }
-
+def fetch_real_theme_artwork(theme: dict, user_memory: str) -> tuple[bytes, str, str]:
+    """Fetch high-resolution photographic scene artwork for the requested theme."""
+    prompt = f"cinematic high-resolution photograph of {theme['environment']}, {theme['weather']}, {theme['lighting']}, {', '.join(theme['props'])}, {theme['style']}, 1152x768 photorealistic"
+    
+    # Primary: AI Image Generation Service (Pollinations / Sana AI Engine)
+    ai_url = f"https://image.pollinations.ai/prompt/{urllib.parse.quote(prompt)}?width=1152&height=768&nologo=true&seed=42"
+    req = urllib.request.Request(ai_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
     try:
-        response = bedrock_runtime.invoke_model(
-            modelId="amazon.nova-canvas-v1:0",
-            contentType="application/json",
-            accept="application/json",
-            body=json.dumps(body)
-        )
-        response_body = json.loads(response['body'].read().decode('utf-8'))
-        base64_image = response_body['images'][0]
-        return base64.b64decode(base64_image), "png", "image/png"
+        with urllib.request.urlopen(req, timeout=12) as resp:
+            data = resp.read()
+            if len(data) > 10000:
+                logger.info(f"Successfully generated AI image for theme {theme['name']} ({len(data)} bytes)")
+                return data, "jpg", "image/jpeg"
     except Exception as e:
-        logger.warning(f"Bedrock Nova Canvas notice: {str(e)}. Generating custom theme vector artwork.")
-        svg_bytes, content_type = create_theme_svg_bytes(theme['id'], user_memory, location)
-        return svg_bytes, "svg", content_type
+        logger.warning(f"AI image endpoint notice for theme {theme['name']}: {str(e)}. Using curated high-res scene photo.")
+
+    # High-Resolution Photography Scene Fallback (Unsplash 1152x768 Real Scene)
+    photo_url = theme.get("photo_url")
+    req_photo = urllib.request.Request(photo_url, headers={'User-Agent': 'Mozilla/5.0'})
+    with urllib.request.urlopen(req_photo, timeout=12) as resp:
+        data = resp.read()
+        logger.info(f"Successfully loaded real photographic scene for theme {theme['name']} ({len(data)} bytes)")
+        return data, "jpg", "image/jpeg"
 
 def select_autonomous_theme(history: list, requested_theme_key: str = "") -> dict:
     """Select a theme intelligently to guarantee high creative diversity across days."""
@@ -269,13 +214,10 @@ def select_autonomous_theme(history: list, requested_theme_key: str = "") -> dic
         return THEMES[requested_theme_key]
 
     recent_themes = [item.get('theme_id', '') for item in history[:4] if item.get('theme_id')]
-    
-    # Filter candidates to avoid recent repetitions
     candidates = [t_key for t_key in THEMES if t_key not in recent_themes]
     if not candidates:
         candidates = list(THEMES.keys())
 
-    # Cycle deterministically or select first candidate
     selected_key = candidates[0]
     return THEMES[selected_key]
 
@@ -337,7 +279,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         raw_text = response_body['output']['message']['content'][0]['text']
         text_data = clean_json_response(raw_text)
     except Exception as e:
-        logger.warning(f"Bedrock Nova Lite notice: {str(e)}. Using creative fallback.")
+        logger.warning(f"Bedrock Nova Lite notice: {str(e)}. Using creative text fallback.")
         text_data = {
             "title": f"{theme['name'].upper()} REFLECTION",
             "poem": f"Quiet moments in {theme['name'].lower()}\nMoments frozen in time\nA gentle warmth remains.",
@@ -354,10 +296,10 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
     time_period = text_data.get('time', override_time or formatted_date)
     reasoning = text_data.get('creative_reasoning', f"Selected {theme['name']} theme for immersive environment storytelling.")
 
-    # 3. Generate artwork
-    image_bytes, ext, content_type = generate_illustration(theme, user_memory, location)
+    # 3. Generate REAL scene artwork (NO vector SVG gradients/circles)
+    image_bytes, ext, content_type = fetch_real_theme_artwork(theme, user_memory)
 
-    # 4. Save artwork to S3
+    # 4. Save real scene image to S3 under postcards/YYYY/MM/DD/postcard_{id}.jpg
     postcard_id = str(uuid.uuid4())
     s3_key_image = f"postcards/{now.strftime('%Y/%m/%d')}/postcard_{postcard_id}.{ext}"
     
@@ -401,7 +343,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
     history.insert(0, postcard_record)
     put_s3_json(bucket, "postcards/history.json", history[:30])
 
-    logger.info(f"AUTONOMOUS_EXECUTION_COMPLETE: Postcard {postcard_id} created successfully with theme '{theme['name']}'.")
+    logger.info(f"AUTONOMOUS_EXECUTION_COMPLETE: Postcard {postcard_id} created successfully with REAL scene artwork for '{theme['name']}'. Key: {s3_key_image}")
     return postcard_record
 
 def lambda_handler(event, context):
