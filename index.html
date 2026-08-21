@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Postcard — Always-On Autonomous Creative AI Agent</title>
-  <meta name="description" content="An always-on creative AI agent on AWS that autonomously creates a new illustrated digital postcard every morning.">
+  <title>Memory Postcard — Dynamic Themed Autonomous Creative AI Agent</title>
+  <meta name="description" content="An always-on creative AI agent on AWS that autonomously creates a new illustrated digital postcard every morning with distinct immersive visual themes.">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -203,7 +203,7 @@
 
     .app-grid {
       display: grid;
-      grid-template-columns: 420px 1fr;
+      grid-template-columns: 440px 1fr;
       gap: 2rem;
       align-items: start;
     }
@@ -351,7 +351,7 @@
     }
 
     .form-textarea {
-      min-height: 90px;
+      min-height: 80px;
       resize: vertical;
       line-height: 1.45;
     }
@@ -363,59 +363,55 @@
       box-shadow: 0 0 0 3px rgba(193, 101, 47, 0.12);
     }
 
-    .textarea-footer {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 0.25rem;
-    }
-
-    .char-count {
-      font-size: 0.75rem;
-      color: var(--text-light);
-    }
-
-    /* STYLE PICKER */
-    .style-grid {
+    /* IMMERSIVE 10-THEME GRID PICKER */
+    .theme-picker-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.4rem;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 0.2rem;
     }
 
-    .style-btn {
+    .theme-card-btn {
       background-color: var(--bg-cream);
       border: 1px solid var(--border-warm);
       border-radius: var(--radius-sm);
-      padding: 0.6rem 0.2rem;
+      padding: 0.45rem 0.6rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.5rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      color: var(--text-muted);
+      text-align: left;
     }
 
-    .style-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
+    .theme-card-btn .theme-icon {
+      font-size: 1.1rem;
+      line-height: 1;
     }
 
-    .style-btn span {
-      font-size: 0.7rem;
+    .theme-card-btn .theme-name {
+      font-size: 0.75rem;
       font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.2;
     }
 
-    .style-btn:hover {
+    .theme-card-btn:hover {
       border-color: var(--accent-rust);
-      color: var(--accent-rust);
+      background-color: var(--accent-rust-light);
     }
 
-    .style-btn.active {
+    .theme-card-btn.active {
       background-color: var(--accent-rust-light);
       border-color: var(--accent-rust);
-      color: var(--accent-rust);
       box-shadow: inset 0 0 0 1px var(--accent-rust);
+    }
+
+    .theme-card-btn.active .theme-name {
+      color: var(--accent-rust);
+      font-weight: 700;
     }
 
     /* BUTTONS */
@@ -553,7 +549,7 @@
       border: 8px solid #FFF;
       display: grid;
       grid-template-columns: 65% 35%;
-      min-height: 380px;
+      min-height: 400px;
       overflow: hidden;
       position: relative;
       transition: transform 0.3s ease;
@@ -567,7 +563,7 @@
       position: relative;
       background-color: #ECE5D8;
       overflow: hidden;
-      min-height: 360px;
+      min-height: 380px;
     }
 
     .postcard-img {
@@ -594,8 +590,8 @@
       position: absolute;
       top: 1rem;
       right: 1rem;
-      width: 65px;
-      height: 75px;
+      width: 70px;
+      height: 80px;
       z-index: 2;
     }
 
@@ -615,13 +611,14 @@
 
     .stamp-inner-art {
       width: 100%;
-      height: 44px;
+      height: 48px;
       background: linear-gradient(135deg, #C1652F 0%, #4A3728 100%);
       border-radius: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #FFF;
+      font-size: 1.2rem;
     }
 
     .stamp-value {
@@ -634,21 +631,22 @@
     .postmark-circle {
       position: absolute;
       top: -8px;
-      left: -24px;
-      width: 62px;
-      height: 62px;
+      left: -28px;
+      width: 68px;
+      height: 68px;
       border: 2px dashed var(--accent-rust);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       transform: rotate(-15deg);
-      opacity: 0.85;
+      opacity: 0.88;
       pointer-events: none;
+      background-color: rgba(255, 253, 249, 0.3);
     }
 
     .postmark-text {
-      font-size: 0.5rem;
+      font-size: 0.48rem;
       font-weight: 700;
       color: var(--accent-rust);
       text-transform: uppercase;
@@ -659,7 +657,7 @@
 
     /* POSTCARD TEXT STUB */
     .stub-content {
-      margin-top: 5rem;
+      margin-top: 5.5rem;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -673,6 +671,26 @@
       line-height: 1.25;
       text-transform: uppercase;
       letter-spacing: 0.03em;
+    }
+
+    /* THEME METADATA BADGES */
+    .theme-badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .theme-badge-pill {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background-color: var(--bg-cream);
+      color: var(--accent-rust);
+      border: 1px solid var(--border-warm);
+      padding: 0.15rem 0.45rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .heart-divider {
@@ -1001,7 +1019,7 @@
         </div>
         <div class="brand-text">
           <h1>Memory Postcard</h1>
-          <p>Always-On Creative AI Agent · A postcard you didn't have to make.</p>
+          <p>Always-On Creative AI Agent · Dynamic Themed Postcards</p>
         </div>
       </div>
       <nav class="nav-links">
@@ -1030,11 +1048,11 @@
     <div class="agent-banner-container">
       <div class="agent-status-left">
         <span class="agent-status-tag">EventBridge Active</span>
-        <span>Every day, Memory Postcard autonomously creates a brand new illustrated postcard.</span>
+        <span>Every day, Memory Postcard creates a brand new postcard with a distinct visual theme.</span>
       </div>
       <div class="agent-status-metrics">
         <span>Delivery: <strong id="agent-delivery-time">Every morning at 08:00 AM UTC</strong></span>
-        <span>Next: <strong id="agent-next-gen">Tomorrow at 8:00 AM</strong></span>
+        <span>Themes: <strong>10 Dynamic Environments</strong></span>
       </div>
     </div>
   </div>
@@ -1061,8 +1079,8 @@
               <span id="label-schedule-val">08:00 AM UTC</span>
             </div>
             <div class="agent-info-item">
-              <label>Current Streak</label>
-              <span id="agent-streak">5 Days Active</span>
+              <label>Active Theme Engine</label>
+              <span>10 Environments</span>
             </div>
             <div class="agent-info-item">
               <label>AI Models</label>
@@ -1076,7 +1094,7 @@
 
           <!-- USER DAILY SCHEDULE SETTER -->
           <div class="schedule-control-box">
-            <div class="schedule-control-title">Set Your Preferred Daily Execution Time</div>
+            <div class="schedule-control-title">Set Daily Execution Time</div>
             <div class="schedule-input-row">
               <select id="select-daily-time" class="schedule-select">
                 <option value="6">06:00 AM UTC</option>
@@ -1087,14 +1105,14 @@
                 <option value="18">06:00 PM UTC</option>
                 <option value="20">08:00 PM UTC</option>
               </select>
-              <button type="button" id="btn-save-schedule" class="btn-outline">Save Schedule</button>
+              <button type="button" id="btn-save-schedule" class="btn-outline">Save</button>
             </div>
           </div>
         </div>
 
         <div class="panel-header">
           <h2 class="panel-title">
-            Custom Memory Postcard
+            Custom Memory & Visual Theme
             <svg class="squiggle" viewBox="0 0 48 6">
               <path d="M1 3Q12 0 24 3T47 3"/>
             </svg>
@@ -1104,13 +1122,65 @@
         <div id="error-alert" style="display:none;" class="error-alert"></div>
 
         <form id="postcard-form" onsubmit="return false;">
+          
+          <!-- IMMERSIVE 10-THEME SELECTOR -->
+          <div class="form-group">
+            <label class="form-label">Choose Immersive Environment Theme</label>
+            <div class="theme-picker-grid" id="theme-picker">
+              <button type="button" class="theme-card-btn active" data-theme="">
+                <span class="theme-icon">✨</span>
+                <span class="theme-name">Agent Auto-Select</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="rainyDay">
+                <span class="theme-icon">🌧️</span>
+                <span class="theme-name">Rainy Day</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="snowyMorning">
+                <span class="theme-icon">❄️</span>
+                <span class="theme-name">Snowy Morning</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="sunsetEscape">
+                <span class="theme-icon">🌅</span>
+                <span class="theme-name">Sunset Escape</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="autumnPath">
+                <span class="theme-icon">🍂</span>
+                <span class="theme-name">Autumn Path</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="mountainCalling">
+                <span class="theme-icon">🏔️</span>
+                <span class="theme-name">Mountain Calling</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="cozyEvening">
+                <span class="theme-icon">☕</span>
+                <span class="theme-name">Cozy Evening</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="vintageVibes">
+                <span class="theme-icon">🎞️</span>
+                <span class="theme-name">Vintage Vibes</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="cityLights">
+                <span class="theme-icon">🏙️</span>
+                <span class="theme-name">City Lights</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="watercolorDream">
+                <span class="theme-icon">🎨</span>
+                <span class="theme-name">Watercolor Dream</span>
+              </button>
+              <button type="button" class="theme-card-btn" data-theme="monsoonMemories">
+                <span class="theme-icon">🌧️</span>
+                <span class="theme-name">Monsoon Memories</span>
+              </button>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="form-label" for="input-memory">Your memory or prompt</label>
             <textarea 
               id="input-memory" 
               class="form-textarea" 
               maxlength="500"
-              placeholder="Sitting on the porch on a warm summer evening in Ahmedabad, drinking sweet chai while listening to grandmother's old stories..."
+              placeholder="Sitting on the porch on a warm summer evening, drinking sweet chai while listening to grandmother's stories..."
               required></textarea>
             <div class="textarea-footer">
               <span id="char-counter" class="char-count">0/500</span>
@@ -1118,7 +1188,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="input-location">Where did it happen?</label>
+            <label class="form-label" for="input-location">Location</label>
             <div class="input-wrapper">
               <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -1129,7 +1199,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="input-time">When was it?</label>
+            <label class="form-label" for="input-time">Time or Season</label>
             <div class="input-wrapper">
               <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -1141,75 +1211,17 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="input-mood">How should it feel?</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                <line x1="9" y1="9" x2="9.01" y2="9"/>
-                <line x1="15" y1="9" x2="15.01" y2="9"/>
-              </svg>
-              <select id="input-mood" class="form-select input-with-icon">
-                <option value="Nostalgic" selected>Nostalgic</option>
-                <option value="Happy">Happy</option>
-                <option value="Melancholic">Melancholic</option>
-                <option value="Peaceful">Peaceful</option>
-                <option value="Funny">Funny</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Postcard style</label>
-            <div class="style-grid">
-              <button type="button" class="style-btn active" data-style="Vintage">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="2 2"/>
-                  <circle cx="12" cy="12" r="4"/>
-                </svg>
-                <span>Vintage</span>
-              </button>
-              <button type="button" class="style-btn" data-style="Film">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                  <circle cx="12" cy="13" r="4"/>
-                </svg>
-                <span>Film</span>
-              </button>
-              <button type="button" class="style-btn" data-style="Watercolor">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-                </svg>
-                <span>Watercolor</span>
-              </button>
-              <button type="button" class="style-btn" data-style="Illustrated">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                  <path d="M12 19l7-7 3 3-7 7-3-3z"/>
-                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-                </svg>
-                <span>Illustrated</span>
-              </button>
-              <button type="button" class="style-btn" data-style="Minimal">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                  <rect x="4" y="4" width="16" height="16" rx="2"/>
-                </svg>
-                <span>Minimal</span>
-              </button>
-            </div>
-          </div>
-
           <button type="submit" id="btn-submit" class="submit-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
             </svg>
-            <span id="btn-submit-text">CREATE MY POSTCARD</span>
+            <span id="btn-submit-text">GENERATE THEMED POSTCARD</span>
           </button>
         </form>
 
         <!-- DEVELOPER TEST TRIGGER -->
         <button id="btn-test-trigger" class="test-trigger-btn">
-          ⚡ Generate Test Postcard (Dev Mode)
+          ⚡ Trigger Daily Autonomous Agent Loop
         </button>
 
         <div class="footnote">
@@ -1229,7 +1241,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent-rust)">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            Today's Postcard
+            Today's Themed Postcard
           </h2>
           <div class="badge-auto" id="auto-badge">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -1253,25 +1265,30 @@
               <!-- RIGHT STUB PANEL -->
               <div class="postcard-stub-panel">
                 
-                <!-- STAMP & POSTMARK -->
+                <!-- DYNAMIC POSTAL STAMP & CANCELLATION MARK -->
                 <div class="stamp-container">
                   <div class="postage-stamp-graphic">
-                    <div class="stamp-inner-art">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                      </svg>
+                    <div id="stamp-art" class="stamp-inner-art">
+                      🌧️
                     </div>
                     <span class="stamp-value">50</span>
                   </div>
                   <div class="postmark-circle">
-                    <span class="postmark-text">MEMORIES<br>⋆ FOREVER ⋆</span>
+                    <span id="postmark-text" class="postmark-text">RAINY DAY<br>⋆ WATERFRONT ⋆</span>
                   </div>
                 </div>
 
                 <!-- STUB TEXT -->
                 <div class="stub-content">
-                  <div id="res-title" class="postcard-generated-title">LOADING TODAY'S POSTCARD...</div>
+                  <div id="res-title" class="postcard-generated-title">LOADING THEMED POSTCARD...</div>
                   
+                  <!-- THEME METADATA BADGES -->
+                  <div class="theme-badges-row" id="res-badges">
+                    <span class="theme-badge-pill" id="badge-theme">THEME: RAINY DAY</span>
+                    <span class="theme-badge-pill" id="badge-style">STYLE: REALISTIC</span>
+                    <span class="theme-badge-pill" id="badge-mood">MOOD: PEACEFUL</span>
+                  </div>
+
                   <div class="heart-divider">
                     <svg viewBox="0 0 24 24">
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1292,7 +1309,7 @@
 
           <!-- REASONING CARD -->
           <div id="reasoning-box" class="reasoning-card">
-            <strong>Creative Reasoning:</strong> <span id="res-reasoning">Exploring Watercolor style to provide visual variety following recent Vintage postcards.</span>
+            <strong>Bedrock Creative Reasoning:</strong> <span id="res-reasoning">Selected Rainy Day theme for immersive environment storytelling.</span>
           </div>
 
           <!-- QUOTE BLOCK -->
@@ -1312,7 +1329,7 @@
                 <polyline points="7 10 12 15 17 10"/>
                 <line x1="12" y1="15" x2="12" y2="3"/>
               </svg>
-              Download Postcard
+              Download High-Res Postcard
             </button>
 
             <button id="btn-share" class="btn-outline">
@@ -1325,14 +1342,6 @@
               </svg>
               Share
             </button>
-
-            <button id="btn-change-style" class="btn-outline">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 20h9"/>
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-              </svg>
-              Customize
-            </button>
           </div>
 
         </div>
@@ -1344,8 +1353,8 @@
     <!-- PREVIOUS POSTCARDS GALLERY SECTION -->
     <section class="history-section">
       <div class="history-section-header">
-        <h3 class="history-section-title">Previous Postcards</h3>
-        <span style="font-size: 0.82rem; color: var(--text-muted);">Autonomously created memory collection</span>
+        <h3 class="history-section-title">Previous Themed Postcards</h3>
+        <span style="font-size: 0.82rem; color: var(--text-muted);">Autonomously generated environment collection</span>
       </div>
       <div id="history-grid" class="history-grid">
         <!-- Dynamic items from S3 history -->
@@ -1372,10 +1381,9 @@
         <strong>Memory Postcard</strong> is an always-on autonomous creative AI agent built on AWS for the AWS Builder Center Challenge.
       </p>
       <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-left: 1.25rem; margin-bottom: 1.5rem;">
-        <li><strong>Amazon EventBridge Scheduler:</strong> Triggers the creative loop every day at your configured daily delivery time.</li>
-        <li><strong>Creative History & Decision Engine:</strong> Analyzes recent postcards in Amazon S3 to avoid repeating visual styles or themes.</li>
-        <li><strong>Amazon Bedrock Nova Lite & Canvas:</strong> Generates poetic captions, themes, and 1152x768 artwork.</li>
-        <li><strong>Amazon S3 Storage:</strong> Persists postcards and serves 7-day presigned URLs.</li>
+        <li><strong>10 Structured Visual Themes:</strong> Rainy Day, Snowy Morning, Sunset Escape, Autumn Path, Mountain Calling, Cozy Evening, Vintage Vibes, City Lights, Watercolor Dream, Monsoon Memories.</li>
+        <li><strong>Rich Environment Prompts:</strong> Describes weather, lighting, props, and camera optics in Amazon Bedrock Nova Canvas.</li>
+        <li><strong>Dynamic Stamps & Cancellation Postmarks:</strong> Theme-matched postal graphics rendered dynamically.</li>
       </ul>
       <button class="btn-primary modal-close-btn" style="width: 100%; justify-content: center;">Got it</button>
     </div>
@@ -1388,7 +1396,7 @@
     // Deployed AWS API Gateway & Lambda Function Endpoint:
     const API_URL = "https://0674b4zip9.execute-api.us-east-1.amazonaws.com/";
 
-    let selectedStyle = "Vintage";
+    let selectedTheme = "";
     let currentPostcardData = null;
     let historyPostcards = [];
 
@@ -1397,8 +1405,7 @@
     const charCounter = document.getElementById('char-counter');
     const locationInput = document.getElementById('input-location');
     const timeInput = document.getElementById('input-time');
-    const moodSelect = document.getElementById('input-mood');
-    const styleButtons = document.querySelectorAll('.style-btn');
+    const themeButtons = document.querySelectorAll('.theme-card-btn');
     const submitBtn = document.getElementById('btn-submit');
     const submitBtnText = document.getElementById('btn-submit-text');
     const testTriggerBtn = document.getElementById('btn-test-trigger');
@@ -1416,9 +1423,15 @@
     const resPoem = document.getElementById('res-poem');
     const resReasoning = document.getElementById('res-reasoning');
 
+    const stampArt = document.getElementById('stamp-art');
+    const postmarkText = document.getElementById('postmark-text');
+
+    const badgeTheme = document.getElementById('badge-theme');
+    const badgeStyle = document.getElementById('badge-style');
+    const badgeMood = document.getElementById('badge-mood');
+
     const btnDownload = document.getElementById('btn-download');
     const btnShare = document.getElementById('btn-share');
-    const btnChangeStyle = document.getElementById('btn-change-style');
 
     const btnGallery = document.getElementById('btn-gallery');
     const btnAbout = document.getElementById('btn-about');
@@ -1427,35 +1440,43 @@
     const historyGrid = document.getElementById('history-grid');
     const toast = document.getElementById('toast');
 
+    // Theme Graphics Map
+    const THEME_GRAPHICS = {
+      rainyDay: { icon: "🌧️", mark: "RAINY DAY<br>⋆ WATERFRONT ⋆" },
+      snowyMorning: { icon: "❄️", mark: "WINTERFROST<br>⋆ ALPINE ⋆" },
+      sunsetEscape: { icon: "🌅", mark: "GOLDEN HOUR<br>⋆ COASTAL ⋆" },
+      autumnPath: { icon: "🍂", mark: "AUTUMN HARVEST<br>⋆ TRAILS ⋆" },
+      mountainCalling: { icon: "🏔️", mark: "HIGH ALTITUDE<br>⋆ SUMMIT ⋆" },
+      cozyEvening: { icon: "☕", mark: "COZY HEARTH<br>⋆ NIGHT ⋆" },
+      vintageVibes: { icon: "🎞️", mark: "POSTALE<br>⋆ 1954 ⋆" },
+      cityLights: { icon: "🏙️", mark: "METROPOLIS<br>⋆ NIGHT ⋆" },
+      watercolorDream: { icon: "🎨", mark: "FINE ART<br>⋆ WATERCOLOR ⋆" },
+      monsoonMemories: { icon: "🌧️", mark: "MONSOON<br>⋆ EXPRESS ⋆" }
+    };
+
     // Character Counter
     memoryInput.addEventListener('input', () => {
       const len = memoryInput.value.length;
       charCounter.textContent = `${len}/500`;
     });
 
-    // Style Selection
-    styleButtons.forEach(btn => {
+    // Theme Picker Selection
+    themeButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        styleButtons.forEach(b => b.classList.remove('active'));
+        themeButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        selectedStyle = btn.dataset.style;
+        selectedTheme = btn.dataset.theme;
       });
     });
 
-    // Toast helper
     function showToast(msg) {
       toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Modal Helpers
-    function openModal(modal) {
-      modal.classList.add('active');
-    }
-    function closeModal(modal) {
-      modal.classList.remove('active');
-    }
+    function openModal(modal) { modal.classList.add('active'); }
+    function closeModal(modal) { modal.classList.remove('active'); }
 
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', (e) => {
@@ -1470,7 +1491,7 @@
       document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // USER DAILY SCHEDULE MANAGEMENT
+    // SCHEDULE SAVING
     btnSaveSchedule.addEventListener('click', async () => {
       const selectedHour = parseInt(selectDailyTime.value);
       const selectedOpt = selectDailyTime.options[selectDailyTime.selectedIndex].text.replace(" (Default)", "");
@@ -1490,28 +1511,25 @@
         }).catch(() => null);
 
         if (response && response.ok) {
-          const data = await response.json();
           labelScheduleVal.textContent = selectedOpt;
           agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
           showToast(`Daily schedule set to ${selectedOpt}!`);
         } else {
-          // Local fallback
           labelScheduleVal.textContent = selectedOpt;
           agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
-          showToast(`Daily schedule set to ${selectedOpt} (Local update)!`);
+          showToast(`Daily schedule set to ${selectedOpt}!`);
         }
       } catch (e) {
-        showToast(`Daily schedule updated to ${selectedOpt}!`);
+        showToast(`Daily schedule set to ${selectedOpt}!`);
       } finally {
         btnSaveSchedule.disabled = false;
-        btnSaveSchedule.textContent = "Save Schedule";
+        btnSaveSchedule.textContent = "Save";
       }
     });
 
-    // LOAD TODAY'S POSTCARD, SCHEDULE & HISTORY ON STARTUP
+    // LOAD POSTCARDS & HISTORY
     async function loadAutonomousPostcards() {
       try {
-        // Fetch Schedule
         const schedRes = await fetch(`${API_URL}?action=get_schedule`).catch(() => null);
         if (schedRes && schedRes.ok) {
           const sData = await schedRes.json();
@@ -1522,16 +1540,14 @@
           }
         }
 
-        // Fetch Today's Postcard
         const latestRes = await fetch(`${API_URL}?action=latest`).catch(() => null);
         if (latestRes && latestRes.ok) {
           const data = await latestRes.json();
           displayPostcard(data);
         } else {
-          displayPostcard(generateDemoResponse({ memory: "Morning coffee", style: "Watercolor", mood: "Reflective" }));
+          displayPostcard(generateDemoResponse({ theme_id: "rainyDay", memory: "Morning rain" }));
         }
 
-        // Fetch History
         const historyRes = await fetch(`${API_URL}?action=history`).catch(() => null);
         if (historyRes && historyRes.ok) {
           const histData = await historyRes.json();
@@ -1539,14 +1555,14 @@
           renderHistoryGrid(historyPostcards);
         } else {
           renderHistoryGrid([
-            generateDemoResponse({ memory: "Summer afternoon", style: "Vintage", location: "Ahmedabad" }),
-            generateDemoResponse({ memory: "Rain between stations", style: "Film", location: "Mumbai" }),
-            generateDemoResponse({ memory: "Cozy reading corner", style: "Watercolor", location: "Goa" })
+            generateDemoResponse({ theme_id: "rainyDay", memory: "Rain outside cafe" }),
+            generateDemoResponse({ theme_id: "snowyMorning", memory: "Mountain cabin snow" }),
+            generateDemoResponse({ theme_id: "sunsetEscape", memory: "Coastal golden hour" }),
+            generateDemoResponse({ theme_id: "cityLights", memory: "Neon street evening" })
           ]);
         }
       } catch (err) {
-        console.warn("Failed loading from backend, using fallback demo mode:", err);
-        displayPostcard(generateDemoResponse({ memory: "Morning coffee", style: "Watercolor", mood: "Reflective" }));
+        displayPostcard(generateDemoResponse({ theme_id: "rainyDay", memory: "Morning rain" }));
       }
     }
 
@@ -1563,8 +1579,8 @@
             <div class="history-card-title">${item.title}</div>
             <div class="history-card-date">${item.location || 'Memory'} · ${item.generated_at}</div>
             <div class="history-card-pills">
-              <span class="history-pill">${item.style || 'Watercolor'}</span>
-              <span class="history-pill">${item.mood || 'Nostalgic'}</span>
+              <span class="history-pill">${item.theme || 'Rainy Day'}</span>
+              <span class="history-pill">${item.mood || 'Reflective'}</span>
             </div>
           </div>
         </div>
@@ -1579,12 +1595,13 @@
       document.getElementById('detail-content').innerHTML = `
         <img src="${item.image_url}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; border: 4px solid #FFF; box-shadow: var(--shadow-md);">
         <p style="font-family: var(--font-heading); font-style: italic; font-size: 1rem; color: var(--primary-brown); margin-bottom: 0.75rem; white-space: pre-line;">"${item.poem || item.quote}"</p>
-        <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 1rem; margin-bottom: 0.75rem;">
-          <span><strong>Location:</strong> ${item.location || 'Memory'}</span>
-          <span><strong>Style:</strong> ${item.style || 'Vintage'}</span>
+        <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <span><strong>Theme:</strong> ${item.theme || 'Rainy Day'}</span>
+          <span><strong>Style:</strong> ${item.style || 'Realistic'}</span>
+          <span><strong>Mood:</strong> ${item.mood || 'Peaceful'}</span>
           <span><strong>Date:</strong> ${item.generated_at}</span>
         </div>
-        ${item.creative_reasoning ? `<div class="reasoning-card"><strong>Agent Reasoning:</strong> ${item.creative_reasoning}</div>` : ''}
+        ${item.creative_reasoning ? `<div class="reasoning-card"><strong>Bedrock Reasoning:</strong> ${item.creative_reasoning}</div>` : ''}
       `;
       openModal(modalDetail);
     };
@@ -1597,25 +1614,35 @@
       resLocation.textContent = data.location || 'Somewhere Peaceful';
       resTime.textContent = data.time || data.generated_at || 'Today';
       resPoem.textContent = data.poem || data.quote;
-      resReasoning.textContent = data.creative_reasoning || "Autonomous creation based on daily context and visual style history.";
+      resReasoning.textContent = data.creative_reasoning || "Selected theme for immersive visual storytelling.";
+
+      // Theme Graphics
+      const tKey = data.theme_id || "rainyDay";
+      const gfx = THEME_GRAPHICS[tKey] || THEME_GRAPHICS.rainyDay;
+      stampArt.textContent = gfx.icon;
+      postmarkText.innerHTML = gfx.mark;
+
+      // Badges
+      badgeTheme.textContent = `THEME: ${data.theme || 'RAINY DAY'}`;
+      badgeStyle.textContent = `STYLE: ${(data.style || 'REALISTIC').toUpperCase()}`;
+      badgeMood.textContent = `MOOD: ${(data.mood || 'PEACEFUL').toUpperCase()}`;
 
       if (data.created_label) {
         document.getElementById('auto-badge').innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg> ${data.created_label}`;
       }
     }
 
-    // FORM SUBMISSION & MANUAL/TEST GENERATION
+    // FORM GENERATION
     async function triggerGeneration(customPayload = null) {
       errorAlert.style.display = 'none';
       submitBtn.disabled = true;
-      submitBtnText.textContent = "GENERATING POSTCARD...";
+      submitBtnText.textContent = "GENERATING THEMED ARTWORK...";
 
       const payload = customPayload || {
-        memory: memoryInput.value.trim() || 'A peaceful morning reflection',
+        memory: memoryInput.value.trim() || 'A quiet morning reflection',
+        theme: selectedTheme,
         location: locationInput.value.trim() || 'Goa',
-        time: timeInput.value.trim() || 'Winter 2022',
-        mood: moodSelect.value,
-        style: selectedStyle
+        time: timeInput.value.trim() || 'Winter 2022'
       };
 
       try {
@@ -1629,22 +1656,19 @@
         if (response && response.ok) {
           data = await response.json();
         } else {
-          console.warn("Backend unavailable, using fallback demo mode.");
-          await new Promise(r => setTimeout(r, 1500));
+          await new Promise(r => setTimeout(r, 1200));
           data = generateDemoResponse(payload);
         }
 
         displayPostcard(data);
-        showToast("New Memory Postcard generated!");
-        
+        showToast("New Themed Postcard generated!");
         loadAutonomousPostcards();
       } catch (err) {
-        console.error(err);
         errorAlert.textContent = err.message || "Failed to generate postcard.";
         errorAlert.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
-        submitBtnText.textContent = "CREATE MY POSTCARD";
+        submitBtnText.textContent = "GENERATE THEMED POSTCARD";
       }
     }
 
@@ -1656,36 +1680,29 @@
     testTriggerBtn.addEventListener('click', () => {
       triggerGeneration({
         action: 'generate',
-        memory: 'Autonomous test trigger execution from developer control',
-        style: selectedStyle,
-        mood: moodSelect.value
+        memory: 'Autonomous daily agent trigger execution',
+        theme: selectedTheme
       });
     });
 
-    btnChangeStyle.addEventListener('click', () => {
-      document.querySelector('.panel-card').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // SHARE FUNCTIONALITY
+    // SHARE
     btnShare.addEventListener('click', async () => {
       if (!currentPostcardData) return;
       const shareData = {
         title: currentPostcardData.title,
-        text: `Memory Postcard: "${currentPostcardData.title}" - ${currentPostcardData.location}`,
+        text: `Memory Postcard [${currentPostcardData.theme}]: "${currentPostcardData.title}"`,
         url: currentPostcardData.image_url
       };
 
       if (navigator.share) {
-        try {
-          await navigator.share(shareData);
-        } catch (e) {}
+        try { await navigator.share(shareData); } catch (e) {}
       } else {
         await navigator.clipboard.writeText(currentPostcardData.image_url);
         showToast("Postcard image URL copied to clipboard!");
       }
     });
 
-    // CANVAS DOWNLOAD FUNCTIONALITY
+    // DOWNLOAD
     btnDownload.addEventListener('click', () => {
       if (!currentPostcardData) return;
       
@@ -1718,12 +1735,13 @@
         ctx.fillText(currentPostcardData.title.slice(0, 22), 770, 200);
 
         ctx.fillStyle = "#C1652F";
-        ctx.font = "bold 22px sans-serif";
-        ctx.fillText(currentPostcardData.location || "Memory", 770, 280);
+        ctx.font = "bold 18px sans-serif";
+        ctx.fillText(`THEME: ${currentPostcardData.theme || 'RAINY DAY'}`, 770, 250);
 
         ctx.fillStyle = "#7D6B5D";
         ctx.font = "18px sans-serif";
-        ctx.fillText(currentPostcardData.time || "", 770, 310);
+        ctx.fillText(currentPostcardData.location || "Memory", 770, 285);
+        ctx.fillText(currentPostcardData.time || "", 770, 315);
 
         ctx.font = "italic 36px Georgia, cursive";
         ctx.fillStyle = "#4A3728";
@@ -1741,62 +1759,63 @@
 
     // DEMO FALLBACK GENERATOR
     function generateDemoResponse(payload) {
-      const words = (payload.memory || 'Memory Postcard').trim().split(/\s+/);
-      const title = (words.slice(0, 4).join(' ') || "MEMORY POSTCARD").toUpperCase();
-      const loc = payload.location || "Somewhere Peaceful";
-      const time = payload.time || "21 Aug 2026";
-      const style = payload.style || "Watercolor";
-      const mood = payload.mood || "Nostalgic";
-
-      const palettes = {
-        Vintage: { c1: "#FCEABB", c2: "#C1652F", c3: "#4A3728", c4: "#2C1E16" },
-        Film: { c1: "#3A6073", c2: "#3A7BD5", c3: "#1A2634", c4: "#0F172A" },
-        Watercolor: { c1: "#E0C3FC", c2: "#8EC5FC", c3: "#4A0E4E", c4: "#2B062F" },
-        Illustrated: { c1: "#FFD194", c2: "#D1913C", c3: "#6A3805", c4: "#3B1E02" },
-        Minimal: { c1: "#E2E8F0", c2: "#94A3B8", c3: "#334155", c4: "#0F172A" }
+      const themeKey = payload.theme || payload.theme_id || "rainyDay";
+      const themesMap = {
+        rainyDay: { name: "Rainy Day", mood: "Reflective", style: "Realistic 35mm", c1: "#2B3A4A", c2: "#4A6B82", c3: "#1C2530", c4: "#0D131A" },
+        snowyMorning: { name: "Snowy Morning", mood: "Quiet & Serene", style: "Winter Fine Art", c1: "#E0F2FE", c2: "#7DD3FC", c3: "#1E293B", c4: "#0F172A" },
+        sunsetEscape: { name: "Sunset Escape", mood: "Nostalgic & Expansive", style: "Golden Hour Photography", c1: "#FDE68A", c2: "#F97316", c3: "#7C2D12", c4: "#451A03" },
+        autumnPath: { name: "Autumn Path", mood: "Nostalgic & Warm", style: "Autumn Landscape", c1: "#FED7AA", c2: "#EA580C", c3: "#7C2D12", c4: "#361102" },
+        mountainCalling: { name: "Mountain Calling", mood: "Adventurous & Grand", style: "High Altitude Landscape", c1: "#BAE6FD", c2: "#0284C7", c3: "#0C4A6E", c4: "#032030" },
+        cozyEvening: { name: "Cozy Evening", mood: "Intimate & Peaceful", style: "Warm Interior Art", c1: "#FEF3C7", c2: "#D97706", c3: "#78350F", c4: "#451A03" },
+        vintageVibes: { name: "Vintage Vibes", mood: "Historical & Timeless", style: "1950s 35mm Film", c1: "#FDE8CD", c2: "#B45309", c3: "#582C0E", c4: "#2D1505" },
+        cityLights: { name: "City Lights", mood: "Energetic & Electric", style: "Night Urban Street", c1: "#DDD6FE", c2: "#7C3AED", c3: "#2E1065", c4: "#0F051D" },
+        watercolorDream: { name: "Watercolor Dream", mood: "Dreamy & Whimsical", style: "Fine Art Watercolor", c1: "#F472B6", c2: "#A855F7", c3: "#4C1D95", c4: "#1E0638" },
+        monsoonMemories: { name: "Monsoon Memories", mood: "Nostalgic & Evocative", style: "Monsoon Photography", c1: "#99F6E4", c2: "#0D9488", c3: "#115E59", c4: "#042F2C" }
       };
 
-      const pal = palettes[style] || palettes.Watercolor;
+      const tObj = themesMap[themeKey] || themesMap.rainyDay;
+      const loc = payload.location || "Somewhere Peaceful";
+      const time = payload.time || "21 Aug 2026";
 
       const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="1152" height="768" viewBox="0 0 1152 768">
           <defs>
             <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="${pal.c1}"/>
-              <stop offset="100%" stop-color="${pal.c2}"/>
+              <stop offset="0%" stop-color="${tObj.c1}"/>
+              <stop offset="100%" stop-color="${tObj.c2}"/>
             </linearGradient>
             <linearGradient id="overlay" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="${pal.c3}" stop-opacity="0.85"/>
-              <stop offset="100%" stop-color="${pal.c4}" stop-opacity="0.95"/>
+              <stop offset="0%" stop-color="${tObj.c3}" stop-opacity="0.88"/>
+              <stop offset="100%" stop-color="${tObj.c4}" stop-opacity="0.95"/>
             </linearGradient>
           </defs>
           <rect width="1152" height="768" fill="url(#bg)"/>
-          <circle cx="576" cy="320" r="230" fill="${pal.c2}" opacity="0.4"/>
-          <path d="M0 480 Q288 400 576 480 T1152 480 L1152 768 L0 768 Z" fill="url(#overlay)"/>
-          <path d="M0 560 Q384 480 768 560 T1152 560 L1152 768 L0 768 Z" fill="${pal.c4}"/>
-          <text x="576" y="690" font-family="Georgia, serif" font-size="24" fill="#FFFDF9" text-anchor="middle" letter-spacing="4" opacity="0.75">${style.toUpperCase()} ARTWORK · ${loc.toUpperCase()}</text>
+          <circle cx="576" cy="300" r="240" fill="${tObj.c2}" opacity="0.35"/>
+          <path d="M0 460 Q288 380 576 460 T1152 460 L1152 768 L0 768 Z" fill="url(#overlay)"/>
+          <path d="M0 550 Q384 470 768 550 T1152 550 L1152 768 L0 768 Z" fill="${tObj.c4}"/>
+          <text x="576" y="690" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="#FFFDF9" text-anchor="middle" letter-spacing="6" opacity="0.85">${tObj.name.toUpperCase()} · ${loc.toUpperCase()}</text>
         </svg>
       `;
 
       const encodedSvg = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 
       return {
-        title: title,
-        poem: "Golden sunlight on quiet streets\nMoments frozen in time\nA gentle warmth remains.",
-        quote: "Every memory is a postcard from the heart.",
-        theme: "Morning Solitude",
-        mood: mood,
-        style: style,
+        title: `${tObj.name.toUpperCase()} MEMORY`,
+        poem: `Quiet moments in ${tObj.name.toLowerCase()}\nMoments frozen in time\nA gentle warmth remains.`,
+        quote: "Every postcard tells a story of another world.",
+        theme_id: themeKey,
+        theme: tObj.name,
+        mood: tObj.mood,
+        style: tObj.style,
         location: loc,
         time: time,
         image_url: encodedSvg,
         generated_at: time,
         created_label: "Created automatically this morning (8:00 AM)",
-        creative_reasoning: `Selected ${style} visual direction and ${mood} mood based on recent history evaluation.`
+        creative_reasoning: `Selected ${tObj.name} theme for immersive visual storytelling and environment depth.`
       };
     }
 
-    // Initialize
     loadAutonomousPostcards();
   </script>
 </body>

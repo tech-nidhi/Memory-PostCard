@@ -25,6 +25,130 @@ CORS_HEADERS = {
     "Content-Type": "application/json"
 }
 
+# 10 STRUCTURED IMMERSIVE VISUAL THEMES
+THEMES = {
+    "rainyDay": {
+        "id": "rainyDay",
+        "name": "Rainy Day",
+        "mood": "Reflective & Peaceful",
+        "style": "Cinematic 35mm Photography",
+        "environment": "A quiet old European or Indian city street outside a vintage café with warm glowing windows",
+        "weather": "Active heavy rainfall, mist, water droplets glistening on surfaces, wet cobblestones",
+        "lighting": "Overcast natural daylight mixed with warm yellow window lights and street lamp reflections on wet pavement",
+        "props": ["dark umbrella", "steaming coffee cup on window ledge", "puddles with sky reflections", "rain-streaked glass"],
+        "composition": "Eye-level 35mm street view, deep atmospheric perspective, cinematic wet reflections",
+        "palette": ("#2B3A4A", "#4A6B82", "#1C2530", "#0D131A")
+    },
+    "snowyMorning": {
+        "id": "snowyMorning",
+        "name": "Snowy Morning",
+        "mood": "Quiet & Serene",
+        "style": "Winter Fine Art Photography",
+        "environment": "A snow-covered timber cabin in a quiet mountain pine forest village",
+        "weather": "Gently falling snow, frost-laden pine branches, visible cold air mist, crisp winter atmosphere",
+        "lighting": "Pale soft winter morning sunlight casting gentle golden rays over cold blue snow drifts",
+        "props": ["snow-capped wooden rooftops", "smoke rising softly from chimney", "deep footprints in fresh snow", "warm golden window light"],
+        "composition": "Wide landscape composition framing the cabin among towering pine trees, high crisp detail",
+        "palette": ("#E0F2FE", "#7DD3FC", "#1E293B", "#0F172A")
+    },
+    "sunsetEscape": {
+        "id": "sunsetEscape",
+        "name": "Sunset Escape",
+        "mood": "Nostalgic & Expansive",
+        "style": "Golden Hour Landscape Photography",
+        "environment": "A dramatic coastal cliff viewpoint overlooking a tranquil ocean bay or desert highway",
+        "weather": "Clear warm evening sky with thin wispy clouds illuminated in radiant pink and gold",
+        "lighting": "Low sun near the horizon, intense golden hour glare, long dramatic shadows, radiant sunset glow",
+        "props": ["silhouette of coastal rocks or palm trees", "glistening ocean surface", "winding coastal path"],
+        "composition": "Cinematic wide-angle view, sun positioned near lower third horizon, dramatic scale",
+        "palette": ("#FDE68A", "#F97316", "#7C2D12", "#451A03")
+    },
+    "autumnPath": {
+        "id": "autumnPath",
+        "name": "Autumn Path",
+        "mood": "Nostalgic & Warm",
+        "style": "Rich Autumn Landscape Photography",
+        "environment": "A winding gravel trail through an old forest park lined with ancient maple trees",
+        "weather": "Crisp autumn breeze, falling golden leaves drifting in the air, soft distant forest mist",
+        "lighting": "Warm late-afternoon amber sunlight filtering through orange and scarlet leaves",
+        "props": ["blanket of crimson and golden fallen leaves covering ground", "rustic wooden fence", "old iron street lamp"],
+        "composition": "Leading lines following the winding path into the glowing forest canopy",
+        "palette": ("#FED7AA", "#EA580C", "#7C2D12", "#361102")
+    },
+    "mountainCalling": {
+        "id": "mountainCalling",
+        "name": "Mountain Calling",
+        "mood": "Adventurous & Grand",
+        "style": "High-Altitude Wilderness Photography",
+        "environment": "Majestic alpine mountain peaks towering above a green valley and pine forest ridge",
+        "weather": "Swirling mountain peak clouds, crisp thin air, dramatic sunbeams breaking through mist",
+        "lighting": "Bright high-altitude sunlight contrasting sharp rocky ridges with deep shadow valleys",
+        "props": ["narrow hiking trail on cliff edge", "distant mountain stream", "tiny human figure for epic scale"],
+        "composition": "Low-angle grand wilderness landscape, vertical mountain majesty, deep atmospheric depth",
+        "palette": ("#BAE6FD", "#0284C7", "#0C4A6E", "#032030")
+    },
+    "cozyEvening": {
+        "id": "cozyEvening",
+        "name": "Cozy Evening",
+        "mood": "Intimate & Peaceful",
+        "style": "Warm Interior Fine Art Photography",
+        "environment": "A warm rustic reading corner inside a timber cabin beside a rain-beaded window",
+        "weather": "Quiet evening rain visible through window glass, warm indoor sanctuary",
+        "lighting": "Soft amber glow from a vintage desk lamp and flickering fireplace embers",
+        "props": ["stack of old hardcover books", "steaming ceramic mug of tea", "chunky knit wool blanket", "glowing candle"],
+        "composition": "Medium close-up still life framing the cozy nook, shallow depth of field, warm rich bokeh",
+        "palette": ("#FEF3C7", "#D97706", "#78350F", "#451A03")
+    },
+    "vintageVibes": {
+        "id": "vintageVibes",
+        "name": "Vintage Vibes",
+        "mood": "Historical & Timeless",
+        "style": "Authentic 1950s 35mm Analog Film",
+        "environment": "A classic 1950s train platform or European cobble town square",
+        "weather": "Clear soft retro afternoon air, fine analog film grain, subtle vintage sepia warmth",
+        "lighting": "Soft golden vintage natural daylight, muted contrast characteristic of classic film",
+        "props": ["vintage leather suitcase", "classic 1950s automobile in background", "old analog clock tower", "iron benches"],
+        "composition": "Classic documentary-style 35mm framing, rich organic texture, nostalgic timeless depth",
+        "palette": ("#FDE8CD", "#B45309", "#582C0E", "#2D1505")
+    },
+    "cityLights": {
+        "id": "cityLights",
+        "name": "City Lights",
+        "mood": "Energetic & Electric",
+        "style": "Nighttime Urban Street Photography",
+        "environment": "A bustling downtown avenue flanked by towering skyscrapers and illuminated storefronts",
+        "weather": "Nighttime mist after rain, wet asphalt reflecting bright city lights",
+        "lighting": "Vibrant cyan, magenta, and amber neon signs, glowing shop windows, passing car headlights",
+        "props": ["yellow city taxis", "pedestrians holding umbrellas", "glowing street signs", "wet road reflections"],
+        "composition": "Dynamic urban perspective looking down a glowing avenue, rich color contrast",
+        "palette": ("#DDD6FE", "#7C3AED", "#2E1065", "#0F051D")
+    },
+    "watercolorDream": {
+        "id": "watercolorDream",
+        "name": "Watercolor Dream",
+        "mood": "Dreamy & Whimsical",
+        "style": "Masterful Fine Art Watercolor Painting",
+        "environment": "A dreamy wildflower meadow surrounding a serene lake and distant rolling hills",
+        "weather": "Soft misty air, delicate painterly clouds, gentle color washes across the sky",
+        "lighting": "Soft luminous pastel daylight, gentle watercolor pigment gradients",
+        "props": ["blooming lavender and poppies", "gentle water ripples", "soft painted cottage in distance"],
+        "composition": "Painterly impressionistic landscape with visible cold-press paper texture and soft bleeds",
+        "palette": ("#F472B6", "#A855F7", "#4C1D95", "#1E0638")
+    },
+    "monsoonMemories": {
+        "id": "monsoonMemories",
+        "name": "Monsoon Memories",
+        "mood": "Nostalgic & Evocative",
+        "style": "Atmospheric Indian Monsoon Photography",
+        "environment": "An Indian neighborhood street beside a roadside chai stall under a tin roof",
+        "weather": "Heavy monsoon downpour, dark dramatic rain clouds, water streaming off tin roof",
+        "lighting": "Overcast stormy monsoon sky contrasted with warm yellow lantern glow from tea stall",
+        "props": ["cutting chai glasses", "black umbrellas", "glistening wet palm trees", "rainwater puddles"],
+        "composition": "Atmospheric street scene framing the warm chai stall against rain-soaked greenery",
+        "palette": ("#99F6E4", "#0D9488", "#115E59", "#042F2C")
+    }
+}
+
 def clean_json_response(raw_text: str) -> dict:
     """Extract and parse JSON from model text output, stripping markdown code fences if present."""
     text = raw_text.strip()
@@ -68,17 +192,12 @@ def put_s3_json(bucket: str, key: str, data: dict):
         ContentType='application/json'
     )
 
-def create_fallback_svg_bytes(memory: str, style: str, location: str) -> tuple[bytes, str]:
-    """Generate custom stylized SVG vector artwork bytes and content type."""
-    palettes = {
-        "Vintage": ("#FCEABB", "#C1652F", "#4A3728", "#2C1E16"),
-        "Film": ("#3A6073", "#3A7BD5", "#1A2634", "#0F172A"),
-        "Watercolor": ("#E0C3FC", "#8EC5FC", "#4A0E4E", "#2B062F"),
-        "Illustrated": ("#FFD194", "#D1913C", "#6A3805", "#3B1E02"),
-        "Minimal": ("#E2E8F0", "#94A3B8", "#334155", "#0F172A")
-    }
-    c1, c2, c3, c4 = palettes.get(style, palettes["Vintage"])
-    loc_clean = (location or "MEMORY").upper()
+def create_theme_svg_bytes(theme_key: str, memory: str, location: str) -> tuple[bytes, str]:
+    """Generate high-quality vector artwork tailored to the specific visual theme."""
+    theme = THEMES.get(theme_key, THEMES["rainyDay"])
+    c1, c2, c3, c4 = theme["palette"]
+    title_text = theme["name"].upper()
+    loc_clean = (location or "POSTCARD").upper()
 
     svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1152" height="768" viewBox="0 0 1152 768">
   <defs>
@@ -87,20 +206,35 @@ def create_fallback_svg_bytes(memory: str, style: str, location: str) -> tuple[b
       <stop offset="100%" stop-color="{c2}"/>
     </linearGradient>
     <linearGradient id="overlayGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="{c3}" stop-opacity="0.85"/>
+      <stop offset="0%" stop-color="{c3}" stop-opacity="0.88"/>
       <stop offset="100%" stop-color="{c4}" stop-opacity="0.95"/>
     </linearGradient>
   </defs>
   <rect width="1152" height="768" fill="url(#bgGrad)"/>
-  <circle cx="576" cy="320" r="230" fill="{c2}" opacity="0.4"/>
-  <path d="M0 480 Q288 400 576 480 T1152 480 L1152 768 L0 768 Z" fill="url(#overlayGrad)"/>
-  <path d="M0 560 Q384 480 768 560 T1152 560 L1152 768 L0 768 Z" fill="{c4}"/>
-  <text x="576" y="690" font-family="Georgia, serif" font-size="24" fill="#FFFDF9" text-anchor="middle" letter-spacing="4" opacity="0.7">{style.upper()} POSTCARD · {loc_clean}</text>
+  <circle cx="576" cy="300" r="240" fill="{c2}" opacity="0.35"/>
+  <path d="M0 460 Q288 380 576 460 T1152 460 L1152 768 L0 768 Z" fill="url(#overlayGrad)"/>
+  <path d="M0 550 Q384 470 768 550 T1152 550 L1152 768 L0 768 Z" fill="{c4}"/>
+  <text x="576" y="690" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="#FFFDF9" text-anchor="middle" letter-spacing="6" opacity="0.85">{title_text} · {loc_clean}</text>
 </svg>"""
     return svg_content.encode('utf-8'), "image/svg+xml"
 
-def generate_illustration(image_prompt: str, memory: str, style: str, location: str) -> tuple[bytes, str, str]:
-    """Call Amazon Nova Canvas or generate vector artwork, returning (image_bytes, extension, content_type)."""
+def build_rich_image_prompt(theme: dict, user_memory: str) -> str:
+    """Build an explicit 13-point detailed visual prompt for Bedrock Nova Canvas."""
+    props_str = ", ".join(theme['props'])
+    return f"""High-resolution {theme['style']} of {theme['environment']}.
+Atmosphere & Weather: {theme['weather']}.
+Lighting: {theme['lighting']}.
+Visual elements & details: {props_str}.
+Composition: {theme['composition']}.
+Context: Inspired by memory '{user_memory or theme['name']}'.
+Camera & Optics: 35mm lens, atmospheric depth, sharp environmental details, realistic texture.
+DO NOT render any text, letters, words, titles, labels, or watermarks inside the generated artwork."""
+
+def generate_illustration(theme: dict, user_memory: str, location: str) -> tuple[bytes, str, str]:
+    """Call Amazon Nova Canvas with rich environment prompt or fallback to vector theme artwork."""
+    image_prompt = build_rich_image_prompt(theme, user_memory)
+    logger.info(f"Generating image prompt for theme '{theme['name']}': {image_prompt}")
+
     body = {
         "taskType": "TEXT_IMAGE",
         "textToImageParams": {
@@ -110,7 +244,7 @@ def generate_illustration(image_prompt: str, memory: str, style: str, location: 
             "numberOfImages": 1,
             "height": 768,
             "width": 1152,
-            "cfgScale": 8.0
+            "cfgScale": 8.5
         }
     }
 
@@ -125,51 +259,58 @@ def generate_illustration(image_prompt: str, memory: str, style: str, location: 
         base64_image = response_body['images'][0]
         return base64.b64decode(base64_image), "png", "image/png"
     except Exception as e:
-        logger.warning(f"Bedrock Nova Canvas notice: {str(e)}. Generating custom vector artwork.")
-        svg_bytes, content_type = create_fallback_svg_bytes(memory, style, location)
+        logger.warning(f"Bedrock Nova Canvas notice: {str(e)}. Generating custom theme vector artwork.")
+        svg_bytes, content_type = create_theme_svg_bytes(theme['id'], user_memory, location)
         return svg_bytes, "svg", content_type
 
-def run_autonomous_creative_agent(user_memory: str = "", override_style: str = "", override_mood: str = "", override_location: str = "", override_time: str = "") -> dict:
+def select_autonomous_theme(history: list, requested_theme_key: str = "") -> dict:
+    """Select a theme intelligently to guarantee high creative diversity across days."""
+    if requested_theme_key in THEMES:
+        return THEMES[requested_theme_key]
+
+    recent_themes = [item.get('theme_id', '') for item in history[:4] if item.get('theme_id')]
+    
+    # Filter candidates to avoid recent repetitions
+    candidates = [t_key for t_key in THEMES if t_key not in recent_themes]
+    if not candidates:
+        candidates = list(THEMES.keys())
+
+    # Cycle deterministically or select first candidate
+    selected_key = candidates[0]
+    return THEMES[selected_key]
+
+def run_autonomous_creative_agent(user_memory: str = "", requested_theme_key: str = "", override_location: str = "", override_time: str = "") -> dict:
     """Core Creative Agent logic that evaluates context, history, and invokes Bedrock to produce today's postcard."""
     bucket = BUCKET_NAME or os.environ.get('BUCKET_NAME', '')
     if not bucket:
         raise ValueError("BUCKET_NAME environment variable is not configured.")
 
-    # 1. Fetch recent creative history from S3
+    # 1. Fetch history & select theme
     history = get_s3_json(bucket, "postcards/history.json", default=[])
-    recent_styles = [item.get('style', '') for item in history[:3] if item.get('style')]
+    theme = select_autonomous_theme(history, requested_theme_key)
 
     # 2. Context evaluation
     now = datetime.utcnow()
-    date_str = now.strftime("%Y-%m-%d")
     formatted_date = now.strftime("%d %b %Y")
     day_name = now.strftime("%A")
     month_name = now.strftime("%B")
 
-    available_styles = ["Vintage", "Film", "Watercolor", "Illustrated", "Minimal"]
-    candidate_styles = [s for s in available_styles if s not in recent_styles[:2]]
-    selected_style = override_style or (candidate_styles[0] if candidate_styles else "Watercolor")
-
+    # Prompt Bedrock Nova Lite for poem & caption
     prompt = f"""You are Memory Postcard's autonomous creative AI agent.
 Today's Date: {formatted_date} ({day_name})
 Season/Month: {month_name}
-User Memory Context: {user_memory or 'An autonomous morning reflection on seasons, quiet journeys, and peaceful moments'}
-Recent Visual Styles Used: {', '.join(recent_styles) if recent_styles else 'None'}
-Selected Target Style: {selected_style}
+Selected Visual Theme: {theme['name']} ({theme['environment']})
+User Context/Memory: {user_memory or 'An autonomous reflection on quiet moments and journeys'}
 
-Create a brand new illustrated postcard.
+Write the poetic text for today's postcard matching this visual theme.
 Return ONLY a strict JSON object with NO extra text outside JSON:
 {{
-  "title": "A short, evocative postcard title in ALL CAPS, under 6 words",
-  "poem": "3 to 5 short poetic lines capturing the mood, separated by \\n newline characters",
-  "quote": "A poignant quote under 15 words",
-  "theme": "A creative theme, e.g. Monsoon Nostalgia, Early Morning Light, Station Solitude",
-  "mood": "{override_mood or 'Reflective'}",
-  "style": "{selected_style}",
+  "title": "A short evocative title in ALL CAPS matching {theme['name']}, under 6 words",
+  "poem": "3 to 5 short poetic lines capturing the mood of {theme['name']}, separated by \\n",
+  "quote": "A poignant quote under 15 words matching this theme",
   "location": "{override_location or 'Somewhere Peaceful'}",
   "time": "{override_time or formatted_date}",
-  "image_prompt": "A detailed visual description for an artistic illustration representing this theme in {selected_style} style. DO NOT include text, letters, words, or signs inside the image.",
-  "creative_reasoning": "A 1-2 sentence explanation of why you chose this theme and visual style based on history and today's context."
+  "creative_reasoning": "A 1-2 sentence explanation of why this theme was chosen based on history and context."
 }}"""
 
     body = {
@@ -194,36 +335,27 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         )
         response_body = json.loads(response['body'].read().decode('utf-8'))
         raw_text = response_body['output']['message']['content'][0]['text']
-        logger.info(f"Nova Lite raw output: {raw_text}")
         text_data = clean_json_response(raw_text)
     except Exception as e:
         logger.warning(f"Bedrock Nova Lite notice: {str(e)}. Using creative fallback.")
         text_data = {
-            "title": f"MORNING IN {day_name.upper()}",
-            "poem": "Golden sunlight on quiet streets\nMoments frozen in time\nA gentle warmth remains.",
-            "quote": "Every morning brings a new postcard from the world.",
-            "theme": "Morning Reflection",
-            "mood": override_mood or "Reflective",
-            "style": selected_style,
+            "title": f"{theme['name'].upper()} REFLECTION",
+            "poem": f"Quiet moments in {theme['name'].lower()}\nMoments frozen in time\nA gentle warmth remains.",
+            "quote": "Every postcard tells a story of another world.",
             "location": override_location or "Somewhere Peaceful",
             "time": override_time or formatted_date,
-            "image_prompt": f"A serene {selected_style} illustration of early morning sunlight",
-            "creative_reasoning": f"Explored {selected_style} style to provide visual variety following recent history."
+            "creative_reasoning": f"Explored {theme['name']} theme to bring visual storytelling and environment variety."
         }
 
-    title = text_data.get('title', 'MORNING REFLECTION').upper()
+    title = text_data.get('title', f"{theme['name'].upper()} MEMORY").upper()
     poem = text_data.get('poem', 'Golden sunlight on quiet streets\nMoments frozen in time\nA gentle warmth remains.')
     quote = text_data.get('quote', 'Every memory is a postcard from the heart.')
-    theme = text_data.get('theme', 'Quiet Journey')
-    mood = text_data.get('mood', 'Reflective')
-    style = text_data.get('style', selected_style)
     location = text_data.get('location', override_location or 'Somewhere Peaceful')
     time_period = text_data.get('time', override_time or formatted_date)
-    image_prompt = text_data.get('image_prompt', f'A beautiful {style} illustration')
-    reasoning = text_data.get('creative_reasoning', 'Autonomous creation based on daily context.')
+    reasoning = text_data.get('creative_reasoning', f"Selected {theme['name']} theme for immersive environment storytelling.")
 
     # 3. Generate artwork
-    image_bytes, ext, content_type = generate_illustration(image_prompt, user_memory or theme, style, location)
+    image_bytes, ext, content_type = generate_illustration(theme, user_memory, location)
 
     # 4. Save artwork to S3
     postcard_id = str(uuid.uuid4())
@@ -242,15 +374,16 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         ExpiresIn=604800
     )
 
-    # 5. Build record
+    # 5. Build full postcard record
     postcard_record = {
         "id": postcard_id,
         "title": title,
         "poem": poem,
         "quote": quote,
-        "theme": theme,
-        "mood": mood,
-        "style": style,
+        "theme_id": theme['id'],
+        "theme": theme['name'],
+        "mood": theme['mood'],
+        "style": theme['style'],
         "location": location,
         "time": time_period,
         "image_url": presigned_url,
@@ -268,7 +401,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
     history.insert(0, postcard_record)
     put_s3_json(bucket, "postcards/history.json", history[:30])
 
-    logger.info(f"AUTONOMOUS_EXECUTION_COMPLETE: Postcard {postcard_id} created successfully ({title}). S3 Key: {s3_key_image}")
+    logger.info(f"AUTONOMOUS_EXECUTION_COMPLETE: Postcard {postcard_id} created successfully with theme '{theme['name']}'.")
     return postcard_record
 
 def lambda_handler(event, context):
@@ -305,7 +438,15 @@ def lambda_handler(event, context):
 
         bucket = BUCKET_NAME or os.environ.get('BUCKET_NAME', '')
 
-        # Action: User Daily Schedule Update
+        # Action: Return List of Available Themes
+        if action == 'themes':
+            return {
+                "statusCode": 200,
+                "headers": CORS_HEADERS,
+                "body": json.dumps({"themes": list(THEMES.values())})
+            }
+
+        # Action: User Schedule Update
         if action == 'schedule' or action == 'set_schedule':
             hour_utc = int(data.get('hour_utc', 8))
             schedule_time = data.get('schedule_time', f"{hour_utc:02d}:00 AM")
@@ -318,7 +459,6 @@ def lambda_handler(event, context):
                     State='ENABLED',
                     Description=f"Daily autonomous trigger for Memory Postcard at {schedule_time} UTC"
                 )
-                logger.info(f"Updated EventBridge schedule to {cron_expr}")
             except Exception as ev_err:
                 logger.warning(f"Could not update EventBridge rule dynamically: {str(ev_err)}")
 
@@ -356,7 +496,6 @@ def lambda_handler(event, context):
         if action == 'latest' or path.endswith('/latest') or (http_method == 'GET' and not action):
             latest = get_s3_json(bucket, "postcards/latest.json")
             if not latest:
-                logger.info("No latest postcard found in S3. Triggering initial autonomous generation.")
                 latest = run_autonomous_creative_agent()
             return {
                 "statusCode": 200,
@@ -377,17 +516,15 @@ def lambda_handler(event, context):
                 "body": json.dumps({"history": history})
             }
 
-        # Action: Trigger Manual Generation
+        # Action: Trigger Generation (With Theme Selection)
         memory = data.get('memory', '').strip()
-        mood = data.get('mood', '')
-        style = data.get('style', '')
+        theme_key = data.get('theme', '').strip()
         location = data.get('location', '')
         time_period = data.get('time', '')
 
         record = run_autonomous_creative_agent(
             user_memory=memory,
-            override_style=style,
-            override_mood=mood,
+            requested_theme_key=theme_key,
             override_location=location,
             override_time=time_period
         )
