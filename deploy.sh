@@ -106,6 +106,14 @@ cat <<EOF > /tmp/lambda_policy.json
     {
       "Effect": "Allow",
       "Action": [
+        "events:PutRule",
+        "events:PutTargets"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "s3:PutObject",
         "s3:GetObject"
       ],

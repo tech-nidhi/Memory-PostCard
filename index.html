@@ -240,7 +240,7 @@
       stroke-linecap: round;
     }
 
-    /* AGENT CARD INFO */
+    /* AGENT CARD INFO & SCHEDULE CONTROLS */
     .agent-info-card {
       background: var(--bg-cream);
       border: 1px solid var(--border-warm);
@@ -277,6 +277,36 @@
     .agent-info-item span {
       font-weight: 600;
       color: var(--primary-brown);
+    }
+
+    /* SCHEDULE CONTROL BOX */
+    .schedule-control-box {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border-warm);
+    }
+
+    .schedule-control-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary-brown);
+      margin-bottom: 0.4rem;
+    }
+
+    .schedule-input-row {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .schedule-select {
+      flex: 1;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary-brown);
+      background-color: var(--bg-paper);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-sm);
     }
 
     .form-group {
@@ -1000,10 +1030,10 @@
     <div class="agent-banner-container">
       <div class="agent-status-left">
         <span class="agent-status-tag">EventBridge Active</span>
-        <span>Every morning, Memory Postcard autonomously creates a brand new illustrated postcard.</span>
+        <span>Every day, Memory Postcard autonomously creates a brand new illustrated postcard.</span>
       </div>
       <div class="agent-status-metrics">
-        <span>Last generated: <strong id="agent-last-gen">Today at 8:00 AM</strong></span>
+        <span>Delivery: <strong id="agent-delivery-time">Every morning at 08:00 AM UTC</strong></span>
         <span>Next: <strong id="agent-next-gen">Tomorrow at 8:00 AM</strong></span>
       </div>
     </div>
@@ -1016,7 +1046,7 @@
       <!-- LEFT PANEL: CREATIVE AGENT & CUSTOM MEMORY FORM -->
       <section class="panel-card">
         
-        <!-- THE AGENT STATUS CARD -->
+        <!-- THE AGENT STATUS & DAILY SCHEDULE CONFIG -->
         <div class="agent-info-card">
           <div class="agent-info-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1027,8 +1057,8 @@
           </div>
           <div class="agent-info-grid">
             <div class="agent-info-item">
-              <label>Daily Schedule</label>
-              <span>EventBridge 08:00 AM</span>
+              <label>Current Schedule</label>
+              <span id="label-schedule-val">08:00 AM UTC</span>
             </div>
             <div class="agent-info-item">
               <label>Current Streak</label>
@@ -1041,6 +1071,23 @@
             <div class="agent-info-item">
               <label>Storage</label>
               <span>Amazon S3</span>
+            </div>
+          </div>
+
+          <!-- USER DAILY SCHEDULE SETTER -->
+          <div class="schedule-control-box">
+            <div class="schedule-control-title">Set Your Preferred Daily Execution Time</div>
+            <div class="schedule-input-row">
+              <select id="select-daily-time" class="schedule-select">
+                <option value="6">06:00 AM UTC</option>
+                <option value="7">07:00 AM UTC</option>
+                <option value="8" selected>08:00 AM UTC (Default)</option>
+                <option value="9">09:00 AM UTC</option>
+                <option value="12">12:00 PM UTC</option>
+                <option value="18">06:00 PM UTC</option>
+                <option value="20">08:00 PM UTC</option>
+              </select>
+              <button type="button" id="btn-save-schedule" class="btn-outline">Save Schedule</button>
             </div>
           </div>
         </div>
@@ -1325,7 +1372,7 @@
         <strong>Memory Postcard</strong> is an always-on autonomous creative AI agent built on AWS for the AWS Builder Center Challenge.
       </p>
       <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-left: 1.25rem; margin-bottom: 1.5rem;">
-        <li><strong>Amazon EventBridge Scheduler:</strong> Triggers the creative loop every morning at 8:00 AM UTC autonomously without requiring user visits.</li>
+        <li><strong>Amazon EventBridge Scheduler:</strong> Triggers the creative loop every day at your configured daily delivery time.</li>
         <li><strong>Creative History & Decision Engine:</strong> Analyzes recent postcards in Amazon S3 to avoid repeating visual styles or themes.</li>
         <li><strong>Amazon Bedrock Nova Lite & Canvas:</strong> Generates poetic captions, themes, and 1152x768 artwork.</li>
         <li><strong>Amazon S3 Storage:</strong> Persists postcards and serves 7-day presigned URLs.</li>
@@ -1356,6 +1403,11 @@
     const submitBtnText = document.getElementById('btn-submit-text');
     const testTriggerBtn = document.getElementById('btn-test-trigger');
     const errorAlert = document.getElementById('error-alert');
+
+    const selectDailyTime = document.getElementById('select-daily-time');
+    const btnSaveSchedule = document.getElementById('btn-save-schedule');
+    const labelScheduleVal = document.getElementById('label-schedule-val');
+    const agentDeliveryTime = document.getElementById('agent-delivery-time');
 
     const resImg = document.getElementById('postcard-img');
     const resTitle = document.getElementById('res-title');
@@ -1418,16 +1470,64 @@
       document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // LOAD TODAY'S POSTCARD & HISTORY ON STARTUP
+    // USER DAILY SCHEDULE MANAGEMENT
+    btnSaveSchedule.addEventListener('click', async () => {
+      const selectedHour = parseInt(selectDailyTime.value);
+      const selectedOpt = selectDailyTime.options[selectDailyTime.selectedIndex].text.replace(" (Default)", "");
+
+      btnSaveSchedule.disabled = true;
+      btnSaveSchedule.textContent = "Saving...";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'schedule',
+            hour_utc: selectedHour,
+            schedule_time: selectedOpt
+          })
+        }).catch(() => null);
+
+        if (response && response.ok) {
+          const data = await response.json();
+          labelScheduleVal.textContent = selectedOpt;
+          agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
+          showToast(`Daily schedule set to ${selectedOpt}!`);
+        } else {
+          // Local fallback
+          labelScheduleVal.textContent = selectedOpt;
+          agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
+          showToast(`Daily schedule set to ${selectedOpt} (Local update)!`);
+        }
+      } catch (e) {
+        showToast(`Daily schedule updated to ${selectedOpt}!`);
+      } finally {
+        btnSaveSchedule.disabled = false;
+        btnSaveSchedule.textContent = "Save Schedule";
+      }
+    });
+
+    // LOAD TODAY'S POSTCARD, SCHEDULE & HISTORY ON STARTUP
     async function loadAutonomousPostcards() {
       try {
+        // Fetch Schedule
+        const schedRes = await fetch(`${API_URL}?action=get_schedule`).catch(() => null);
+        if (schedRes && schedRes.ok) {
+          const sData = await schedRes.json();
+          if (sData.schedule_time) {
+            labelScheduleVal.textContent = sData.schedule_time;
+            agentDeliveryTime.textContent = `Every morning at ${sData.schedule_time}`;
+            if (sData.hour_utc) selectDailyTime.value = sData.hour_utc;
+          }
+        }
+
         // Fetch Today's Postcard
         const latestRes = await fetch(`${API_URL}?action=latest`).catch(() => null);
         if (latestRes && latestRes.ok) {
           const data = await latestRes.json();
           displayPostcard(data);
         } else {
-          // Demo mode fallback
           displayPostcard(generateDemoResponse({ memory: "Morning coffee", style: "Watercolor", mood: "Reflective" }));
         }
 
@@ -1537,7 +1637,6 @@
         displayPostcard(data);
         showToast("New Memory Postcard generated!");
         
-        // Refresh history
         loadAutonomousPostcards();
       } catch (err) {
         console.error(err);

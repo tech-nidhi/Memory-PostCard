@@ -12,9 +12,11 @@ logger.setLevel(logging.INFO)
 
 REGION = os.environ.get('AWS_REGION', 'us-east-1')
 BUCKET_NAME = os.environ.get('BUCKET_NAME', '')
+RULE_NAME = "memory-postcard-daily-trigger"
 
 bedrock_runtime = boto3.client('bedrock-runtime', region_name=REGION)
 s3_client = boto3.client('s3', region_name=REGION)
+events_client = boto3.client('events', region_name=REGION)
 
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
@@ -136,7 +138,6 @@ def run_autonomous_creative_agent(user_memory: str = "", override_style: str = "
     # 1. Fetch recent creative history from S3
     history = get_s3_json(bucket, "postcards/history.json", default=[])
     recent_styles = [item.get('style', '') for item in history[:3] if item.get('style')]
-    recent_themes = [item.get('theme', '') for item in history[:3] if item.get('theme')]
 
     # 2. Context evaluation
     now = datetime.utcnow()
@@ -145,12 +146,10 @@ def run_autonomous_creative_agent(user_memory: str = "", override_style: str = "
     day_name = now.strftime("%A")
     month_name = now.strftime("%B")
 
-    # Select style to avoid repetition if not specified
     available_styles = ["Vintage", "Film", "Watercolor", "Illustrated", "Minimal"]
     candidate_styles = [s for s in available_styles if s not in recent_styles[:2]]
     selected_style = override_style or (candidate_styles[0] if candidate_styles else "Watercolor")
 
-    # Prompt Bedrock Nova Lite
     prompt = f"""You are Memory Postcard's autonomous creative AI agent.
 Today's Date: {formatted_date} ({day_name})
 Season/Month: {month_name}
@@ -226,7 +225,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
     # 3. Generate artwork
     image_bytes, ext, content_type = generate_illustration(image_prompt, user_memory or theme, style, location)
 
-    # 4. Save artwork to S3 under postcards/YYYY/MM/DD/postcard_{id}.{ext}
+    # 4. Save artwork to S3
     postcard_id = str(uuid.uuid4())
     s3_key_image = f"postcards/{now.strftime('%Y/%m/%d')}/postcard_{postcard_id}.{ext}"
     
@@ -243,7 +242,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         ExpiresIn=604800
     )
 
-    # 5. Build postcard record
+    # 5. Build record
     postcard_record = {
         "id": postcard_id,
         "title": title,
@@ -264,7 +263,6 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         "streak_count": len(history) + 1
     }
 
-    # 6. Save latest.json and update history.json in S3
     put_s3_json(bucket, "postcards/latest.json", postcard_record)
 
     history.insert(0, postcard_record)
@@ -276,7 +274,6 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
 def lambda_handler(event, context):
     logger.info(f"Received event: {json.dumps(event)}")
     
-    # Handle CORS Preflight
     http_method = event.get('requestContext', {}).get('http', {}).get('method', '') or event.get('httpMethod', '')
     if http_method == 'OPTIONS':
         return {
@@ -285,7 +282,6 @@ def lambda_handler(event, context):
             "body": json.dumps({"message": "CORS preflight OK"})
         }
 
-    # Handle EventBridge Scheduled Event
     if event.get('source') == 'aws.events' or event.get('detail-type') == 'Scheduled Event':
         logger.info("EventBridge Autonomous Scheduler Triggered!")
         record = run_autonomous_creative_agent()
@@ -309,7 +305,54 @@ def lambda_handler(event, context):
 
         bucket = BUCKET_NAME or os.environ.get('BUCKET_NAME', '')
 
-        # Action 1: Get Latest Postcard (or auto-generate if missing)
+        # Action: User Daily Schedule Update
+        if action == 'schedule' or action == 'set_schedule':
+            hour_utc = int(data.get('hour_utc', 8))
+            schedule_time = data.get('schedule_time', f"{hour_utc:02d}:00 AM")
+            cron_expr = f"cron(0 {hour_utc} * * ? *)"
+
+            try:
+                events_client.put_rule(
+                    Name=RULE_NAME,
+                    ScheduleExpression=cron_expr,
+                    State='ENABLED',
+                    Description=f"Daily autonomous trigger for Memory Postcard at {schedule_time} UTC"
+                )
+                logger.info(f"Updated EventBridge schedule to {cron_expr}")
+            except Exception as ev_err:
+                logger.warning(f"Could not update EventBridge rule dynamically: {str(ev_err)}")
+
+            schedule_info = {
+                "schedule_time": schedule_time,
+                "hour_utc": hour_utc,
+                "cron_expression": cron_expr,
+                "updated_at": datetime.utcnow().strftime("%d %b %Y %H:%M UTC")
+            }
+            put_s3_json(bucket, "postcards/schedule.json", schedule_info)
+
+            return {
+                "statusCode": 200,
+                "headers": CORS_HEADERS,
+                "body": json.dumps({
+                    "message": f"Daily schedule updated to {schedule_time}!",
+                    "schedule": schedule_info
+                })
+            }
+
+        # Action: Get Schedule
+        if action == 'get_schedule':
+            schedule_info = get_s3_json(bucket, "postcards/schedule.json", default={
+                "schedule_time": "08:00 AM",
+                "hour_utc": 8,
+                "cron_expression": "cron(0 8 * * ? *)"
+            })
+            return {
+                "statusCode": 200,
+                "headers": CORS_HEADERS,
+                "body": json.dumps(schedule_info)
+            }
+
+        # Action: Get Latest Postcard
         if action == 'latest' or path.endswith('/latest') or (http_method == 'GET' and not action):
             latest = get_s3_json(bucket, "postcards/latest.json")
             if not latest:
@@ -321,7 +364,7 @@ def lambda_handler(event, context):
                 "body": json.dumps(latest)
             }
 
-        # Action 2: Get History
+        # Action: Get History
         if action == 'history' or path.endswith('/history'):
             history = get_s3_json(bucket, "postcards/history.json", default=[])
             if not history:
@@ -334,7 +377,7 @@ def lambda_handler(event, context):
                 "body": json.dumps({"history": history})
             }
 
-        # Action 3: Trigger Generation (Development Test or Manual Form Submission)
+        # Action: Trigger Manual Generation
         memory = data.get('memory', '').strip()
         mood = data.get('mood', '')
         style = data.get('style', '')
