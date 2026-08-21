@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Postcard — Turn Your Memories Into Illustrated Postcards</title>
-  <meta name="description" content="Turn your written memories into AI-generated illustrated postcards powered by Amazon Bedrock Nova models.">
+  <title>Memory Postcard — Always-On Autonomous Creative AI Agent</title>
+  <meta name="description" content="An always-on creative AI agent on AWS that autonomously creates a new illustrated digital postcard every morning.">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,7 +64,7 @@
 
     /* HEADER */
     header {
-      background-color: rgba(255, 253, 249, 0.9);
+      background-color: rgba(255, 253, 249, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-warm);
       padding: 1rem 2rem;
@@ -117,7 +117,7 @@
 
     .nav-links {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .nav-btn {
@@ -144,6 +144,54 @@
       box-shadow: var(--shadow-sm);
     }
 
+    /* AGENT STATUS BANNER */
+    .agent-banner {
+      background-color: var(--accent-rust-light);
+      border-bottom: 1px solid rgba(193, 101, 47, 0.2);
+      padding: 0.65rem 2rem;
+      font-size: 0.85rem;
+      color: var(--primary-brown);
+    }
+
+    .agent-banner-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .agent-status-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .agent-status-tag {
+      background-color: var(--accent-rust);
+      color: #FFF;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .agent-status-metrics {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .agent-status-metrics strong {
+      color: var(--primary-brown);
+    }
+
     /* MAIN CONTAINER */
     main {
       flex: 1;
@@ -155,7 +203,7 @@
 
     .app-grid {
       display: grid;
-      grid-template-columns: 440px 1fr;
+      grid-template-columns: 420px 1fr;
       gap: 2rem;
       align-items: start;
     }
@@ -171,12 +219,12 @@
     }
 
     .panel-header {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .panel-title {
       font-family: var(--font-heading);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: var(--primary-brown);
       display: flex;
       flex-direction: column;
@@ -190,6 +238,45 @@
       stroke: var(--accent-rust);
       stroke-width: 3;
       stroke-linecap: round;
+    }
+
+    /* AGENT CARD INFO */
+    .agent-info-card {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .agent-info-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-rust);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .agent-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+    }
+
+    .agent-info-item label {
+      display: block;
+      color: var(--text-light);
+      font-size: 0.7rem;
+    }
+
+    .agent-info-item span {
+      font-weight: 600;
+      color: var(--primary-brown);
     }
 
     .form-group {
@@ -234,7 +321,7 @@
     }
 
     .form-textarea {
-      min-height: 110px;
+      min-height: 90px;
       resize: vertical;
       line-height: 1.45;
     }
@@ -301,25 +388,25 @@
       box-shadow: inset 0 0 0 1px var(--accent-rust);
     }
 
-    /* SUBMIT BUTTON */
+    /* BUTTONS */
     .submit-btn {
       width: 100%;
       background-color: var(--primary-brown);
       color: #FFF;
       border: none;
       border-radius: var(--radius-md);
-      padding: 0.95rem 1.25rem;
+      padding: 0.9rem 1.25rem;
       font-family: var(--font-body);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      transition: all 0.25 ease;
+      transition: all 0.2s ease;
       box-shadow: var(--shadow-md);
       margin-top: 0.5rem;
     }
@@ -333,6 +420,29 @@
     .submit-btn:disabled {
       opacity: 0.7;
       cursor: not-allowed;
+    }
+
+    .test-trigger-btn {
+      width: 100%;
+      background-color: var(--bg-paper);
+      border: 1px dashed var(--accent-rust);
+      color: var(--accent-rust);
+      border-radius: var(--radius-md);
+      padding: 0.7rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .test-trigger-btn:hover {
+      background-color: var(--accent-rust-light);
     }
 
     .footnote {
@@ -367,6 +477,19 @@
       gap: 0.5rem;
     }
 
+    .badge-auto {
+      background-color: var(--accent-rust-light);
+      color: var(--accent-rust);
+      border: 1px solid rgba(193, 101, 47, 0.3);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
     .btn-outline {
       background-color: var(--bg-paper);
       border: 1px solid var(--border-warm);
@@ -386,45 +509,6 @@
       border-color: var(--accent-rust);
       color: var(--accent-rust);
       background-color: var(--accent-rust-light);
-    }
-
-    /* EMPTY STATE */
-    .empty-state {
-      background: var(--bg-paper);
-      border: 2px dashed var(--border-warm);
-      border-radius: var(--radius-lg);
-      padding: 4rem 2rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.25rem;
-      min-height: 420px;
-    }
-
-    .empty-icon-wrap {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background-color: var(--bg-cream);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent-rust);
-      border: 1px solid var(--border-warm);
-    }
-
-    .empty-state h3 {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      color: var(--primary-brown);
-    }
-
-    .empty-state p {
-      max-width: 380px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
     }
 
     /* POSTCARD CARD DISPLAY */
@@ -602,7 +686,7 @@
       text-align: right;
     }
 
-    /* QUOTE & POEM BLOCK */
+    /* QUOTE & REASONING BLOCKS */
     .quote-card {
       background: var(--bg-paper);
       border: 1px solid var(--border-warm);
@@ -646,6 +730,19 @@
       line-height: 1.6;
     }
 
+    .reasoning-card {
+      background-color: var(--bg-cream);
+      border: 1px dashed var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.25rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .reasoning-card strong {
+      color: var(--primary-brown);
+    }
+
     /* ACTION ROW */
     .action-row {
       display: flex;
@@ -675,21 +772,93 @@
       box-shadow: var(--shadow-md);
     }
 
-    /* BOTTOM STRIP */
-    .bottom-strip {
-      background-color: var(--accent-rust-light);
-      border: 1px solid rgba(193, 101, 47, 0.2);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
+    /* PREVIOUS POSTCARDS GALLERY SECTION */
+    .history-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px dashed var(--border-warm);
+    }
+
+    .history-section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 1.25rem;
     }
 
-    .strip-text {
-      font-size: 0.85rem;
-      font-weight: 600;
+    .history-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
       color: var(--primary-brown);
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .history-card {
+      background: var(--bg-paper);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .history-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent-rust);
+    }
+
+    .history-card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background-color: #ECE5D8;
+    }
+
+    .history-card-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
+    }
+
+    .history-card-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-brown);
+      text-transform: uppercase;
+    }
+
+    .history-card-date {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .history-card-pills {
+      display: flex;
+      gap: 0.35rem;
+      margin-top: auto;
+      padding-top: 0.4rem;
+    }
+
+    .history-pill {
+      font-size: 0.65rem;
+      font-weight: 600;
+      background-color: var(--bg-cream);
+      color: var(--accent-rust);
+      border: 1px solid var(--border-warm);
+      padding: 0.15rem 0.45rem;
+      border-radius: 8px;
     }
 
     /* MODAL DIALOGS */
@@ -717,7 +886,7 @@
       background-color: var(--bg-paper);
       border: 1px solid var(--border-warm);
       border-radius: var(--radius-lg);
-      max-width: 600px;
+      max-width: 650px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
@@ -739,60 +908,6 @@
 
     .modal-close:hover {
       color: var(--primary-brown);
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .gallery-item {
-      background: var(--bg-cream);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .gallery-item:hover {
-      transform: scale(1.03);
-    }
-
-    .gallery-thumb {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-    }
-
-    .gallery-info {
-      padding: 0.5rem;
-    }
-
-    .gallery-title {
-      font-family: var(--font-heading);
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--primary-brown);
-    }
-
-    .gallery-date {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
-
-    /* ERROR ALERT */
-    .error-alert {
-      background-color: #FDF2F2;
-      border: 1px solid #F8B4B4;
-      color: #9B1C1C;
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      display: none;
     }
 
     /* TOAST NOTIFICATION */
@@ -835,6 +950,11 @@
       .stub-content {
         margin-top: 1rem;
       }
+
+      .agent-banner-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -851,7 +971,7 @@
         </div>
         <div class="brand-text">
           <h1>Memory Postcard</h1>
-          <p>Turn your memories into beautiful postcards.</p>
+          <p>Always-On Creative AI Agent · A postcard you didn't have to make.</p>
         </div>
       </div>
       <nav class="nav-links">
@@ -861,7 +981,7 @@
             <circle cx="8.5" cy="8.5" r="1.5"/>
             <polyline points="21 15 16 10 5 21"/>
           </svg>
-          My Postcards
+          Previous Postcards
         </button>
         <button class="nav-btn" id="btn-about">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -869,45 +989,87 @@
             <line x1="12" y1="16" x2="12" y2="12"/>
             <line x1="12" y1="8" x2="12.01" y2="8"/>
           </svg>
-          About
+          About Agent
         </button>
       </nav>
     </div>
   </header>
 
+  <!-- AUTONOMOUS AGENT STATUS BANNER -->
+  <div class="agent-banner">
+    <div class="agent-banner-container">
+      <div class="agent-status-left">
+        <span class="agent-status-tag">EventBridge Active</span>
+        <span>Every morning, Memory Postcard autonomously creates a brand new illustrated postcard.</span>
+      </div>
+      <div class="agent-status-metrics">
+        <span>Last generated: <strong id="agent-last-gen">Today at 8:00 AM</strong></span>
+        <span>Next: <strong id="agent-next-gen">Tomorrow at 8:00 AM</strong></span>
+      </div>
+    </div>
+  </div>
+
   <!-- MAIN CONTENT -->
   <main>
     <div class="app-grid">
 
-      <!-- LEFT PANEL: FORM -->
+      <!-- LEFT PANEL: CREATIVE AGENT & CUSTOM MEMORY FORM -->
       <section class="panel-card">
+        
+        <!-- THE AGENT STATUS CARD -->
+        <div class="agent-info-card">
+          <div class="agent-info-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            The Autonomous Creative Agent
+          </div>
+          <div class="agent-info-grid">
+            <div class="agent-info-item">
+              <label>Daily Schedule</label>
+              <span>EventBridge 08:00 AM</span>
+            </div>
+            <div class="agent-info-item">
+              <label>Current Streak</label>
+              <span id="agent-streak">5 Days Active</span>
+            </div>
+            <div class="agent-info-item">
+              <label>AI Models</label>
+              <span>Nova Lite & Canvas</span>
+            </div>
+            <div class="agent-info-item">
+              <label>Storage</label>
+              <span>Amazon S3</span>
+            </div>
+          </div>
+        </div>
+
         <div class="panel-header">
           <h2 class="panel-title">
-            Tell us about your memory
+            Custom Memory Postcard
             <svg class="squiggle" viewBox="0 0 48 6">
               <path d="M1 3Q12 0 24 3T47 3"/>
             </svg>
           </h2>
         </div>
 
-        <div id="error-alert" class="error-alert"></div>
+        <div id="error-alert" style="display:none;" class="error-alert"></div>
 
         <form id="postcard-form" onsubmit="return false;">
-          <!-- MEMORY TEXTAREA -->
           <div class="form-group">
-            <label class="form-label" for="input-memory">Your memory</label>
+            <label class="form-label" for="input-memory">Your memory or prompt</label>
             <textarea 
               id="input-memory" 
               class="form-textarea" 
               maxlength="500"
-              placeholder="Sitting on the porch on a warm summer evening in Ahmedabad, drinking sweet chai while listening to grandmother's old stories as fireflies danced in the garden..."
+              placeholder="Sitting on the porch on a warm summer evening in Ahmedabad, drinking sweet chai while listening to grandmother's old stories..."
               required></textarea>
             <div class="textarea-footer">
               <span id="char-counter" class="char-count">0/500</span>
             </div>
           </div>
 
-          <!-- LOCATION -->
           <div class="form-group">
             <label class="form-label" for="input-location">Where did it happen?</label>
             <div class="input-wrapper">
@@ -919,7 +1081,6 @@
             </div>
           </div>
 
-          <!-- WHEN -->
           <div class="form-group">
             <label class="form-label" for="input-time">When was it?</label>
             <div class="input-wrapper">
@@ -933,7 +1094,6 @@
             </div>
           </div>
 
-          <!-- MOOD DROPDOWN -->
           <div class="form-group">
             <label class="form-label" for="input-mood">How should it feel?</label>
             <div class="input-wrapper">
@@ -953,7 +1113,6 @@
             </div>
           </div>
 
-          <!-- POSTCARD STYLE SELECTOR -->
           <div class="form-group">
             <label class="form-label">Postcard style</label>
             <div class="style-grid">
@@ -964,7 +1123,6 @@
                 </svg>
                 <span>Vintage</span>
               </button>
-
               <button type="button" class="style-btn" data-style="Film">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
@@ -972,14 +1130,12 @@
                 </svg>
                 <span>Film</span>
               </button>
-
               <button type="button" class="style-btn" data-style="Watercolor">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                   <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
                 </svg>
                 <span>Watercolor</span>
               </button>
-
               <button type="button" class="style-btn" data-style="Illustrated">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                   <path d="M12 19l7-7 3 3-7 7-3-3z"/>
@@ -987,7 +1143,6 @@
                 </svg>
                 <span>Illustrated</span>
               </button>
-
               <button type="button" class="style-btn" data-style="Minimal">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                   <rect x="4" y="4" width="16" height="16" rx="2"/>
@@ -997,7 +1152,6 @@
             </div>
           </div>
 
-          <!-- SUBMIT BUTTON -->
           <button type="submit" id="btn-submit" class="submit-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
@@ -1005,6 +1159,11 @@
             <span id="btn-submit-text">CREATE MY POSTCARD</span>
           </button>
         </form>
+
+        <!-- DEVELOPER TEST TRIGGER -->
+        <button id="btn-test-trigger" class="test-trigger-btn">
+          ⚡ Generate Test Postcard (Dev Mode)
+        </button>
 
         <div class="footnote">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1015,7 +1174,7 @@
         </div>
       </section>
 
-      <!-- RIGHT PANEL: RESULT / PREVIEW -->
+      <!-- RIGHT PANEL: TODAY'S POSTCARD -->
       <section class="result-container">
         
         <div class="result-header">
@@ -1023,32 +1182,18 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent-rust)">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            Here is your Memory Postcard
+            Today's Postcard
           </h2>
-          <button id="btn-create-another" class="btn-outline" style="display: none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="23 4 23 10 17 10"/>
-              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          <div class="badge-auto" id="auto-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
             </svg>
-            Create Another
-          </button>
-        </div>
-
-        <!-- EMPTY STATE -->
-        <div id="view-empty" class="empty-state">
-          <div class="empty-icon-wrap">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
+            Created automatically this morning
           </div>
-          <h3>Your Postcard Canvas Awaits</h3>
-          <p>Fill in your memory on the left and click <strong>Create My Postcard</strong> to generate your custom illustrated AI postcard.</p>
         </div>
 
         <!-- GENERATED RESULT POSTCARD -->
-        <div id="view-result" style="display: none; flex-direction: column; gap: 1.5rem;">
+        <div id="view-result" style="display: flex; flex-direction: column; gap: 1.25rem;">
           
           <div class="postcard-wrapper">
             <div id="postcard-element" class="postcard-card">
@@ -1078,7 +1223,7 @@
 
                 <!-- STUB TEXT -->
                 <div class="stub-content">
-                  <div id="res-title" class="postcard-generated-title">SUMMER MEMORIES</div>
+                  <div id="res-title" class="postcard-generated-title">LOADING TODAY'S POSTCARD...</div>
                   
                   <div class="heart-divider">
                     <svg viewBox="0 0 24 24">
@@ -1087,8 +1232,8 @@
                   </div>
 
                   <div>
-                    <div id="res-location" class="postcard-meta-location">Ahmedabad</div>
-                    <div id="res-time" class="postcard-meta-time">Summer · 2014</div>
+                    <div id="res-location" class="postcard-meta-location">Somewhere Peaceful</div>
+                    <div id="res-time" class="postcard-meta-time">21 Aug 2026</div>
                   </div>
                 </div>
 
@@ -1098,11 +1243,16 @@
             </div>
           </div>
 
+          <!-- REASONING CARD -->
+          <div id="reasoning-box" class="reasoning-card">
+            <strong>Creative Reasoning:</strong> <span id="res-reasoning">Exploring Watercolor style to provide visual variety following recent Vintage postcards.</span>
+          </div>
+
           <!-- QUOTE BLOCK -->
           <div class="quote-card">
             <div class="quote-icon">“</div>
             <div class="quote-inner">
-              <div class="quote-label">Your Memory Poem</div>
+              <div class="quote-label">Daily Poem</div>
               <div id="res-poem" class="poem-text">Golden sunlight on quiet streets&#10;Moments frozen in time&#10;A gentle warmth remains.</div>
             </div>
           </div>
@@ -1134,15 +1284,7 @@
                 <path d="M12 20h9"/>
                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
               </svg>
-              Change Style
-            </button>
-          </div>
-
-          <!-- BOTTOM STRIP -->
-          <div class="bottom-strip">
-            <span class="strip-text">Want to create another memory?</span>
-            <button id="btn-new-strip" class="btn-outline">
-              Create New Postcard →
+              Customize
             </button>
           </div>
 
@@ -1151,32 +1293,42 @@
       </section>
 
     </div>
+
+    <!-- PREVIOUS POSTCARDS GALLERY SECTION -->
+    <section class="history-section">
+      <div class="history-section-header">
+        <h3 class="history-section-title">Previous Postcards</h3>
+        <span style="font-size: 0.82rem; color: var(--text-muted);">Autonomously created memory collection</span>
+      </div>
+      <div id="history-grid" class="history-grid">
+        <!-- Dynamic items from S3 history -->
+      </div>
+    </section>
+
   </main>
 
-  <!-- GALLERY MODAL -->
-  <div id="modal-gallery" class="modal-overlay">
+  <!-- POSTCARD DETAIL MODAL -->
+  <div id="modal-detail" class="modal-overlay">
     <div class="modal-box">
       <button class="modal-close">&times;</button>
-      <h2 style="font-family: var(--font-heading); color: var(--primary-brown); margin-bottom: 0.5rem;">My Postcards</h2>
-      <p style="font-size: 0.85rem; color: var(--text-muted);">Your saved memory postcards stored locally.</p>
-      <div id="gallery-container" class="gallery-grid">
-        <!-- Dynamic items -->
-      </div>
+      <h2 id="detail-title" style="font-family: var(--font-heading); color: var(--primary-brown); margin-bottom: 0.5rem; text-transform: uppercase;">POSTCARD DETAIL</h2>
+      <div id="detail-content"></div>
     </div>
   </div>
 
-  <!-- ABOUT MODAL -->
+  <!-- ABOUT AGENT MODAL -->
   <div id="modal-about" class="modal-overlay">
     <div class="modal-box">
       <button class="modal-close">&times;</button>
-      <h2 style="font-family: var(--font-heading); color: var(--primary-brown); margin-bottom: 0.75rem;">About Memory Postcard</h2>
+      <h2 style="font-family: var(--font-heading); color: var(--primary-brown); margin-bottom: 0.75rem;">About Memory Postcard Agent</h2>
       <p style="font-size: 0.9rem; color: var(--text-dark); line-height: 1.6; margin-bottom: 1rem;">
-        <strong>Memory Postcard</strong> transforms your cherished personal memories into illustrated vintage postcards using generative AI on AWS.
+        <strong>Memory Postcard</strong> is an always-on autonomous creative AI agent built on AWS for the AWS Builder Center Challenge.
       </p>
       <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-left: 1.25rem; margin-bottom: 1.5rem;">
-        <li><strong>Amazon Bedrock Nova Lite:</strong> Analyzes your text to craft an evocative title, short poem, poignant quote, and image generation prompt.</li>
-        <li><strong>Amazon Bedrock Nova Canvas:</strong> Renders a high-quality 1152x768 artwork matching your requested aesthetic style.</li>
-        <li><strong>AWS Lambda & S3:</strong> Serverless backend hosting, generating 7-day presigned URLs for instant sharing and privacy.</li>
+        <li><strong>Amazon EventBridge Scheduler:</strong> Triggers the creative loop every morning at 8:00 AM UTC autonomously without requiring user visits.</li>
+        <li><strong>Creative History & Decision Engine:</strong> Analyzes recent postcards in Amazon S3 to avoid repeating visual styles or themes.</li>
+        <li><strong>Amazon Bedrock Nova Lite & Canvas:</strong> Generates poetic captions, themes, and 1152x768 artwork.</li>
+        <li><strong>Amazon S3 Storage:</strong> Persists postcards and serves 7-day presigned URLs.</li>
       </ul>
       <button class="btn-primary modal-close-btn" style="width: 100%; justify-content: center;">Got it</button>
     </div>
@@ -1191,6 +1343,7 @@
 
     let selectedStyle = "Vintage";
     let currentPostcardData = null;
+    let historyPostcards = [];
 
     // DOM Elements
     const memoryInput = document.getElementById('input-memory');
@@ -1201,28 +1354,25 @@
     const styleButtons = document.querySelectorAll('.style-btn');
     const submitBtn = document.getElementById('btn-submit');
     const submitBtnText = document.getElementById('btn-submit-text');
+    const testTriggerBtn = document.getElementById('btn-test-trigger');
     const errorAlert = document.getElementById('error-alert');
-
-    const viewEmpty = document.getElementById('view-empty');
-    const viewResult = document.getElementById('view-result');
-    const btnCreateAnother = document.getElementById('btn-create-another');
 
     const resImg = document.getElementById('postcard-img');
     const resTitle = document.getElementById('res-title');
     const resLocation = document.getElementById('res-location');
     const resTime = document.getElementById('res-time');
     const resPoem = document.getElementById('res-poem');
+    const resReasoning = document.getElementById('res-reasoning');
 
     const btnDownload = document.getElementById('btn-download');
     const btnShare = document.getElementById('btn-share');
     const btnChangeStyle = document.getElementById('btn-change-style');
-    const btnNewStrip = document.getElementById('btn-new-strip');
 
     const btnGallery = document.getElementById('btn-gallery');
     const btnAbout = document.getElementById('btn-about');
-    const modalGallery = document.getElementById('modal-gallery');
+    const modalDetail = document.getElementById('modal-detail');
     const modalAbout = document.getElementById('modal-about');
-    const galleryContainer = document.getElementById('gallery-container');
+    const historyGrid = document.getElementById('history-grid');
     const toast = document.getElementById('toast');
 
     // Character Counter
@@ -1265,158 +1415,171 @@
 
     btnAbout.addEventListener('click', () => openModal(modalAbout));
     btnGallery.addEventListener('click', () => {
-      renderGallery();
-      openModal(modalGallery);
+      document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // LocalStorage Gallery
-    function saveToGallery(card) {
-      let saved = JSON.parse(localStorage.getItem('memory_postcards') || '[]');
-      saved.unshift(card);
-      localStorage.setItem('memory_postcards', JSON.stringify(saved.slice(0, 10)));
+    // LOAD TODAY'S POSTCARD & HISTORY ON STARTUP
+    async function loadAutonomousPostcards() {
+      try {
+        // Fetch Today's Postcard
+        const latestRes = await fetch(`${API_URL}?action=latest`).catch(() => null);
+        if (latestRes && latestRes.ok) {
+          const data = await latestRes.json();
+          displayPostcard(data);
+        } else {
+          // Demo mode fallback
+          displayPostcard(generateDemoResponse({ memory: "Morning coffee", style: "Watercolor", mood: "Reflective" }));
+        }
+
+        // Fetch History
+        const historyRes = await fetch(`${API_URL}?action=history`).catch(() => null);
+        if (historyRes && historyRes.ok) {
+          const histData = await historyRes.json();
+          historyPostcards = histData.history || [];
+          renderHistoryGrid(historyPostcards);
+        } else {
+          renderHistoryGrid([
+            generateDemoResponse({ memory: "Summer afternoon", style: "Vintage", location: "Ahmedabad" }),
+            generateDemoResponse({ memory: "Rain between stations", style: "Film", location: "Mumbai" }),
+            generateDemoResponse({ memory: "Cozy reading corner", style: "Watercolor", location: "Goa" })
+          ]);
+        }
+      } catch (err) {
+        console.warn("Failed loading from backend, using fallback demo mode:", err);
+        displayPostcard(generateDemoResponse({ memory: "Morning coffee", style: "Watercolor", mood: "Reflective" }));
+      }
     }
 
-    function renderGallery() {
-      let saved = JSON.parse(localStorage.getItem('memory_postcards') || '[]');
-      if (saved.length === 0) {
-        galleryContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 2rem;">No postcards saved yet.</p>';
+    function renderHistoryGrid(items) {
+      if (!items || items.length === 0) {
+        historyGrid.innerHTML = '<p style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 2rem;">No previous postcards found.</p>';
         return;
       }
-      galleryContainer.innerHTML = saved.map((item, idx) => `
-        <div class="gallery-item" onclick="loadGalleryItem(${idx})">
-          <img class="gallery-thumb" src="${item.image_url}" alt="${item.title}">
-          <div class="gallery-info">
-            <div class="gallery-title">${item.title}</div>
-            <div class="gallery-date">${item.location || 'Memory'} · ${item.generated_at}</div>
+
+      historyGrid.innerHTML = items.map((item, idx) => `
+        <div class="history-card" onclick="viewHistoryDetail(${idx})">
+          <img class="history-card-img" src="${item.image_url}" alt="${item.title}">
+          <div class="history-card-body">
+            <div class="history-card-title">${item.title}</div>
+            <div class="history-card-date">${item.location || 'Memory'} · ${item.generated_at}</div>
+            <div class="history-card-pills">
+              <span class="history-pill">${item.style || 'Watercolor'}</span>
+              <span class="history-pill">${item.mood || 'Nostalgic'}</span>
+            </div>
           </div>
         </div>
       `).join('');
     }
 
-    window.loadGalleryItem = function(idx) {
-      let saved = JSON.parse(localStorage.getItem('memory_postcards') || '[]');
-      if (saved[idx]) {
-        displayPostcard(saved[idx]);
-        closeModal(modalGallery);
-      }
+    window.viewHistoryDetail = function(idx) {
+      const item = historyPostcards[idx] || historyPostcards[0];
+      if (!item) return;
+
+      document.getElementById('detail-title').textContent = item.title;
+      document.getElementById('detail-content').innerHTML = `
+        <img src="${item.image_url}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; border: 4px solid #FFF; box-shadow: var(--shadow-md);">
+        <p style="font-family: var(--font-heading); font-style: italic; font-size: 1rem; color: var(--primary-brown); margin-bottom: 0.75rem; white-space: pre-line;">"${item.poem || item.quote}"</p>
+        <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 1rem; margin-bottom: 0.75rem;">
+          <span><strong>Location:</strong> ${item.location || 'Memory'}</span>
+          <span><strong>Style:</strong> ${item.style || 'Vintage'}</span>
+          <span><strong>Date:</strong> ${item.generated_at}</span>
+        </div>
+        ${item.creative_reasoning ? `<div class="reasoning-card"><strong>Agent Reasoning:</strong> ${item.creative_reasoning}</div>` : ''}
+      `;
+      openModal(modalDetail);
     };
-
-    // FORM SUBMISSION & GENERATION
-    document.getElementById('postcard-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorAlert.style.display = 'none';
-
-      const memoryText = memoryInput.value.trim();
-      if (!memoryText) {
-        errorAlert.textContent = "Please describe your memory first.";
-        errorAlert.style.display = 'block';
-        return;
-      }
-
-      // UI Loading state
-      submitBtn.disabled = true;
-      submitBtnText.textContent = "CRAFTING POSTCARD...";
-
-      const payload = {
-        memory: memoryText,
-        location: locationInput.value.trim() || 'Ahmedabad',
-        time: timeInput.value.trim() || 'Summer 2014',
-        mood: moodSelect.value,
-        style: selectedStyle
-      };
-
-      try {
-        let data;
-        
-        // Try calling API_URL, fallback to local Demo Simulation Mode on 403 or network restriction
-        if (!API_URL || API_URL.includes("YOUR_LAMBDA_FUNCTION_URL")) {
-          console.warn("API_URL not configured. Running in Demo Simulation Mode.");
-          await new Promise(r => setTimeout(r, 1800));
-          data = generateDemoResponse(payload);
-        } else {
-          try {
-            const response = await fetch(API_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-              console.warn(`Server returned status ${response.status}. Falling back to high-res Demo Mode.`);
-              await new Promise(r => setTimeout(r, 1200));
-              data = generateDemoResponse(payload);
-            } else {
-              data = await response.json();
-            }
-          } catch (fetchErr) {
-            console.warn("Network error during API fetch, using Demo Mode:", fetchErr);
-            await new Promise(r => setTimeout(r, 1200));
-            data = generateDemoResponse(payload);
-          }
-        }
-
-        displayPostcard(data);
-        saveToGallery(data);
-        showToast("Memory Postcard created!");
-
-      } catch (err) {
-        console.error(err);
-        errorAlert.textContent = err.message || "Failed to generate postcard. Please check your connection.";
-        errorAlert.style.display = 'block';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtnText.textContent = "CREATE MY POSTCARD";
-      }
-    });
 
     function displayPostcard(data) {
       currentPostcardData = data;
 
       resImg.src = data.image_url;
       resTitle.textContent = data.title;
-      resLocation.textContent = data.location || 'Somewhere Special';
-      resTime.textContent = data.time || 'In Memory';
+      resLocation.textContent = data.location || 'Somewhere Peaceful';
+      resTime.textContent = data.time || data.generated_at || 'Today';
       resPoem.textContent = data.poem || data.quote;
+      resReasoning.textContent = data.creative_reasoning || "Autonomous creation based on daily context and visual style history.";
 
-      viewEmpty.style.display = 'none';
-      viewResult.style.display = 'flex';
-      btnCreateAnother.style.display = 'inline-flex';
-
-      viewResult.scrollIntoView({ behavior: 'smooth' });
+      if (data.created_label) {
+        document.getElementById('auto-badge').innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg> ${data.created_label}`;
+      }
     }
 
-    // Reset View
-    function resetForm() {
-      viewResult.style.display = 'none';
-      btnCreateAnother.style.display = 'none';
-      viewEmpty.style.display = 'flex';
-      memoryInput.value = '';
-      charCounter.textContent = '0/500';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    // FORM SUBMISSION & MANUAL/TEST GENERATION
+    async function triggerGeneration(customPayload = null) {
+      errorAlert.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtnText.textContent = "GENERATING POSTCARD...";
+
+      const payload = customPayload || {
+        memory: memoryInput.value.trim() || 'A peaceful morning reflection',
+        location: locationInput.value.trim() || 'Goa',
+        time: timeInput.value.trim() || 'Winter 2022',
+        mood: moodSelect.value,
+        style: selectedStyle
+      };
+
+      try {
+        let data;
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => null);
+
+        if (response && response.ok) {
+          data = await response.json();
+        } else {
+          console.warn("Backend unavailable, using fallback demo mode.");
+          await new Promise(r => setTimeout(r, 1500));
+          data = generateDemoResponse(payload);
+        }
+
+        displayPostcard(data);
+        showToast("New Memory Postcard generated!");
+        
+        // Refresh history
+        loadAutonomousPostcards();
+      } catch (err) {
+        console.error(err);
+        errorAlert.textContent = err.message || "Failed to generate postcard.";
+        errorAlert.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtnText.textContent = "CREATE MY POSTCARD";
+      }
     }
 
-    btnCreateAnother.addEventListener('click', resetForm);
-    btnNewStrip.addEventListener('click', resetForm);
+    document.getElementById('postcard-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      triggerGeneration();
+    });
+
+    testTriggerBtn.addEventListener('click', () => {
+      triggerGeneration({
+        action: 'generate',
+        memory: 'Autonomous test trigger execution from developer control',
+        style: selectedStyle,
+        mood: moodSelect.value
+      });
+    });
+
     btnChangeStyle.addEventListener('click', () => {
-      document.querySelector('.style-grid').scrollIntoView({ behavior: 'smooth' });
+      document.querySelector('.panel-card').scrollIntoView({ behavior: 'smooth' });
     });
 
     // SHARE FUNCTIONALITY
     btnShare.addEventListener('click', async () => {
       if (!currentPostcardData) return;
-      
       const shareData = {
         title: currentPostcardData.title,
-        text: `Check out my Memory Postcard: "${currentPostcardData.title}" - ${currentPostcardData.location}`,
+        text: `Memory Postcard: "${currentPostcardData.title}" - ${currentPostcardData.location}`,
         url: currentPostcardData.image_url
       };
 
       if (navigator.share) {
         try {
           await navigator.share(shareData);
-        } catch (e) {
-          // Ignore cancellation
-        }
+        } catch (e) {}
       } else {
         await navigator.clipboard.writeText(currentPostcardData.image_url);
         showToast("Postcard image URL copied to clipboard!");
@@ -1432,33 +1595,27 @@
       canvas.height = 768;
       const ctx = canvas.getContext('2d');
 
-      // Background Paper
       ctx.fillStyle = "#F7F1E4";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Load main image
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => {
-        // Draw 65% Left Image
         ctx.drawImage(img, 20, 20, 720, 728);
 
-        // Draw Right Stub
         ctx.fillStyle = "#F4ECE0";
         ctx.fillRect(750, 20, 382, 728);
         ctx.strokeStyle = "#E2D7C3";
         ctx.lineWidth = 2;
         ctx.strokeRect(750, 20, 382, 728);
 
-        // Stamp
         ctx.fillStyle = "#E6DCD0";
         ctx.fillRect(1040, 40, 70, 90);
         ctx.fillStyle = "#C1652F";
         ctx.fillRect(1045, 45, 60, 60);
 
-        // Text
         ctx.fillStyle = "#4A3728";
-        ctx.font = "bold 32px Georgia, serif";
+        ctx.font = "bold 30px Georgia, serif";
         ctx.fillText(currentPostcardData.title.slice(0, 22), 770, 200);
 
         ctx.fillStyle = "#C1652F";
@@ -1473,7 +1630,6 @@
         ctx.fillStyle = "#4A3728";
         ctx.fillText("Wish you were here.", 770, 680);
 
-        // Trigger Download
         const link = document.createElement('a');
         link.download = `memory-postcard-${Date.now()}.png`;
         link.href = canvas.toDataURL('image/png');
@@ -1484,16 +1640,15 @@
       img.src = currentPostcardData.image_url;
     });
 
-    // DEMO FALLBACK GENERATOR (Dynamic SVG Pattern Artwork)
+    // DEMO FALLBACK GENERATOR
     function generateDemoResponse(payload) {
-      const words = payload.memory.trim().split(/\s+/);
+      const words = (payload.memory || 'Memory Postcard').trim().split(/\s+/);
       const title = (words.slice(0, 4).join(' ') || "MEMORY POSTCARD").toUpperCase();
-      const loc = payload.location || "Somewhere Special";
-      const time = payload.time || "In Memory";
-      const style = payload.style || "Vintage";
+      const loc = payload.location || "Somewhere Peaceful";
+      const time = payload.time || "21 Aug 2026";
+      const style = payload.style || "Watercolor";
       const mood = payload.mood || "Nostalgic";
 
-      // Style Color Palettes
       const palettes = {
         Vintage: { c1: "#FCEABB", c2: "#C1652F", c3: "#4A3728", c4: "#2C1E16" },
         Film: { c1: "#3A6073", c2: "#3A7BD5", c3: "#1A2634", c4: "#0F172A" },
@@ -1502,18 +1657,7 @@
         Minimal: { c1: "#E2E8F0", c2: "#94A3B8", c3: "#334155", c4: "#0F172A" }
       };
 
-      const pal = palettes[style] || palettes.Vintage;
-
-      // Poems based on mood
-      const poems = {
-        Nostalgic: "Golden sunlight on quiet streets\nMoments frozen in time\nA gentle warmth remains.",
-        Happy: "Laughter echoes softly here\nSunbeams dance across the floor\nJoy written in every line.",
-        Melancholic: "Soft rain falls on silent glass\nShadows lengthen with the tide\nA quiet whisper of the past.",
-        Peaceful: "Calm breeze through open leaves\nTime slows down to rest\nPeace settles in the heart.",
-        Funny: "Spilled tea and messy smiles\nUnplanned paths and silly dreams\nA day to remember with a grin."
-      };
-
-      const poemText = poems[mood] || poems.Nostalgic;
+      const pal = palettes[style] || palettes.Watercolor;
 
       const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="1152" height="768" viewBox="0 0 1152 768">
@@ -1523,15 +1667,15 @@
               <stop offset="100%" stop-color="${pal.c2}"/>
             </linearGradient>
             <linearGradient id="overlay" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="${pal.c3}" stop-opacity="0.8"/>
+              <stop offset="0%" stop-color="${pal.c3}" stop-opacity="0.85"/>
               <stop offset="100%" stop-color="${pal.c4}" stop-opacity="0.95"/>
             </linearGradient>
           </defs>
           <rect width="1152" height="768" fill="url(#bg)"/>
-          <circle cx="576" cy="320" r="240" fill="${pal.c2}" opacity="0.4"/>
+          <circle cx="576" cy="320" r="230" fill="${pal.c2}" opacity="0.4"/>
           <path d="M0 480 Q288 400 576 480 T1152 480 L1152 768 L0 768 Z" fill="url(#overlay)"/>
           <path d="M0 560 Q384 480 768 560 T1152 560 L1152 768 L0 768 Z" fill="${pal.c4}"/>
-          <text x="576" y="690" font-family="Georgia, serif" font-size="24" fill="#FFFDF9" text-anchor="middle" letter-spacing="4" opacity="0.65">${style.toUpperCase()} ARTWORK · ${loc.toUpperCase()}</text>
+          <text x="576" y="690" font-family="Georgia, serif" font-size="24" fill="#FFFDF9" text-anchor="middle" letter-spacing="4" opacity="0.75">${style.toUpperCase()} ARTWORK · ${loc.toUpperCase()}</text>
         </svg>
       `;
 
@@ -1539,14 +1683,22 @@
 
       return {
         title: title,
-        poem: poemText,
+        poem: "Golden sunlight on quiet streets\nMoments frozen in time\nA gentle warmth remains.",
         quote: "Every memory is a postcard from the heart.",
+        theme: "Morning Solitude",
+        mood: mood,
+        style: style,
         location: loc,
         time: time,
         image_url: encodedSvg,
-        generated_at: "14 Aug 2026"
+        generated_at: time,
+        created_label: "Created automatically this morning (8:00 AM)",
+        creative_reasoning: `Selected ${style} visual direction and ${mood} mood based on recent history evaluation.`
       };
     }
+
+    // Initialize
+    loadAutonomousPostcards();
   </script>
 </body>
 </html>

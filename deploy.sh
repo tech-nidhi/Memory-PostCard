@@ -8,6 +8,7 @@ REGION="us-east-1"
 FUNCTION_NAME="memory-postcard-backend"
 ROLE_NAME="memory-postcard-lambda-role"
 POLICY_NAME="memory-postcard-lambda-policy"
+RULE_NAME="memory-postcard-daily-trigger"
 
 echo "=================================================="
 echo " Starting Deployment for Memory Postcard Backend"
@@ -142,6 +143,9 @@ if aws lambda get-function --function-name "$FUNCTION_NAME" --region "$REGION" >
         --zip-file fileb://lambda.zip \
         --region "$REGION" > /dev/null
         
+    echo "Waiting for Lambda code update to complete..."
+    aws lambda wait function-updated --function-name "$FUNCTION_NAME" --region "$REGION"
+        
     echo "Updating function configuration..."
     aws lambda update-function-configuration \
         --function-name "$FUNCTION_NAME" \
@@ -165,43 +169,75 @@ else
         --region "$REGION" > /dev/null
 fi
 
-# 6. Create Lambda Function URL with public auth NONE and CORS
-echo "Configuring Lambda Function URL..."
-FUNCTION_URL=$(aws lambda get-function-url-config --function-name "$FUNCTION_NAME" --region "$REGION" --query "FunctionUrl" --output text 2>/dev/null || true)
+FUNCTION_ARN=$(aws lambda get-function --function-name "$FUNCTION_NAME" --region "$REGION" --query "Configuration.FunctionArn" --output text)
 
-if [ -z "$FUNCTION_URL" ]; then
-    FUNCTION_URL=$(aws lambda create-function-url-config \
-        --function-name "$FUNCTION_NAME" \
-        --auth-type NONE \
-        --cors '{"AllowOrigins":["*"],"AllowMethods":["*"],"AllowHeaders":["*"]}' \
-        --region "$REGION" \
-        --query "FunctionUrl" \
-        --output text)
-else
-    aws lambda update-function-url-config \
-        --function-name "$FUNCTION_NAME" \
-        --auth-type NONE \
-        --cors '{"AllowOrigins":["*"],"AllowMethods":["POST","OPTIONS"],"AllowHeaders":["*"]}' \
-        --region "$REGION" > /dev/null
-fi
+# 6. Configure EventBridge Daily Scheduler (Every morning at 08:00 AM UTC)
+echo "Configuring EventBridge Daily Scheduler ($RULE_NAME)..."
+aws events put-rule \
+    --name "$RULE_NAME" \
+    --schedule-expression "cron(0 8 * * ? *)" \
+    --state "ENABLED" \
+    --description "Daily autonomous trigger for Memory Postcard creative agent at 8:00 AM UTC" \
+    --region "$REGION" > /dev/null
 
-# 7. Grant public permission to Function URL
-echo "Setting public access permissions..."
 aws lambda add-permission \
     --function-name "$FUNCTION_NAME" \
-    --statement-id FunctionURLAllowPublicAccess \
-    --action lambda:InvokeFunctionUrl \
-    --principal "*" \
-    --function-url-auth-type NONE \
+    --statement-id EventBridgeDailyTrigger \
+    --action lambda:InvokeFunction \
+    --principal events.amazonaws.com \
+    --source-arn "arn:aws:events:$REGION:$AWS_ACCOUNT_ID:rule/$RULE_NAME" \
     --region "$REGION" 2>/dev/null || true
+
+aws events put-targets \
+    --rule "$RULE_NAME" \
+    --targets "Id"="1","Arn"="$FUNCTION_ARN" \
+    --region "$REGION" > /dev/null
+
+# 7. Configure API Gateway HTTP API Integration
+echo "Configuring API Gateway HTTP API..."
+API_ID=$(aws apigatewayv2 get-apis --region "$REGION" --query "Items[?Name=='memory-postcard-api'].ApiId | [0]" --output text 2>/dev/null || true)
+
+if [ -z "$API_ID" ] || [ "$API_ID" == "None" ]; then
+    API_ID=$(aws apigatewayv2 create-api \
+        --name "memory-postcard-api" \
+        --protocol-type HTTP \
+        --cors-configuration '{"AllowOrigins":["*"],"AllowMethods":["*"],"AllowHeaders":["*"]}' \
+        --region "$REGION" \
+        --query "ApiId" \
+        --output text)
+        
+    INTEGRATION_ID=$(aws apigatewayv2 create-integration \
+        --api-id "$API_ID" \
+        --integration-type AWS_PROXY \
+        --integration-uri "$FUNCTION_ARN" \
+        --payload-format-version "2.0" \
+        --region "$REGION" \
+        --query "IntegrationId" \
+        --output text)
+
+    aws apigatewayv2 create-route --api-id "$API_ID" --route-key "POST /" --target "integrations/$INTEGRATION_ID" --region "$REGION" > /dev/null
+    aws apigatewayv2 create-route --api-id "$API_ID" --route-key "GET /" --target "integrations/$INTEGRATION_ID" --region "$REGION" > /dev/null
+    aws apigatewayv2 create-route --api-id "$API_ID" --route-key "OPTIONS /" --target "integrations/$INTEGRATION_ID" --region "$REGION" > /dev/null
+    aws apigatewayv2 create-stage --api-id "$API_ID" --stage-name '$default' --auto-deploy --region "$REGION" > /dev/null
+
+    aws lambda add-permission \
+        --function-name "$FUNCTION_NAME" \
+        --statement-id APIGatewayInvokeAccess \
+        --action lambda:InvokeFunction \
+        --principal apigateway.amazonaws.com \
+        --source-arn "arn:aws:execute-api:$REGION:$AWS_ACCOUNT_ID:$API_ID/*/*" \
+        --region "$REGION" 2>/dev/null || true
+fi
+
+API_ENDPOINT="https://$API_ID.execute-api.$REGION.amazonaws.com/"
 
 echo "=================================================="
 echo " Deployment Complete!"
 echo " S3 Bucket: $BUCKET_NAME"
 echo " Lambda Function: $FUNCTION_NAME"
-echo " Public Function URL: $FUNCTION_URL"
+echo " EventBridge Rule: $RULE_NAME (cron(0 8 * * ? *))"
+echo " Live API Endpoint: $API_ENDPOINT"
 echo "=================================================="
 echo ""
-echo "Next step: Copy the Public Function URL above into index.html near the top of the <script> tag:"
-echo "const API_URL = \"$FUNCTION_URL\";"
-echo "Then deploy index.html to AWS Amplify Hosting!"
+echo "Next step: Ensure index.html has:"
+echo "const API_URL = \"$API_ENDPOINT\";"
