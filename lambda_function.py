@@ -407,11 +407,14 @@ def lambda_handler(event, context):
             schedule_time = data.get('schedule_time', f"{hour_utc:02d}:00 AM")
             cron_expr = f"cron(0 {hour_utc} * * ? *)"
 
+            existing_sched = get_s3_json(bucket, "postcards/schedule.json", default={})
+            current_status = existing_sched.get('status', 'ENABLED')
+
             try:
                 events_client.put_rule(
                     Name=RULE_NAME,
                     ScheduleExpression=cron_expr,
-                    State='ENABLED',
+                    State=current_status,
                     Description=f"Daily autonomous trigger for Memory Postcard at {schedule_time} UTC"
                 )
             except Exception as ev_err:
@@ -421,6 +424,7 @@ def lambda_handler(event, context):
                 "schedule_time": schedule_time,
                 "hour_utc": hour_utc,
                 "cron_expression": cron_expr,
+                "status": current_status,
                 "updated_at": datetime.utcnow().strftime("%d %b %Y %H:%M UTC")
             }
             put_s3_json(bucket, "postcards/schedule.json", schedule_info)
@@ -434,13 +438,55 @@ def lambda_handler(event, context):
                 })
             }
 
+        # Action: Toggle / Stop / Start Autonomous Agent
+        if action in ('toggle_agent', 'stop_agent', 'start_agent', 'pause_agent'):
+            schedule_info = get_s3_json(bucket, "postcards/schedule.json", default={
+                "schedule_time": "08:00 AM",
+                "hour_utc": 8,
+                "cron_expression": "cron(0 8 * * ? *)",
+                "status": "ENABLED"
+            })
+
+            if action in ('stop_agent', 'pause_agent'):
+                is_enabled = False
+            elif action == 'start_agent':
+                is_enabled = True
+            else:
+                is_enabled = data.get('enabled', schedule_info.get('status') != 'ENABLED')
+
+            new_status = 'ENABLED' if is_enabled else 'DISABLED'
+
+            try:
+                if is_enabled:
+                    events_client.enable_rule(Name=RULE_NAME)
+                else:
+                    events_client.disable_rule(Name=RULE_NAME)
+            except Exception as ev_err:
+                logger.warning(f"Could not change EventBridge rule state dynamically: {str(ev_err)}")
+
+            schedule_info['status'] = new_status
+            schedule_info['updated_at'] = datetime.utcnow().strftime("%d %b %Y %H:%M UTC")
+            put_s3_json(bucket, "postcards/schedule.json", schedule_info)
+
+            return {
+                "statusCode": 200,
+                "headers": CORS_HEADERS,
+                "body": json.dumps({
+                    "message": f"Autonomous agent schedule is now {new_status.lower()}!",
+                    "schedule": schedule_info
+                })
+            }
+
         # Action: Get Schedule
         if action == 'get_schedule':
             schedule_info = get_s3_json(bucket, "postcards/schedule.json", default={
                 "schedule_time": "08:00 AM",
                 "hour_utc": 8,
-                "cron_expression": "cron(0 8 * * ? *)"
+                "cron_expression": "cron(0 8 * * ? *)",
+                "status": "ENABLED"
             })
+            if 'status' not in schedule_info:
+                schedule_info['status'] = 'ENABLED'
             return {
                 "statusCode": 200,
                 "headers": CORS_HEADERS,

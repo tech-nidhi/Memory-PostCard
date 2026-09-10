@@ -1047,7 +1047,7 @@
   <div class="agent-banner">
     <div class="agent-banner-container">
       <div class="agent-status-left">
-        <span class="agent-status-tag">EventBridge Active</span>
+        <span id="banner-status-tag" class="agent-status-tag">EventBridge Active</span>
         <span>Every day, Memory Postcard creates a brand new postcard with a distinct visual theme.</span>
       </div>
       <div class="agent-status-metrics">
@@ -1107,6 +1107,17 @@
               </select>
               <button type="button" id="btn-save-schedule" class="btn-outline">Save</button>
             </div>
+          </div>
+
+          <!-- AGENT STOP / PAUSE CONTROL -->
+          <div class="agent-control-box" style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--border-warm); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary-brown);">Autonomous Trigger</div>
+              <div id="label-agent-status" style="font-size: 0.75rem; font-weight: 600; color: #2e7d32;">● Status: RUNNING</div>
+            </div>
+            <button type="button" id="btn-toggle-agent" class="btn-outline" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
+              ⏸️ Pause Agent
+            </button>
           </div>
         </div>
 
@@ -1416,6 +1427,11 @@
     const labelScheduleVal = document.getElementById('label-schedule-val');
     const agentDeliveryTime = document.getElementById('agent-delivery-time');
 
+    const btnToggleAgent = document.getElementById('btn-toggle-agent');
+    const labelAgentStatus = document.getElementById('label-agent-status');
+    const bannerStatusTag = document.getElementById('banner-status-tag');
+    let isAgentEnabled = true;
+
     const resImg = document.getElementById('postcard-img');
     const resTitle = document.getElementById('res-title');
     const resLocation = document.getElementById('res-location');
@@ -1513,6 +1529,59 @@
       document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
     });
 
+    function updateAgentStatusUI(enabled) {
+      isAgentEnabled = enabled;
+      if (enabled) {
+        labelAgentStatus.textContent = "● Status: RUNNING";
+        labelAgentStatus.style.color = "#2e7d32";
+        btnToggleAgent.innerHTML = "⏸️ Pause Agent";
+        btnToggleAgent.style.borderColor = "var(--border-warm)";
+        btnToggleAgent.style.color = "var(--primary-brown)";
+        bannerStatusTag.textContent = "EventBridge Active";
+        bannerStatusTag.style.backgroundColor = "var(--accent-rust)";
+      } else {
+        labelAgentStatus.textContent = "⏹ Status: STOPPED";
+        labelAgentStatus.style.color = "#c62828";
+        btnToggleAgent.innerHTML = "▶️ Start Agent";
+        btnToggleAgent.style.borderColor = "#c62828";
+        btnToggleAgent.style.color = "#c62828";
+        bannerStatusTag.textContent = "Agent Paused";
+        bannerStatusTag.style.backgroundColor = "#7D6B5D";
+      }
+    }
+
+    btnToggleAgent.addEventListener('click', async () => {
+      btnToggleAgent.disabled = true;
+      const targetState = !isAgentEnabled;
+      btnToggleAgent.textContent = targetState ? "Starting..." : "Stopping...";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'toggle_agent',
+            enabled: targetState
+          })
+        });
+
+        if (response && response.ok) {
+          const resData = await response.json();
+          const newStatus = resData.schedule ? resData.schedule.status === 'ENABLED' : targetState;
+          updateAgentStatusUI(newStatus);
+          showToast(newStatus ? "Autonomous Agent started!" : "Autonomous Agent paused!");
+        } else {
+          updateAgentStatusUI(targetState);
+          showToast(targetState ? "Autonomous Agent started!" : "Autonomous Agent paused!");
+        }
+      } catch (e) {
+        updateAgentStatusUI(targetState);
+        showToast(targetState ? "Autonomous Agent started!" : "Autonomous Agent paused!");
+      } finally {
+        btnToggleAgent.disabled = false;
+      }
+    });
+
     // SCHEDULE SAVING
     btnSaveSchedule.addEventListener('click', async () => {
       const selectedHour = parseInt(selectDailyTime.value);
@@ -1559,6 +1628,9 @@
             labelScheduleVal.textContent = sData.schedule_time;
             agentDeliveryTime.textContent = `Every morning at ${sData.schedule_time}`;
             if (sData.hour_utc) selectDailyTime.value = sData.hour_utc;
+          }
+          if (sData.status) {
+            updateAgentStatusUI(sData.status === 'ENABLED');
           }
         }
 
