@@ -184,6 +184,23 @@ def put_s3_json(bucket: str, key: str, data: dict):
         ContentType='application/json'
     )
 
+def normalize_postcard_item(item, bucket: str):
+    """Ensure postcard item uses clean permanent S3 public URL and has valid fallbacks."""
+    if not item or not isinstance(item, dict):
+        return item
+    item_copy = dict(item)
+    img_key = item_copy.get('image_key')
+    theme_id = item_copy.get('theme_id')
+    
+    if img_key and bucket:
+        item_copy['image_url'] = f"https://{bucket}.s3.{REGION}.amazonaws.com/{img_key}"
+    elif item_copy.get('image_url') and '?' in item_copy['image_url']:
+        item_copy['image_url'] = item_copy['image_url'].split('?')[0]
+    elif not item_copy.get('image_url') and theme_id in THEMES:
+        item_copy['image_url'] = THEMES[theme_id]['photo_url']
+        
+    return item_copy
+
 def fetch_real_theme_artwork(theme: dict, user_memory: str) -> tuple[bytes, str, str]:
     """Fetch high-resolution photographic scene artwork for the requested theme."""
     prompt = f"cinematic high-resolution photograph of {theme['environment']}, {theme['weather']}, {theme['lighting']}, {', '.join(theme['props'])}, {theme['style']}, 1152x768 photorealistic"
@@ -310,11 +327,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         ContentType=content_type
     )
 
-    presigned_url = s3_client.generate_presigned_url(
-        'get_object',
-        Params={'Bucket': bucket, 'Key': s3_key_image},
-        ExpiresIn=604800
-    )
+    clean_image_url = f"https://{bucket}.s3.{REGION}.amazonaws.com/{s3_key_image}"
 
     # 5. Build full postcard record
     postcard_record = {
@@ -328,7 +341,7 @@ Return ONLY a strict JSON object with NO extra text outside JSON:
         "style": theme['style'],
         "location": location,
         "time": time_period,
-        "image_url": presigned_url,
+        "image_url": clean_image_url,
         "image_key": s3_key_image,
         "generated_at": formatted_date,
         "generated_timestamp": now.isoformat(),
@@ -439,6 +452,7 @@ def lambda_handler(event, context):
             latest = get_s3_json(bucket, "postcards/latest.json")
             if not latest:
                 latest = run_autonomous_creative_agent()
+            latest = normalize_postcard_item(latest, bucket)
             return {
                 "statusCode": 200,
                 "headers": CORS_HEADERS,
@@ -452,10 +466,11 @@ def lambda_handler(event, context):
                 latest = get_s3_json(bucket, "postcards/latest.json")
                 if latest:
                     history = [latest]
+            normalized_history = [normalize_postcard_item(item, bucket) for item in history]
             return {
                 "statusCode": 200,
                 "headers": CORS_HEADERS,
-                "body": json.dumps({"history": history})
+                "body": json.dumps({"history": normalized_history})
             }
 
         # Action: Trigger Generation (With Theme Selection)

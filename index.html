@@ -1259,7 +1259,7 @@
               
               <!-- LEFT IMAGE PANEL -->
               <div class="postcard-image-panel">
-                <img id="postcard-img" class="postcard-img" src="" alt="Postcard Illustration">
+                <img id="postcard-img" class="postcard-img" src="" alt="Postcard Illustration" onerror="handleImageError(this, currentPostcardData ? currentPostcardData.theme_id : 'rainyDay')">
               </div>
 
               <!-- RIGHT STUB PANEL -->
@@ -1454,6 +1454,28 @@
       monsoonMemories: { icon: "🌧️", mark: "MONSOON<br>⋆ EXPRESS ⋆" }
     };
 
+    function getFallbackPhotoUrl(themeId) {
+      const themesMap = {
+        snowyMorning: "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=1152&h=768&fit=crop&q=85&auto=format",
+        rainyDay: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=1152&h=768&fit=crop&q=85&auto=format",
+        cityLights: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1152&h=768&fit=crop&q=85&auto=format",
+        sunsetEscape: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1152&h=768&fit=crop&q=85&auto=format",
+        autumnPath: "https://images.unsplash.com/photo-1507499739999-097706ad8914?w=1152&h=768&fit=crop&q=85&auto=format",
+        mountainCalling: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1152&h=768&fit=crop&q=85&auto=format",
+        cozyEvening: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1152&h=768&fit=crop&q=85&auto=format",
+        vintageVibes: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1152&h=768&fit=crop&q=85&auto=format",
+        watercolorDream: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1152&h=768&fit=crop&q=85&auto=format",
+        monsoonMemories: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1152&h=768&fit=crop&q=85&auto=format"
+      };
+      return themesMap[themeId] || themesMap.rainyDay;
+    }
+
+    window.handleImageError = function(imgElement, themeId) {
+      if (imgElement.dataset.fallbackApplied) return;
+      imgElement.dataset.fallbackApplied = "true";
+      imgElement.src = getFallbackPhotoUrl(themeId);
+    };
+
     // Character Counter
     memoryInput.addEventListener('input', () => {
       const len = memoryInput.value.length;
@@ -1572,9 +1594,14 @@
         return;
       }
 
-      historyGrid.innerHTML = items.map((item, idx) => `
+      historyGrid.innerHTML = items.map((item, idx) => {
+        let cleanUrl = item.image_url || getFallbackPhotoUrl(item.theme_id);
+        if (cleanUrl && cleanUrl.includes('?')) {
+          cleanUrl = cleanUrl.split('?')[0];
+        }
+        return `
         <div class="history-card" onclick="viewHistoryDetail(${idx})">
-          <img class="history-card-img" src="${item.image_url}" alt="${item.title}">
+          <img class="history-card-img" src="${cleanUrl}" alt="${item.title}" onerror="handleImageError(this, '${item.theme_id || 'rainyDay'}')">
           <div class="history-card-body">
             <div class="history-card-title">${item.title}</div>
             <div class="history-card-date">${item.location || 'Memory'} · ${item.generated_at}</div>
@@ -1584,16 +1611,21 @@
             </div>
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     window.viewHistoryDetail = function(idx) {
       const item = historyPostcards[idx] || historyPostcards[0];
       if (!item) return;
 
+      let cleanUrl = item.image_url || getFallbackPhotoUrl(item.theme_id);
+      if (cleanUrl && cleanUrl.includes('?')) {
+        cleanUrl = cleanUrl.split('?')[0];
+      }
+
       document.getElementById('detail-title').textContent = item.title;
       document.getElementById('detail-content').innerHTML = `
-        <img src="${item.image_url}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; border: 4px solid #FFF; box-shadow: var(--shadow-md);">
+        <img src="${cleanUrl}" onerror="handleImageError(this, '${item.theme_id || 'rainyDay'}')" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; border: 4px solid #FFF; box-shadow: var(--shadow-md);">
         <p style="font-family: var(--font-heading); font-style: italic; font-size: 1rem; color: var(--primary-brown); margin-bottom: 0.75rem; white-space: pre-line;">"${item.poem || item.quote}"</p>
         <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
           <span><strong>Theme:</strong> ${item.theme || 'Rainy Day'}</span>
