@@ -120,11 +120,3 @@ cat response.json
 3. Open `http://localhost:8080` in your web browser.
 
 ---
-
-## 🔑 Environment Variables & Security
-
-Backend environment configuration in AWS Lambda:
-- `AWS_REGION`: `us-east-1`
-- `BUCKET_NAME`: `memory-postcard-storage-110836100897`
-
-*No secret keys, IAM credentials, or Bedrock tokens are exposed to the browser. The frontend communicates exclusively with the AWS API Gateway endpoint.*
