@@ -3,39 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Postcard — Dynamic Themed Autonomous Creative AI Agent</title>
-  <meta name="description" content="An always-on creative AI agent on AWS that autonomously creates a new illustrated digital postcard every morning with distinct immersive visual themes.">
+  <title>Postcards from Elsewhere — Dreamed by AI. Delivered to You.</title>
+  <meta name="description" content="An always-on creative AI agent on AWS that delivers a daily imagined digital postcard to your mailbox. Dreamed by AI. Delivered to You.">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
+    /* FOREST CALM COLOR PALETTE SYSTEM */
     :root {
-      --bg-cream: #F7F1E4;
-      --bg-paper: #FFFDF9;
-      --bg-card-stub: #F4ECE0;
-      --border-warm: #E2D7C3;
-      --border-accent: #C1652F;
+      --light-forest-paper: #F4F7F1;
+      --pale-sage: #DCE7D9;
+      --soft-eucalyptus: #8AAE92;
+      --forest-green: #4F7F5F;
+      --forest-green-hover: #3E684C;
+      --deep-forest: #2E5039;
+      --warm-cream: #FFFDF7;
+      --warm-brown: #5C4033;
+      --muted-taupe: #A89F91;
       
-      --primary-brown: #4A3728;
-      --primary-brown-hover: #37281D;
-      --accent-rust: #C1652F;
-      --accent-rust-hover: #A75323;
-      --accent-rust-light: #FBF0E9;
+      --text-main: #5C4033;
+      --text-heading: #2E5039;
+      --text-accent: #4F7F5F;
+      --text-muted: #786C5E;
       
-      --text-dark: #2C1E16;
-      --text-muted: #7D6B5D;
-      --text-light: #A59485;
+      --border-sage: #DCE7D9;
+      --border-forest: #4F7F5F;
       
       --font-heading: 'Playfair Display', Georgia, serif;
       --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
       --font-script: 'Caveat', cursive, Georgia, serif;
       
-      --shadow-sm: 0 2px 8px rgba(74, 55, 40, 0.06);
-      --shadow-md: 0 8px 24px rgba(74, 55, 40, 0.1);
-      --shadow-lg: 0 16px 36px rgba(74, 55, 40, 0.14);
+      --shadow-sm: 0 4px 12px rgba(46, 80, 57, 0.04);
+      --shadow-md: 0 8px 24px rgba(46, 80, 57, 0.07);
+      --shadow-lg: 0 16px 36px rgba(46, 80, 57, 0.1);
+      
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
@@ -47,26 +51,67 @@
       padding: 0;
     }
 
+    /* LIGHT FOREST PAPER BACKGROUND WITH ORGANIC DOT TEXTURE */
     body {
-      background-color: var(--bg-cream);
-      color: var(--text-dark);
+      background-color: var(--light-forest-paper);
+      color: var(--text-main);
       font-family: var(--font-body);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
       background-image: 
-        radial-gradient(var(--border-warm) 1px, transparent 1px),
-        radial-gradient(var(--border-warm) 1px, var(--bg-cream) 1px);
-      background-size: 40px 40px;
-      background-position: 0 0, 20px 20px;
+        radial-gradient(rgba(79, 127, 95, 0.08) 1.2px, transparent 1.2px),
+        radial-gradient(rgba(138, 174, 146, 0.09) 1.2px, var(--light-forest-paper) 1.2px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
+    }
+
+    /* BOTANICAL DECORATIONS (EUCAYPTUS & FERN LEAF ILLUSTRATIONS) */
+    .botanical-decoration {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.75;
+    }
+
+    .bot-top-left {
+      top: 20px;
+      left: -20px;
+      width: 180px;
+      height: 180px;
+    }
+
+    .bot-top-right {
+      top: 40px;
+      right: -20px;
+      width: 180px;
+      height: 180px;
+      transform: scaleX(-1);
+    }
+
+    .bot-mid-left {
+      top: 1050px;
+      left: -30px;
+      width: 190px;
+      height: 190px;
+    }
+
+    .bot-bottom-right {
+      bottom: 80px;
+      right: -30px;
+      width: 200px;
+      height: 200px;
+      transform: rotate(30deg);
     }
 
     /* HEADER */
     header {
-      background-color: rgba(255, 253, 249, 0.95);
+      background-color: rgba(244, 247, 241, 0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-warm);
+      border-bottom: 1px solid var(--border-sage);
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
@@ -74,11 +119,13 @@
     }
 
     .header-container {
-      max-width: 1280px;
+      max-width: 1200px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      z-index: 2;
     }
 
     .brand-group {
@@ -90,29 +137,31 @@
     .stamp-logo {
       width: 44px;
       height: 44px;
-      background-color: var(--accent-rust);
-      border: 2px dashed #FFF;
-      border-radius: 4px;
+      background-color: var(--forest-green);
+      border: 2px dashed var(--warm-cream);
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      box-shadow: 0 3px 6px rgba(193, 101, 47, 0.25);
+      color: var(--warm-cream);
+      box-shadow: 0 4px 10px rgba(79, 127, 95, 0.2);
     }
 
     .brand-text h1 {
       font-family: var(--font-heading);
       font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--primary-brown);
+      color: var(--deep-forest);
       line-height: 1.1;
     }
 
     .brand-text p {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      font-weight: 600;
+      color: var(--forest-green);
+      letter-spacing: 0.04em;
     }
 
     .nav-links {
@@ -121,10 +170,9 @@
     }
 
     .nav-btn {
-      background: none;
-      border: 1px solid var(--border-warm);
-      background-color: var(--bg-paper);
-      color: var(--primary-brown);
+      background: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      color: var(--deep-forest);
       font-family: var(--font-body);
       font-size: 0.85rem;
       font-weight: 600;
@@ -138,432 +186,155 @@
     }
 
     .nav-btn:hover {
-      border-color: var(--accent-rust);
-      color: var(--accent-rust);
+      border-color: var(--forest-green);
+      color: var(--forest-green);
+      background-color: var(--pale-sage);
       transform: translateY(-1px);
       box-shadow: var(--shadow-sm);
-    }
-
-    /* AGENT STATUS BANNER */
-    .agent-banner {
-      background-color: var(--accent-rust-light);
-      border-bottom: 1px solid rgba(193, 101, 47, 0.2);
-      padding: 0.65rem 2rem;
-      font-size: 0.85rem;
-      color: var(--primary-brown);
-    }
-
-    .agent-banner-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .agent-status-left {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-    }
-
-    .agent-status-tag {
-      background-color: var(--accent-rust);
-      color: #FFF;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.15rem 0.5rem;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .agent-status-metrics {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .agent-status-metrics strong {
-      color: var(--primary-brown);
     }
 
     /* MAIN CONTAINER */
     main {
       flex: 1;
-      max-width: 1280px;
+      max-width: 1100px;
       width: 100%;
       margin: 2rem auto;
       padding: 0 1.5rem;
-    }
-
-    .app-grid {
-      display: grid;
-      grid-template-columns: 440px 1fr;
-      gap: 2rem;
-      align-items: start;
-    }
-
-    /* LEFT PANEL */
-    .panel-card {
-      background: var(--bg-paper);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-md);
-      position: relative;
-    }
-
-    .panel-header {
-      margin-bottom: 1.25rem;
-    }
-
-    .panel-title {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      color: var(--primary-brown);
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .squiggle {
-      width: 48px;
-      height: 6px;
-      fill: none;
-      stroke: var(--accent-rust);
-      stroke-width: 3;
-      stroke-linecap: round;
-    }
-
-    /* AGENT CARD INFO & SCHEDULE CONTROLS */
-    .agent-info-card {
-      background: var(--bg-cream);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .agent-info-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-rust);
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .agent-info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      font-size: 0.78rem;
-    }
-
-    .agent-info-item label {
-      display: block;
-      color: var(--text-light);
-      font-size: 0.7rem;
-    }
-
-    .agent-info-item span {
-      font-weight: 600;
-      color: var(--primary-brown);
-    }
-
-    /* SCHEDULE CONTROL BOX */
-    .schedule-control-box {
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px dashed var(--border-warm);
-    }
-
-    .schedule-control-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--primary-brown);
-      margin-bottom: 0.4rem;
-    }
-
-    .schedule-input-row {
-      display: flex;
-      gap: 0.4rem;
-    }
-
-    .schedule-select {
-      flex: 1;
-      padding: 0.35rem 0.5rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--primary-brown);
-      background-color: var(--bg-paper);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-sm);
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--primary-brown);
-      margin-bottom: 0.4rem;
-    }
-
-    .input-wrapper {
+      gap: 2.5rem;
       position: relative;
-      display: flex;
-      align-items: center;
+      z-index: 2;
     }
 
-    .input-icon {
-      position: absolute;
-      left: 0.85rem;
-      color: var(--text-light);
-      pointer-events: none;
+    /* HERO EDITORIAL SECTION WITH MOUNTAIN/LEAF SILHOUETTE HAZE */
+    .hero-editorial {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      padding: 2.5rem 1.5rem;
+      background: linear-gradient(180deg, var(--pale-sage) 0%, rgba(220, 231, 217, 0.4) 60%, rgba(244, 247, 241, 0) 100%);
+      border-radius: var(--radius-lg);
+      position: relative;
     }
 
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      background-color: var(--bg-cream);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-md);
-      padding: 0.75rem 0.85rem;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: var(--text-dark);
-      transition: all 0.2s ease;
-    }
-
-    .input-with-icon {
-      padding-left: 2.5rem;
-    }
-
-    .form-textarea {
-      min-height: 80px;
-      resize: vertical;
-      line-height: 1.45;
-    }
-
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none;
-      border-color: var(--accent-rust);
-      background-color: #FFF;
-      box-shadow: 0 0 0 3px rgba(193, 101, 47, 0.12);
-    }
-
-    /* IMMERSIVE 10-THEME GRID PICKER */
-    .theme-picker-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.4rem;
-      max-height: 220px;
-      overflow-y: auto;
-      padding-right: 0.2rem;
-    }
-
-    .theme-card-btn {
-      background-color: var(--bg-cream);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-sm);
-      padding: 0.45rem 0.6rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-    }
-
-    .theme-card-btn .theme-icon {
-      font-size: 1.1rem;
-      line-height: 1;
-    }
-
-    .theme-card-btn .theme-name {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      line-height: 1.2;
-    }
-
-    .theme-card-btn:hover {
-      border-color: var(--accent-rust);
-      background-color: var(--accent-rust-light);
-    }
-
-    .theme-card-btn.active {
-      background-color: var(--accent-rust-light);
-      border-color: var(--accent-rust);
-      box-shadow: inset 0 0 0 1px var(--accent-rust);
-    }
-
-    .theme-card-btn.active .theme-name {
-      color: var(--accent-rust);
+    .hero-tagline {
+      font-size: 0.85rem;
       font-weight: 700;
-    }
-
-    /* BUTTONS */
-    .submit-btn {
-      width: 100%;
-      background-color: var(--primary-brown);
-      color: #FFF;
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 0.9rem 1.25rem;
-      font-family: var(--font-body);
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      transition: all 0.2s ease;
-      box-shadow: var(--shadow-md);
-      margin-top: 0.5rem;
+      color: var(--forest-green);
+      margin-bottom: 0.4rem;
     }
 
-    .submit-btn:hover:not(:disabled) {
-      background-color: var(--primary-brown-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    .test-trigger-btn {
-      width: 100%;
-      background-color: var(--bg-paper);
-      border: 1px dashed var(--accent-rust);
-      color: var(--accent-rust);
-      border-radius: var(--radius-md);
-      padding: 0.7rem 1rem;
-      font-family: var(--font-body);
-      font-size: 0.8rem;
+    .hero-main-title {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
       font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-      transition: all 0.2s ease;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--deep-forest);
+      margin-bottom: 0.35rem;
+      line-height: 1.15;
     }
 
-    .test-trigger-btn:hover {
-      background-color: var(--accent-rust-light);
+    .hero-subtitle {
+      font-family: var(--font-script);
+      font-size: 1.7rem;
+      color: var(--forest-green);
+      font-style: italic;
     }
 
-    .footnote {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-      color: var(--text-light);
-      margin-top: 1rem;
-    }
-
-    /* RIGHT PANEL */
-    .result-container {
+    /* TODAY'S POSTCARD CENTERPIECE CONTAINER */
+    .today-postcard-section {
+      background: rgba(255, 253, 247, 0.85);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      position: relative;
     }
 
-    .result-header {
+    .today-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px dashed var(--border-sage);
+      padding-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    .result-title {
+    .today-title {
       font-family: var(--font-heading);
-      font-size: 1.35rem;
-      color: var(--primary-brown);
+      font-size: 1.4rem;
+      color: var(--deep-forest);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      letter-spacing: 0.05em;
     }
 
     .badge-auto {
-      background-color: var(--accent-rust-light);
-      color: var(--accent-rust);
-      border: 1px solid rgba(193, 101, 47, 0.3);
+      background-color: var(--pale-sage);
+      color: var(--deep-forest);
+      border: 1px solid var(--soft-eucalyptus);
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 0.25rem 0.65rem;
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .btn-outline {
-      background-color: var(--bg-paper);
-      border: 1px solid var(--border-warm);
-      color: var(--primary-brown);
-      padding: 0.5rem 0.9rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
+      padding: 0.25rem 0.7rem;
+      border-radius: 14px;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      transition: all 0.2s ease;
     }
 
-    .btn-outline:hover {
-      border-color: var(--accent-rust);
-      color: var(--accent-rust);
-      background-color: var(--accent-rust-light);
+    /* 3D POSTCARD FLIP */
+    .postcard-flip-container {
+      perspective: 1400px;
+      width: 100%;
+      margin: 0 auto;
     }
 
-    /* POSTCARD CARD DISPLAY */
-    .postcard-wrapper {
-      perspective: 1000px;
+    .postcard-flip-card {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      min-height: 440px;
     }
 
-    .postcard-card {
-      background-color: var(--bg-paper);
+    .postcard-flip-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .postcard-face {
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
+    }
+
+    /* FRONT FACE (WARM PHYSICAL CREAM PAPER POSTCARD) */
+    .postcard-front {
+      background-color: var(--warm-cream);
+      color: var(--warm-brown);
       border: 8px solid #FFF;
+      box-shadow: 0 12px 36px rgba(46, 80, 57, 0.12);
       display: grid;
-      grid-template-columns: 65% 35%;
-      min-height: 400px;
+      grid-template-columns: 62% 38%;
+      min-height: 440px;
       overflow: hidden;
       position: relative;
-      transition: transform 0.3s ease;
-    }
-
-    .postcard-card:hover {
-      transform: translateY(-3px);
     }
 
     .postcard-image-panel {
       position: relative;
       background-color: #ECE5D8;
       overflow: hidden;
-      min-height: 380px;
+      min-height: 420px;
     }
 
     .postcard-img {
@@ -574,15 +345,15 @@
     }
 
     .postcard-stub-panel {
-      background-color: var(--bg-card-stub);
-      border-left: 1px dashed var(--border-warm);
-      padding: 1.25rem;
+      background-color: #FBF8F2;
+      border-left: 1px dashed #E2D7C3;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      background-image: radial-gradient(rgba(193, 101, 47, 0.03) 1px, transparent 1px);
-      background-size: 12px 12px;
+      background-image: radial-gradient(rgba(79, 127, 95, 0.04) 1px, transparent 1px);
+      background-size: 14px 14px;
     }
 
     /* STAMP & POSTMARK */
@@ -590,34 +361,34 @@
       position: absolute;
       top: 1rem;
       right: 1rem;
-      width: 70px;
-      height: 80px;
+      width: 72px;
+      height: 84px;
       z-index: 2;
     }
 
     .postage-stamp-graphic {
       width: 100%;
       height: 100%;
-      background-color: #E6DCD0;
-      border: 3px dotted #A59485;
+      background-color: #E8EFE5;
+      border: 3px dotted var(--soft-eucalyptus);
       padding: 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+      box-shadow: 1px 1px 4px rgba(46, 80, 57, 0.08);
       position: relative;
     }
 
     .stamp-inner-art {
       width: 100%;
-      height: 48px;
-      background: linear-gradient(135deg, #C1652F 0%, #4A3728 100%);
-      border-radius: 2px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--forest-green) 0%, var(--deep-forest) 100%);
+      border-radius: 3px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #FFF;
+      color: #FFFDF7;
       font-size: 1.2rem;
     }
 
@@ -625,7 +396,7 @@
       font-family: var(--font-heading);
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--primary-brown);
+      color: var(--deep-forest);
     }
 
     .postmark-circle {
@@ -634,7 +405,7 @@
       left: -28px;
       width: 68px;
       height: 68px;
-      border: 2px dashed var(--accent-rust);
+      border: 2px dashed var(--forest-green);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -642,20 +413,19 @@
       transform: rotate(-15deg);
       opacity: 0.88;
       pointer-events: none;
-      background-color: rgba(255, 253, 249, 0.3);
+      background-color: rgba(255, 253, 247, 0.4);
     }
 
     .postmark-text {
       font-size: 0.48rem;
       font-weight: 700;
-      color: var(--accent-rust);
+      color: var(--forest-green);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       text-align: center;
       line-height: 1.1;
     }
 
-    /* POSTCARD TEXT STUB */
     .stub-content {
       margin-top: 5.5rem;
       display: flex;
@@ -665,15 +435,14 @@
 
     .postcard-generated-title {
       font-family: var(--font-heading);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: var(--primary-brown);
+      color: var(--warm-brown);
       line-height: 1.25;
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
 
-    /* THEME METADATA BADGES */
     .theme-badges-row {
       display: flex;
       flex-wrap: wrap;
@@ -684,9 +453,9 @@
     .theme-badge-pill {
       font-size: 0.62rem;
       font-weight: 700;
-      background-color: var(--bg-cream);
-      color: var(--accent-rust);
-      border: 1px solid var(--border-warm);
+      background-color: var(--pale-sage);
+      color: var(--deep-forest);
+      border: 1px solid var(--soft-eucalyptus);
       padding: 0.15rem 0.45rem;
       border-radius: 8px;
       text-transform: uppercase;
@@ -704,11 +473,11 @@
       content: "";
       flex: 1;
       height: 1px;
-      background-color: var(--border-warm);
+      background-color: #E2D7C3;
     }
 
     .heart-divider svg {
-      color: var(--accent-rust);
+      color: var(--forest-green);
       width: 12px;
       height: 12px;
       fill: currentColor;
@@ -717,7 +486,7 @@
     .postcard-meta-location {
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--accent-rust);
+      color: var(--forest-green);
     }
 
     .postcard-meta-time {
@@ -727,128 +496,329 @@
 
     .wish-script {
       font-family: var(--font-script);
-      font-size: 1.4rem;
-      color: var(--primary-brown);
+      font-size: 1.5rem;
+      color: var(--warm-brown);
       margin-top: auto;
       padding-top: 0.5rem;
       text-align: right;
     }
 
-    /* QUOTE & REASONING BLOCKS */
-    .quote-card {
-      background: var(--bg-paper);
-      border: 1px solid var(--border-warm);
-      border-radius: var(--radius-md);
-      padding: 1.25rem 1.5rem;
-      position: relative;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .quote-icon {
-      color: var(--accent-rust-light);
-      font-family: var(--font-heading);
-      font-size: 3rem;
+    /* BACK FACE (PHYSICAL WARM PAPER LETTER) */
+    .postcard-back {
       position: absolute;
-      top: 0.2rem;
-      left: 0.8rem;
-      line-height: 1;
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      transform: rotateY(180deg);
+      background-color: #FBF8F2;
+      color: var(--warm-brown);
+      border: 8px solid #FFF;
+      box-shadow: 0 12px 36px rgba(46, 80, 57, 0.12);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 2rem 2.25rem;
+      gap: 2rem;
+      min-height: 440px;
+      overflow: hidden;
+      background-image: radial-gradient(rgba(79, 127, 95, 0.04) 1px, transparent 1px);
+      background-size: 14px 14px;
     }
 
-    .quote-inner {
-      position: relative;
-      z-index: 1;
+    .back-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px dashed #E2D7C3;
+      padding-right: 1.75rem;
     }
 
-    .quote-label {
-      font-size: 0.75rem;
+    .back-header {
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
       font-weight: 700;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent-rust);
-      margin-bottom: 0.4rem;
+      color: var(--warm-brown);
+      border-bottom: 1px solid #E2D7C3;
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
     }
 
-    .poem-text {
+    .back-greeting {
+      font-family: var(--font-script);
+      font-size: 1.5rem;
+      color: var(--forest-green);
+      margin-bottom: 0.5rem;
+    }
+
+    .back-message {
       font-family: var(--font-heading);
       font-style: italic;
       font-size: 0.95rem;
-      color: var(--primary-brown);
-      white-space: pre-line;
+      color: var(--warm-brown);
       line-height: 1.6;
+      white-space: pre-line;
+      flex: 1;
     }
 
-    .reasoning-card {
-      background-color: var(--bg-cream);
-      border: 1px dashed var(--border-warm);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 1.25rem;
-      font-size: 0.82rem;
+    .back-reasoning-note {
+      font-size: 0.78rem;
       color: var(--text-muted);
+      background: var(--pale-sage);
+      border-left: 2px solid var(--forest-green);
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.75rem;
+      border-radius: 4px;
     }
 
-    .reasoning-card strong {
-      color: var(--primary-brown);
-    }
-
-    /* ACTION ROW */
-    .action-row {
+    .back-right {
       display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      padding-left: 0.5rem;
     }
 
-    .btn-primary {
-      background-color: var(--primary-brown);
-      color: #FFF;
+    .back-date {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .back-address-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: auto;
+      margin-bottom: 1rem;
+    }
+
+    .back-address-line {
+      border-bottom: 1px solid #E2D7C3;
+      padding-bottom: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--warm-brown);
+      font-weight: 600;
+    }
+
+    /* ACTION BAR BELOW HERO POSTCARD */
+    .hero-actions-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .btn-action-primary {
+      background-color: var(--forest-green);
+      color: var(--warm-cream);
       border: none;
-      padding: 0.75rem 1.25rem;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.75rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(79, 127, 95, 0.25);
+    }
+
+    .btn-action-primary:hover:not(:disabled) {
+      background-color: var(--forest-green-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 127, 95, 0.35);
+    }
+
+    .btn-action-secondary {
+      background-color: var(--warm-cream);
+      border: 1px solid var(--forest-green);
+      color: var(--forest-green);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.6rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-secondary:hover:not(:disabled) {
+      background-color: var(--pale-sage);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background-color: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      color: var(--warm-brown);
+      padding: 0.8rem 1.25rem;
+      border-radius: var(--radius-md);
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--forest-green);
+      color: var(--forest-green);
+      background-color: var(--pale-sage);
+    }
+
+    /* COLLECTION STATISTICS (NATURE JOURNAL SUMMARY CARDS) */
+    .stats-section {
+      background: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
       box-shadow: var(--shadow-sm);
     }
 
-    .btn-primary:hover {
-      background-color: var(--primary-brown-hover);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
+    .stats-header {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
     }
 
-    /* PREVIOUS POSTCARDS GALLERY SECTION */
-    .history-section {
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px dashed var(--border-warm);
+    .stats-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--deep-forest);
     }
 
-    .history-section-header {
+    .stats-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-card {
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1rem;
+      text-align: center;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .stat-card-postcards { background-color: #DCE7D9; }
+    .stat-card-worlds { background-color: #E5EEE1; }
+    .stat-card-styles { background-color: #EDF2E8; }
+    .stat-card-moods { background-color: #F1F4EC; }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--deep-forest);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warm-brown);
+    }
+
+    /* POSTCARD JOURNAL */
+    .journal-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .journal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
-    .history-section-title {
+    .journal-title-group h3 {
       font-family: var(--font-heading);
-      font-size: 1.35rem;
-      color: var(--primary-brown);
+      font-size: 1.6rem;
+      color: var(--deep-forest);
+      letter-spacing: 0.05em;
+    }
+
+    .journal-title-group p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .journal-tabs {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .journal-tab {
+      background-color: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .journal-tab:hover {
+      border-color: var(--forest-green);
+      color: var(--forest-green);
+    }
+
+    .journal-tab.active {
+      background-color: var(--forest-green);
+      border-color: var(--forest-green);
+      color: var(--warm-cream);
+      font-weight: 700;
     }
 
     .history-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.25rem;
     }
 
     .history-card {
-      background: var(--bg-paper);
-      border: 1px solid var(--border-warm);
+      background: var(--warm-cream);
+      border: 1px solid var(--border-sage);
       border-radius: var(--radius-md);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
@@ -861,13 +831,14 @@
     .history-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-md);
-      border-color: var(--accent-rust);
+      border-color: var(--forest-green);
     }
 
     .history-card-img {
       width: 100%;
-      height: 160px;
+      height: 170px;
       object-fit: cover;
+      border-bottom: 1px solid var(--border-sage);
       background-color: #ECE5D8;
     }
 
@@ -883,38 +854,351 @@
       font-family: var(--font-heading);
       font-size: 0.95rem;
       font-weight: 700;
-      color: var(--primary-brown);
+      color: var(--deep-forest);
+      line-height: 1.3;
       text-transform: uppercase;
     }
 
     .history-card-date {
       font-size: 0.75rem;
-      color: var(--text-light);
+      color: var(--text-muted);
     }
 
     .history-card-pills {
       display: flex;
-      gap: 0.35rem;
-      margin-top: auto;
-      padding-top: 0.4rem;
+      gap: 0.3rem;
+      margin-top: 0.35rem;
     }
 
     .history-pill {
       font-size: 0.65rem;
-      font-weight: 600;
-      background-color: var(--bg-cream);
-      color: var(--accent-rust);
-      border: 1px solid var(--border-warm);
+      font-weight: 700;
+      background-color: var(--pale-sage);
+      color: var(--deep-forest);
       padding: 0.15rem 0.45rem;
-      border-radius: 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      border: 1px solid var(--soft-eucalyptus);
     }
 
-    /* MODAL DIALOGS */
+    /* SECONDARY COLLAPSIBLE MANUAL CREATION */
+    .custom-memory-details {
+      background: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .custom-memory-summary {
+      padding: 1.25rem 1.75rem;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--deep-forest);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--warm-cream);
+      user-select: none;
+    }
+
+    .custom-memory-summary:hover {
+      background-color: var(--pale-sage);
+    }
+
+    .summary-sub {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .custom-memory-body {
+      padding: 1.75rem;
+      border-top: 1px dashed var(--border-sage);
+      background-color: var(--light-forest-paper);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* DESTINATION THEME SELECTOR GRID (SCENIC THUMBNAILS) */
+    .destination-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+    }
+
+    .destination-card-btn {
+      background-color: var(--light-forest-paper);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .destination-card-btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--forest-green);
+      box-shadow: 0 6px 18px rgba(79, 127, 95, 0.12);
+    }
+
+    .destination-card-btn.active {
+      border: 2px solid var(--forest-green);
+      box-shadow: 0 0 0 3px rgba(79, 127, 95, 0.15);
+      background-color: #E5EEE1;
+    }
+
+    .destination-thumb-wrap {
+      width: 100%;
+      height: 105px;
+      overflow: hidden;
+      position: relative;
+      background-color: #ECE5D8;
+    }
+
+    .destination-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .destination-card-btn:hover .destination-thumb-img {
+      transform: scale(1.06);
+    }
+
+    .destination-info {
+      padding: 0.65rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .destination-name {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--deep-forest);
+      line-height: 1.2;
+    }
+
+    .destination-desc {
+      font-size: 0.72rem;
+      color: var(--warm-brown);
+      line-height: 1.3;
+    }
+
+    /* FORM INPUTS */
+    .form-group {
+      margin-bottom: 0.75rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--deep-forest);
+      margin-bottom: 0.4rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 0.85rem;
+      color: var(--forest-green);
+      pointer-events: none;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background-color: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.85rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--warm-brown);
+      transition: all 0.2s ease;
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: var(--muted-taupe);
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--soft-eucalyptus);
+      box-shadow: 0 0 0 3px rgba(79, 127, 95, 0.12);
+    }
+
+    .input-with-icon {
+      padding-left: 2.5rem;
+    }
+
+    .form-textarea {
+      min-height: 80px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: var(--deep-forest);
+      color: var(--warm-cream);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.25rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-md);
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background-color: #1f3727;
+      transform: translateY(-2px);
+    }
+
+    .test-trigger-btn {
+      width: 100%;
+      background-color: var(--warm-cream);
+      border: 1px dashed var(--forest-green);
+      color: var(--forest-green);
+      border-radius: var(--radius-md);
+      padding: 0.7rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .error-alert {
+      background-color: #fde8e8;
+      border: 1px solid #f8b4b4;
+      color: #991b1b;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    /* AGENT CONTROLS SECTION */
+    .agent-control-section {
+      background: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .agent-info-card {
+      background: var(--light-forest-paper);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .agent-info-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--forest-green);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .agent-info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+      font-size: 0.78rem;
+    }
+
+    .agent-info-item label {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .agent-info-item span {
+      font-weight: 600;
+      color: var(--deep-forest);
+    }
+
+    .schedule-control-box {
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px dashed var(--border-sage);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .schedule-control-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--deep-forest);
+    }
+
+    .schedule-input-row {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .schedule-select {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--deep-forest);
+      background-color: var(--warm-cream);
+      border: 1px solid var(--border-sage);
+      border-radius: var(--radius-sm);
+    }
+
+    /* MODAL */
     .modal-overlay {
       position: fixed;
-      inset: 0;
-      background-color: rgba(44, 30, 22, 0.5);
-      backdrop-filter: blur(4px);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(46, 80, 57, 0.4);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -922,7 +1206,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
-      padding: 1.5rem;
+      padding: 1rem;
     }
 
     .modal-overlay.active {
@@ -931,48 +1215,45 @@
     }
 
     .modal-box {
-      background-color: var(--bg-paper);
-      border: 1px solid var(--border-warm);
+      background-color: var(--warm-cream);
+      color: var(--warm-brown);
       border-radius: var(--radius-lg);
-      max-width: 650px;
+      max-width: 680px;
       width: 100%;
-      max-height: 85vh;
+      max-height: 90vh;
       overflow-y: auto;
       padding: 2rem;
-      box-shadow: var(--shadow-lg);
       position: relative;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-sage);
     }
 
     .modal-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      top: 1.25rem;
+      right: 1.25rem;
       background: none;
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: var(--text-light);
+      color: var(--text-muted);
     }
 
-    .modal-close:hover {
-      color: var(--primary-brown);
-    }
-
-    /* TOAST NOTIFICATION */
     .toast {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      background-color: var(--primary-brown);
-      color: #FFF;
-      padding: 0.75rem 1.25rem;
+      background-color: var(--deep-forest);
+      color: var(--warm-cream);
+      padding: 0.85rem 1.25rem;
       border-radius: var(--radius-md);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 600;
       box-shadow: var(--shadow-lg);
+      z-index: 2000;
       transform: translateY(100px);
       opacity: 0;
       transition: all 0.3s ease;
-      z-index: 2000;
     }
 
     .toast.show {
@@ -980,56 +1261,91 @@
       opacity: 1;
     }
 
-    /* RESPONSIVE LAYOUT */
-    @media (max-width: 900px) {
-      .app-grid {
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .destination-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .postcard-front, .postcard-back {
         grid-template-columns: 1fr;
       }
-
-      .postcard-card {
-        grid-template-columns: 1fr;
-      }
-
-      .postcard-stub-panel {
+      .postcard-stub-panel, .back-right {
         border-left: none;
-        border-top: 1px dashed var(--border-warm);
+        border-top: 1px dashed #E2D7C3;
       }
-
-      .stub-content {
-        margin-top: 1rem;
+      .stats-grid, .agent-info-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
+    }
 
-      .agent-banner-container {
-        flex-direction: column;
-        align-items: flex-start;
+    @media (max-width: 580px) {
+      .destination-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- BOTANICAL DECORATIVE SVGS (EUCAYPTUS & FERN LEAF BRANCHES) -->
+  <svg class="botanical-decoration bot-top-left" viewBox="0 0 200 200" fill="none">
+    <path d="M40 160 Q 70 100 120 40" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="120" cy="40" r="9" fill="#8AAE92"/>
+    <circle cx="100" cy="65" r="7" fill="#DCE7D9"/>
+    <circle cx="75" cy="95" r="8" fill="#8AAE92"/>
+    <path d="M70 100 Q 40 90 25 105" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round"/>
+    <path d="M95 70 Q 120 60 135 75" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="botanical-decoration bot-top-right" viewBox="0 0 200 200" fill="none">
+    <path d="M40 160 Q 70 100 120 40" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="120" cy="40" r="9" fill="#8AAE92"/>
+    <circle cx="100" cy="65" r="7" fill="#DCE7D9"/>
+    <circle cx="75" cy="95" r="8" fill="#8AAE92"/>
+    <path d="M70 100 Q 40 90 25 105" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round"/>
+    <path d="M95 70 Q 120 60 135 75" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="botanical-decoration bot-mid-left" viewBox="0 0 200 200" fill="none">
+    <path d="M30 180 Q 90 120 150 50" stroke="#4F7F5F" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+    <circle cx="150" cy="50" r="11" fill="#DCE7D9"/>
+    <circle cx="125" cy="80" r="9" fill="#8AAE92"/>
+    <path d="M90 120 Q 60 130 45 150" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="botanical-decoration bot-bottom-right" viewBox="0 0 200 200" fill="none">
+    <path d="M20 180 Q 80 100 160 30" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <circle cx="160" cy="30" r="12" fill="#8AAE92"/>
+    <circle cx="130" cy="65" r="10" fill="#DCE7D9"/>
+    <circle cx="100" cy="100" r="9" fill="#8AAE92"/>
+    <path d="M100 100 Q 130 110 145 130" stroke="#4F7F5F" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+
   <!-- HEADER -->
   <header>
     <div class="header-container">
       <div class="brand-group">
-        <div class="stamp-logo" title="Memory Postcard Logo">
+        <div class="stamp-logo" title="Postcards from Elsewhere Logo">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
         </div>
         <div class="brand-text">
-          <h1>Memory Postcard</h1>
-          <p>Always-On Creative AI Agent · Dynamic Themed Postcards</p>
+          <h1>POSTCARDS FROM ELSEWHERE</h1>
+          <p>Dreamed by AI. Delivered to You.</p>
         </div>
       </div>
       <nav class="nav-links">
-        <button class="nav-btn" id="btn-gallery">
+        <button class="nav-btn" id="btn-nav-journal">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
             <polyline points="21 15 16 10 5 21"/>
           </svg>
-          Previous Postcards
+          Your Journal
         </button>
         <button class="nav-btn" id="btn-about">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1037,386 +1353,479 @@
             <line x1="12" y1="16" x2="12" y2="12"/>
             <line x1="12" y1="8" x2="12.01" y2="8"/>
           </svg>
-          About Agent
+          About
         </button>
       </nav>
     </div>
   </header>
 
-  <!-- AUTONOMOUS AGENT STATUS BANNER -->
-  <div class="agent-banner">
-    <div class="agent-banner-container">
-      <div class="agent-status-left">
-        <span id="banner-status-tag" class="agent-status-tag">EventBridge Active</span>
-        <span>Every day, Memory Postcard creates a brand new postcard with a distinct visual theme.</span>
-      </div>
-      <div class="agent-status-metrics">
-        <span>Delivery: <strong id="agent-delivery-time">Every morning at 08:00 AM UTC</strong></span>
-        <span>Themes: <strong>10 Dynamic Environments</strong></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT -->
+  <!-- MAIN DISCOVERY CONTAINER -->
   <main>
-    <div class="app-grid">
 
-      <!-- LEFT PANEL: CREATIVE AGENT & CUSTOM MEMORY FORM -->
-      <section class="panel-card">
-        
-        <!-- THE AGENT STATUS & DAILY SCHEDULE CONFIG -->
-        <div class="agent-info-card">
-          <div class="agent-info-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
-            The Autonomous Creative Agent
-          </div>
-          <div class="agent-info-grid">
-            <div class="agent-info-item">
-              <label>Current Schedule</label>
-              <span id="label-schedule-val">08:00 AM UTC</span>
-            </div>
-            <div class="agent-info-item">
-              <label>Active Theme Engine</label>
-              <span>10 Environments</span>
-            </div>
-            <div class="agent-info-item">
-              <label>AI Models</label>
-              <span>Nova Lite & Canvas</span>
-            </div>
-            <div class="agent-info-item">
-              <label>Storage</label>
-              <span>Amazon S3</span>
-            </div>
-          </div>
+    <!-- SECTION 1: HERO INTRO (LIGHT FOREST PAPER WITH PALE SAGE HAZE) -->
+    <section class="hero-editorial">
+      <div class="hero-tagline">✦ DREAMED BY AI. DELIVERED TO YOU. ✦</div>
+      <h2 class="hero-main-title">A LITTLE ESCAPE,<br>WAITING FOR YOU.</h2>
+      <p class="hero-subtitle">Every day, an autonomous creative agent creates a new postcard and leaves it here for you.</p>
+    </section>
 
-          <!-- USER DAILY SCHEDULE SETTER -->
-          <div class="schedule-control-box">
-            <div class="schedule-control-title">Set Daily Execution Time</div>
-            <div class="schedule-input-row">
-              <select id="select-daily-time" class="schedule-select">
-                <option value="6">06:00 AM UTC</option>
-                <option value="7">07:00 AM UTC</option>
-                <option value="8" selected>08:00 AM UTC (Default)</option>
-                <option value="9">09:00 AM UTC</option>
-                <option value="12">12:00 PM UTC</option>
-                <option value="18">06:00 PM UTC</option>
-                <option value="20">08:00 PM UTC</option>
-              </select>
-              <button type="button" id="btn-save-schedule" class="btn-outline">Save</button>
-            </div>
-          </div>
-
-          <!-- AGENT STOP / PAUSE CONTROL -->
-          <div class="agent-control-box" style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--border-warm); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
-            <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary-brown);">Autonomous Trigger</div>
-              <div id="label-agent-status" style="font-size: 0.75rem; font-weight: 600; color: #2e7d32;">● Status: RUNNING</div>
-            </div>
-            <button type="button" id="btn-toggle-agent" class="btn-outline" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
-              ⏸️ Pause Agent
-            </button>
-          </div>
-        </div>
-
-        <div class="panel-header">
-          <h2 class="panel-title">
-            Custom Memory & Visual Theme
-            <svg class="squiggle" viewBox="0 0 48 6">
-              <path d="M1 3Q12 0 24 3T47 3"/>
-            </svg>
-          </h2>
-        </div>
-
-        <div id="error-alert" style="display:none;" class="error-alert"></div>
-
-        <form id="postcard-form" onsubmit="return false;">
-          
-          <!-- IMMERSIVE 10-THEME SELECTOR -->
-          <div class="form-group">
-            <label class="form-label">Choose Immersive Environment Theme</label>
-            <div class="theme-picker-grid" id="theme-picker">
-              <button type="button" class="theme-card-btn active" data-theme="">
-                <span class="theme-icon">✨</span>
-                <span class="theme-name">Agent Auto-Select</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="rainyDay">
-                <span class="theme-icon">🌧️</span>
-                <span class="theme-name">Rainy Day</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="snowyMorning">
-                <span class="theme-icon">❄️</span>
-                <span class="theme-name">Snowy Morning</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="sunsetEscape">
-                <span class="theme-icon">🌅</span>
-                <span class="theme-name">Sunset Escape</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="autumnPath">
-                <span class="theme-icon">🍂</span>
-                <span class="theme-name">Autumn Path</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="mountainCalling">
-                <span class="theme-icon">🏔️</span>
-                <span class="theme-name">Mountain Calling</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="cozyEvening">
-                <span class="theme-icon">☕</span>
-                <span class="theme-name">Cozy Evening</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="vintageVibes">
-                <span class="theme-icon">🎞️</span>
-                <span class="theme-name">Vintage Vibes</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="cityLights">
-                <span class="theme-icon">🏙️</span>
-                <span class="theme-name">City Lights</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="watercolorDream">
-                <span class="theme-icon">🎨</span>
-                <span class="theme-name">Watercolor Dream</span>
-              </button>
-              <button type="button" class="theme-card-btn" data-theme="monsoonMemories">
-                <span class="theme-icon">🌧️</span>
-                <span class="theme-name">Monsoon Memories</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="input-memory">Your memory or prompt</label>
-            <textarea 
-              id="input-memory" 
-              class="form-textarea" 
-              maxlength="500"
-              placeholder="Sitting on the porch on a warm summer evening, drinking sweet chai while listening to grandmother's stories..."
-              required></textarea>
-            <div class="textarea-footer">
-              <span id="char-counter" class="char-count">0/500</span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="input-location">Location</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-              <input type="text" id="input-location" class="form-input input-with-icon" placeholder="e.g. Ahmedabad">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="input-time">Time or Season</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <input type="text" id="input-time" class="form-input input-with-icon" placeholder="e.g. Summer 2014">
-            </div>
-          </div>
-
-          <button type="submit" id="btn-submit" class="submit-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
-            </svg>
-            <span id="btn-submit-text">GENERATE THEMED POSTCARD</span>
-          </button>
-        </form>
-
-        <!-- DEVELOPER TEST TRIGGER -->
-        <button id="btn-test-trigger" class="test-trigger-btn">
-          ⚡ Trigger Daily Autonomous Agent Loop
-        </button>
-
-        <div class="footnote">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    <!-- SECTION 2: TODAY'S POSTCARD CENTERPIECE -->
+    <section id="today-section" class="today-postcard-section">
+      <div class="today-header">
+        <h2 class="today-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--forest-green)">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
-          Your memories are private and secure.
+          TODAY'S POSTCARD
+        </h2>
+        <div class="badge-auto" id="auto-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
+          </svg>
+          Created automatically this morning
         </div>
-      </section>
-
-      <!-- RIGHT PANEL: TODAY'S POSTCARD -->
-      <section class="result-container">
-        
-        <div class="result-header">
-          <h2 class="result-title">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent-rust)">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-            Today's Themed Postcard
-          </h2>
-          <div class="badge-auto" id="auto-badge">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
-            </svg>
-            Created automatically this morning
-          </div>
-        </div>
-
-        <!-- GENERATED RESULT POSTCARD -->
-        <div id="view-result" style="display: flex; flex-direction: column; gap: 1.25rem;">
-          
-          <div class="postcard-wrapper">
-            <div id="postcard-element" class="postcard-card">
-              
-              <!-- LEFT IMAGE PANEL -->
-              <div class="postcard-image-panel">
-                <img id="postcard-img" class="postcard-img" src="" alt="Postcard Illustration" onerror="handleImageError(this, currentPostcardData ? currentPostcardData.theme_id : 'rainyDay')">
-              </div>
-
-              <!-- RIGHT STUB PANEL -->
-              <div class="postcard-stub-panel">
-                
-                <!-- DYNAMIC POSTAL STAMP & CANCELLATION MARK -->
-                <div class="stamp-container">
-                  <div class="postage-stamp-graphic">
-                    <div id="stamp-art" class="stamp-inner-art">
-                      🌧️
-                    </div>
-                    <span class="stamp-value">50</span>
-                  </div>
-                  <div class="postmark-circle">
-                    <span id="postmark-text" class="postmark-text">RAINY DAY<br>⋆ WATERFRONT ⋆</span>
-                  </div>
-                </div>
-
-                <!-- STUB TEXT -->
-                <div class="stub-content">
-                  <div id="res-title" class="postcard-generated-title">LOADING THEMED POSTCARD...</div>
-                  
-                  <!-- THEME METADATA BADGES -->
-                  <div class="theme-badges-row" id="res-badges">
-                    <span class="theme-badge-pill" id="badge-theme">THEME: RAINY DAY</span>
-                    <span class="theme-badge-pill" id="badge-style">STYLE: REALISTIC</span>
-                    <span class="theme-badge-pill" id="badge-mood">MOOD: PEACEFUL</span>
-                  </div>
-
-                  <div class="heart-divider">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div id="res-location" class="postcard-meta-location">Somewhere Peaceful</div>
-                    <div id="res-time" class="postcard-meta-time">21 Aug 2026</div>
-                  </div>
-                </div>
-
-                <div class="wish-script">Wish you were here.</div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- REASONING CARD -->
-          <div id="reasoning-box" class="reasoning-card">
-            <strong>Bedrock Creative Reasoning:</strong> <span id="res-reasoning">Selected Rainy Day theme for immersive environment storytelling.</span>
-          </div>
-
-          <!-- QUOTE BLOCK -->
-          <div class="quote-card">
-            <div class="quote-icon">“</div>
-            <div class="quote-inner">
-              <div class="quote-label">Daily Poem</div>
-              <div id="res-poem" class="poem-text">Golden sunlight on quiet streets&#10;Moments frozen in time&#10;A gentle warmth remains.</div>
-            </div>
-          </div>
-
-          <!-- ACTION BUTTONS -->
-          <div class="action-row">
-            <button id="btn-download" class="btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Download High-Res Postcard
-            </button>
-
-            <button id="btn-share" class="btn-outline">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"/>
-                <circle cx="6" cy="12" r="3"/>
-                <circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
-              Share
-            </button>
-          </div>
-
-        </div>
-
-      </section>
-
-    </div>
-
-    <!-- PREVIOUS POSTCARDS GALLERY SECTION -->
-    <section class="history-section">
-      <div class="history-section-header">
-        <h3 class="history-section-title">Previous Themed Postcards</h3>
-        <span style="font-size: 0.82rem; color: var(--text-muted);">Autonomously generated environment collection</span>
       </div>
+
+      <!-- 3D FLIP CARD (PHYSICAL WARM CREAM PAPER) -->
+      <div class="postcard-flip-container">
+        <div id="postcard-flip-card" class="postcard-flip-card">
+          
+          <!-- FRONT FACE (WARM PHYSICAL CREAM PAPER) -->
+          <div class="postcard-face postcard-front">
+            <div class="postcard-image-panel">
+              <img id="postcard-img" class="postcard-img" src="" alt="Postcard Destination Artwork" onerror="handleImageError(this, currentPostcardData ? currentPostcardData.theme_id : 'rainyDay')">
+            </div>
+
+            <div class="postcard-stub-panel">
+              <div class="stamp-container">
+                <div class="postage-stamp-graphic">
+                  <div id="stamp-art" class="stamp-inner-art">🌲</div>
+                  <span class="stamp-value">50</span>
+                </div>
+                <div class="postmark-circle">
+                  <span id="postmark-text" class="postmark-text">RAINY DAY<br>⋆ WATERFRONT ⋆</span>
+                </div>
+              </div>
+
+              <div class="stub-content">
+                <div id="res-title" class="postcard-generated-title">LOADING TODAY'S POSTCARD...</div>
+                
+                <div class="theme-badges-row" id="res-badges">
+                  <span class="theme-badge-pill" id="badge-theme">THEME: RAINY DAY</span>
+                  <span class="theme-badge-pill" id="badge-style">STYLE: REALISTIC</span>
+                  <span class="theme-badge-pill" id="badge-mood">MOOD: PEACEFUL</span>
+                </div>
+
+                <div class="heart-divider">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                </div>
+
+                <div>
+                  <div id="res-location" class="postcard-meta-location">Somewhere Peaceful</div>
+                  <div id="res-time" class="postcard-meta-time">21 Aug 2026</div>
+                </div>
+              </div>
+
+              <div class="wish-script">Wish you were here.</div>
+            </div>
+          </div>
+
+          <!-- BACK FACE (PHYSICAL WARM PAPER LETTER) -->
+          <div class="postcard-face postcard-back">
+            <div class="back-left">
+              <div>
+                <div class="back-header">
+                  <span>POSTCARDS FROM ELSEWHERE</span>
+                  <span>AIR MAIL</span>
+                </div>
+                <div class="back-greeting">Dear future me,</div>
+                <div id="back-poem" class="back-message">Golden sunlight on quiet streets&#10;Moments frozen in time&#10;A gentle warmth remains.</div>
+              </div>
+              <div>
+                <div id="back-reasoning" class="back-reasoning-note">Selected theme for visual environment storytelling.</div>
+              </div>
+            </div>
+
+            <div class="back-right">
+              <div class="stamp-container">
+                <div class="postage-stamp-graphic">
+                  <div id="back-stamp-art" class="stamp-inner-art">📮</div>
+                  <span class="stamp-value">50</span>
+                </div>
+              </div>
+
+              <div id="back-date" class="back-date">September 11, 2026</div>
+
+              <div class="back-address-lines">
+                <div class="back-address-line"><label>To</label> A traveler of quiet places</div>
+                <div class="back-address-line"><label>Address</label> The Daily Mailbox</div>
+                <div class="back-address-line"><label>Destination</label> Imagined Journeys</div>
+              </div>
+
+              <div class="wish-script" style="margin-top:0;">Wish you were here.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="hero-actions-bar">
+        <button id="btn-flip-postcard" class="btn-action-secondary">
+          🔄 FLIP POSTCARD
+        </button>
+        <button id="btn-surprise-me" class="btn-action-primary">
+          ✦ SURPRISE ME
+        </button>
+        <button id="btn-download" class="btn-outline">
+          📥 Download
+        </button>
+        <button id="btn-share" class="btn-outline">
+          🔗 Share
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION 3: YOUR COLLECTION STATISTICS (PASTEL NATURE SAGE CARDS) -->
+    <section class="stats-section">
+      <div class="stats-header">
+        <h3 class="stats-title">YOUR COLLECTION</h3>
+        <span class="stats-subtitle">Dynamically tracked creative history metrics</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card stat-card-postcards">
+          <div class="stat-num" id="stat-total">12</div>
+          <div class="stat-label">POSTCARDS</div>
+        </div>
+        <div class="stat-card stat-card-worlds">
+          <div class="stat-num" id="stat-worlds">8</div>
+          <div class="stat-label">WORLDS</div>
+        </div>
+        <div class="stat-card stat-card-styles">
+          <div class="stat-num" id="stat-styles">6</div>
+          <div class="stat-label">STYLES</div>
+        </div>
+        <div class="stat-card stat-card-moods">
+          <div class="stat-num" id="stat-moods">4</div>
+          <div class="stat-label">MOODS</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: YOUR POSTCARD JOURNAL -->
+    <section id="journal-section" class="journal-section">
+      <div class="journal-header">
+        <div class="journal-title-group">
+          <h3>YOUR POSTCARD JOURNAL</h3>
+          <p>Places you've discovered along the way.</p>
+        </div>
+        <div class="journal-tabs">
+          <button class="journal-tab active" data-filter="all">[ All ]</button>
+          <button class="journal-tab" data-filter="places">[ Places ]</button>
+          <button class="journal-tab" data-filter="moods">[ Moods ]</button>
+          <button class="journal-tab" data-filter="styles">[ Styles ]</button>
+        </div>
+      </div>
+
       <div id="history-grid" class="history-grid">
         <!-- Dynamic items from S3 history -->
       </div>
     </section>
 
+    <!-- SECTION 5: SECONDARY COLLAPSIBLE MANUAL CREATION -->
+    <section class="custom-memory-section">
+      <details class="custom-memory-details">
+        <summary class="custom-memory-summary">
+          <span>✨ CREATE FROM YOUR OWN MEMORY</span>
+          <span class="summary-sub">Have somewhere special in mind? Click to expand</span>
+        </summary>
+        <div class="custom-memory-body">
+          <div id="error-alert" style="display:none;" class="error-alert"></div>
+
+          <form id="postcard-form" onsubmit="return false;">
+            <div class="form-group">
+              <label class="form-label">Choose Your Destination</label>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.85rem;">Every destination has a different mood, story, and world to discover.</p>
+              
+              <!-- DESTINATION CARDS GRID WITH REAL SCENIC THUMBNAILS -->
+              <div class="destination-grid" id="theme-picker">
+                
+                <!-- AUTO SELECT -->
+                <button type="button" class="destination-card-btn active" data-theme="">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80" alt="Surprise Destination">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">✦ Let the Agent Choose</span>
+                    <span class="destination-desc">Surprise destination selected daily by AI.</span>
+                  </div>
+                </button>
+
+                <!-- 1. RAINY DAY -->
+                <button type="button" class="destination-card-btn" data-theme="rainyDay">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=600&auto=format&fit=crop&q=80" alt="Rainy Day">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Rainy Day</span>
+                    <span class="destination-desc">A quiet European street in twilight rain.</span>
+                  </div>
+                </button>
+
+                <!-- 2. SNOWY MORNING -->
+                <button type="button" class="destination-card-btn" data-theme="snowyMorning">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=600&auto=format&fit=crop&q=80" alt="Snowy Morning">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Snowy Morning</span>
+                    <span class="destination-desc">Alpine cabin wrapped in morning mist.</span>
+                  </div>
+                </button>
+
+                <!-- 3. SUNSET ESCAPE -->
+                <button type="button" class="destination-card-btn" data-theme="sunsetEscape">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80" alt="Sunset Escape">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Sunset Escape</span>
+                    <span class="destination-desc">Coastal waters under a peach sunset.</span>
+                  </div>
+                </button>
+
+                <!-- 4. AUTUMN PATH -->
+                <button type="button" class="destination-card-btn" data-theme="autumnPath">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1507499739999-097706ad8914?w=600&auto=format&fit=crop&q=80" alt="Autumn Path">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Autumn Path</span>
+                    <span class="destination-desc">Golden forest trails in late afternoon.</span>
+                  </div>
+                </button>
+
+                <!-- 5. MOUNTAIN CALLING -->
+                <button type="button" class="destination-card-btn" data-theme="mountainCalling">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80" alt="Mountain Calling">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Mountain Calling</span>
+                    <span class="destination-desc">Majestic alpine peaks during blue hour.</span>
+                  </div>
+                </button>
+
+                <!-- 6. COZY EVENING -->
+                <button type="button" class="destination-card-btn" data-theme="cozyEvening">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&auto=format&fit=crop&q=80" alt="Cozy Evening">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Cozy Evening</span>
+                    <span class="destination-desc">Warm lamp light, tea, and open books.</span>
+                  </div>
+                </button>
+
+                <!-- 7. VINTAGE VIBES -->
+                <button type="button" class="destination-card-btn" data-theme="vintageVibes">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=600&auto=format&fit=crop&q=80" alt="Vintage Vibes">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Vintage Vibes</span>
+                    <span class="destination-desc">Nostalgic 1950s train station journey.</span>
+                  </div>
+                </button>
+
+                <!-- 8. CITY LIGHTS -->
+                <button type="button" class="destination-card-btn" data-theme="cityLights">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80" alt="City Lights">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">City Lights</span>
+                    <span class="destination-desc">Neon-lit metropolitan street at night.</span>
+                  </div>
+                </button>
+
+                <!-- 9. WATERCOLOR DREAM -->
+                <button type="button" class="destination-card-btn" data-theme="watercolorDream">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80" alt="Watercolor Dream">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Watercolor Dream</span>
+                    <span class="destination-desc">Hand-painted lake and misty hills.</span>
+                  </div>
+                </button>
+
+                <!-- 10. MONSOON MEMORIES -->
+                <button type="button" class="destination-card-btn" data-theme="monsoonMemories">
+                  <div class="destination-thumb-wrap">
+                    <img class="destination-thumb-img" src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80" alt="Monsoon Memories">
+                  </div>
+                  <div class="destination-info">
+                    <span class="destination-name">Monsoon Memories</span>
+                    <span class="destination-desc">Rain-slicked Indian chai stall at dusk.</span>
+                  </div>
+                </button>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-memory">Your memory or prompt</label>
+              <textarea 
+                id="input-memory" 
+                class="form-textarea" 
+                maxlength="500"
+                placeholder="Sitting on the porch on a warm summer evening, drinking sweet chai while listening to grandmother's stories..."
+                required></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label" for="input-location">Location</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <input type="text" id="input-location" class="form-input input-with-icon" placeholder="e.g. Ahmedabad">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="input-time">Time or Season</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <input type="text" id="input-time" class="form-input input-with-icon" placeholder="e.g. Summer 2014">
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" id="btn-submit" class="submit-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
+              </svg>
+              <span id="btn-submit-text">GENERATE DESTINATION POSTCARD</span>
+            </button>
+          </form>
+
+          <button id="btn-test-trigger" class="test-trigger-btn">
+            ⚡ Trigger Daily Autonomous Agent Loop
+          </button>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECTION 6: AUTONOMOUS CREATIVE AGENT CONTROLS -->
+    <section class="agent-control-section">
+      <div class="agent-info-card">
+        <div class="agent-info-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+          YOUR DAILY POSTCARD AGENT
+        </div>
+
+        <div class="agent-info-grid">
+          <div class="agent-info-item">
+            <label>EventBridge Schedule</label>
+            <span id="label-schedule-val">08:00 AM UTC</span>
+          </div>
+          <div class="agent-info-item">
+            <label>Theme Engine</label>
+            <span>10 Destinations</span>
+          </div>
+          <div class="agent-info-item">
+            <label>Bedrock Models</label>
+            <span>Nova Lite & Canvas</span>
+          </div>
+          <div class="agent-info-item">
+            <label>Storage Bucket</label>
+            <span>Amazon S3</span>
+          </div>
+        </div>
+
+        <div class="schedule-control-box">
+          <div>
+            <div class="schedule-control-title">Set Daily Execution Time</div>
+            <span id="agent-delivery-time" style="font-size: 0.75rem; color: var(--text-muted);">Every morning at 08:00 AM UTC</span>
+          </div>
+          
+          <div class="schedule-input-row">
+            <select id="select-daily-time" class="schedule-select">
+              <option value="6">06:00 AM UTC</option>
+              <option value="7">07:00 AM UTC</option>
+              <option value="8" selected>08:00 AM UTC (Default)</option>
+              <option value="9">09:00 AM UTC</option>
+              <option value="12">12:00 PM UTC</option>
+              <option value="18">06:00 PM UTC</option>
+              <option value="20">08:00 PM UTC</option>
+            </select>
+            <button type="button" id="btn-save-schedule" class="btn-outline">Save</button>
+            <button type="button" id="btn-toggle-agent" class="btn-outline">⏸️ Pause Agent</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- POSTCARD DETAIL MODAL -->
+  <!-- MODALS & TOAST -->
   <div id="modal-detail" class="modal-overlay">
     <div class="modal-box">
       <button class="modal-close">&times;</button>
-      <h2 id="detail-title" style="font-family: var(--font-heading); color: var(--primary-brown); margin-bottom: 0.5rem; text-transform: uppercase;">POSTCARD DETAIL</h2>
+      <h2 id="detail-title" style="font-family: var(--font-heading); color: var(--deep-forest); margin-bottom: 0.5rem; text-transform: uppercase;">POSTCARD DETAIL</h2>
       <div id="detail-content"></div>
     </div>
   </div>
 
-  <!-- ABOUT AGENT MODAL -->
   <div id="modal-about" class="modal-overlay">
     <div class="modal-box">
       <button class="modal-close">&times;</button>
-      <h2 style="font-family: var(--font-heading); color: var(--primary-brown); margin-bottom: 0.75rem;">About Memory Postcard Agent</h2>
-      <p style="font-size: 0.9rem; color: var(--text-dark); line-height: 1.6; margin-bottom: 1rem;">
-        <strong>Memory Postcard</strong> is an always-on autonomous creative AI agent built on AWS for the AWS Builder Center Challenge.
+      <h2 style="font-family: var(--font-heading); color: var(--deep-forest); margin-bottom: 0.75rem;">About Postcards from Elsewhere</h2>
+      <p style="font-size: 0.9rem; color: var(--warm-brown); line-height: 1.6; margin-bottom: 1rem;">
+        <strong>Postcards from Elsewhere</strong> is an always-on autonomous creative AI agent built on AWS. Every day, the system autonomously imagines a new destination and delivers a unique digital postcard directly to your mailbox.
       </p>
       <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-left: 1.25rem; margin-bottom: 1.5rem;">
-        <li><strong>10 Structured Visual Themes:</strong> Rainy Day, Snowy Morning, Sunset Escape, Autumn Path, Mountain Calling, Cozy Evening, Vintage Vibes, City Lights, Watercolor Dream, Monsoon Memories.</li>
+        <li><strong>10 Immersive Scenic Destinations:</strong> Rainy Day, Snowy Morning, Sunset Escape, Autumn Path, Mountain Calling, Cozy Evening, Vintage Vibes, City Lights, Watercolor Dream, Monsoon Memories.</li>
         <li><strong>Rich Environment Prompts:</strong> Describes weather, lighting, props, and camera optics in Amazon Bedrock Nova Canvas.</li>
         <li><strong>Dynamic Stamps & Cancellation Postmarks:</strong> Theme-matched postal graphics rendered dynamically.</li>
       </ul>
-      <button class="btn-primary modal-close-btn" style="width: 100%; justify-content: center;">Got it</button>
+      <button class="btn-primary modal-close-btn" style="width: 100%; justify-content: center; background-color: var(--deep-forest); color: #FFFDF7; border: none; padding: 0.75rem; border-radius: var(--radius-md); font-weight: 700; cursor: pointer;">Got it</button>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
   <div id="toast" class="toast">Postcard saved to gallery!</div>
 
   <script>
-    // Deployed AWS API Gateway & Lambda Function Endpoint:
     const API_URL = "https://0674b4zip9.execute-api.us-east-1.amazonaws.com/";
 
     let selectedTheme = "";
     let currentPostcardData = null;
     let historyPostcards = [];
+    let currentFilter = 'all';
 
     // DOM Elements
+    const flipCard = document.getElementById('postcard-flip-card');
+    const btnFlip = document.getElementById('btn-flip-postcard');
+    const btnSurprise = document.getElementById('btn-surprise-me');
+
     const memoryInput = document.getElementById('input-memory');
-    const charCounter = document.getElementById('char-counter');
     const locationInput = document.getElementById('input-location');
     const timeInput = document.getElementById('input-time');
-    const themeButtons = document.querySelectorAll('.theme-card-btn');
+    const themeButtons = document.querySelectorAll('.destination-card-btn');
     const submitBtn = document.getElementById('btn-submit');
     const submitBtnText = document.getElementById('btn-submit-text');
     const testTriggerBtn = document.getElementById('btn-test-trigger');
@@ -1428,16 +1837,16 @@
     const agentDeliveryTime = document.getElementById('agent-delivery-time');
 
     const btnToggleAgent = document.getElementById('btn-toggle-agent');
-    const labelAgentStatus = document.getElementById('label-agent-status');
-    const bannerStatusTag = document.getElementById('banner-status-tag');
     let isAgentEnabled = true;
 
     const resImg = document.getElementById('postcard-img');
     const resTitle = document.getElementById('res-title');
     const resLocation = document.getElementById('res-location');
     const resTime = document.getElementById('res-time');
-    const resPoem = document.getElementById('res-poem');
-    const resReasoning = document.getElementById('res-reasoning');
+
+    const backPoem = document.getElementById('back-poem');
+    const backReasoning = document.getElementById('back-reasoning');
+    const backDate = document.getElementById('back-date');
 
     const stampArt = document.getElementById('stamp-art');
     const postmarkText = document.getElementById('postmark-text');
@@ -1449,14 +1858,13 @@
     const btnDownload = document.getElementById('btn-download');
     const btnShare = document.getElementById('btn-share');
 
-    const btnGallery = document.getElementById('btn-gallery');
+    const btnNavJournal = document.getElementById('btn-nav-journal');
     const btnAbout = document.getElementById('btn-about');
     const modalDetail = document.getElementById('modal-detail');
     const modalAbout = document.getElementById('modal-about');
     const historyGrid = document.getElementById('history-grid');
     const toast = document.getElementById('toast');
 
-    // Theme Graphics Map
     const THEME_GRAPHICS = {
       rainyDay: { icon: "🌧️", mark: "RAINY DAY<br>⋆ WATERFRONT ⋆" },
       snowyMorning: { icon: "❄️", mark: "WINTERFROST<br>⋆ ALPINE ⋆" },
@@ -1492,10 +1900,35 @@
       imgElement.src = getFallbackPhotoUrl(themeId);
     };
 
-    // Character Counter
-    memoryInput.addEventListener('input', () => {
-      const len = memoryInput.value.length;
-      charCounter.textContent = `${len}/500`;
+    // 3D FLIP CONTROLLER
+    btnFlip.addEventListener('click', () => {
+      flipCard.classList.toggle('is-flipped');
+    });
+
+    // SURPRISE ME CONTROLLER
+    btnSurprise.addEventListener('click', async () => {
+      btnSurprise.disabled = true;
+      btnSurprise.textContent = "Finding somewhere to go...";
+      
+      const themes = Object.keys(THEME_GRAPHICS);
+      const currentTheme = currentPostcardData ? currentPostcardData.theme_id : "";
+      const availableThemes = themes.filter(t => t !== currentTheme);
+      const randomTheme = availableThemes[Math.floor(Math.random() * availableThemes.length)] || themes[0];
+
+      setTimeout(() => {
+        if (btnSurprise.disabled) btnSurprise.textContent = "Creating your postcard...";
+      }, 1000);
+
+      try {
+        await triggerGeneration({
+          action: 'generate',
+          memory: 'Surprise imagined journey discovery',
+          theme: randomTheme
+        });
+      } finally {
+        btnSurprise.disabled = false;
+        btnSurprise.textContent = "✦ SURPRISE ME";
+      }
     });
 
     // Theme Picker Selection
@@ -1525,28 +1958,30 @@
     });
 
     btnAbout.addEventListener('click', () => openModal(modalAbout));
-    btnGallery.addEventListener('click', () => {
-      document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
+    btnNavJournal.addEventListener('click', () => {
+      document.getElementById('journal-section').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // JOURNAL TABS FILTER
+    document.querySelectorAll('.journal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.journal-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.filter;
+        renderHistoryGrid(historyPostcards);
+      });
     });
 
     function updateAgentStatusUI(enabled) {
       isAgentEnabled = enabled;
       if (enabled) {
-        labelAgentStatus.textContent = "● Status: RUNNING";
-        labelAgentStatus.style.color = "#2e7d32";
         btnToggleAgent.innerHTML = "⏸️ Pause Agent";
-        btnToggleAgent.style.borderColor = "var(--border-warm)";
-        btnToggleAgent.style.color = "var(--primary-brown)";
-        bannerStatusTag.textContent = "EventBridge Active";
-        bannerStatusTag.style.backgroundColor = "var(--accent-rust)";
+        btnToggleAgent.style.borderColor = "var(--border-sage)";
+        btnToggleAgent.style.color = "var(--warm-brown)";
       } else {
-        labelAgentStatus.textContent = "⏹ Status: STOPPED";
-        labelAgentStatus.style.color = "#c62828";
         btnToggleAgent.innerHTML = "▶️ Start Agent";
-        btnToggleAgent.style.borderColor = "#c62828";
-        btnToggleAgent.style.color = "#c62828";
-        bannerStatusTag.textContent = "Agent Paused";
-        bannerStatusTag.style.backgroundColor = "#7D6B5D";
+        btnToggleAgent.style.borderColor = "#ef4444";
+        btnToggleAgent.style.color = "#dc2626";
       }
     }
 
@@ -1556,25 +1991,12 @@
       btnToggleAgent.textContent = targetState ? "Starting..." : "Stopping...";
 
       try {
-        const response = await fetch(API_URL, {
+        await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'toggle_agent',
-            enabled: targetState
-          })
-        });
+          body: JSON.stringify({ action: 'toggle_agent', enabled: targetState })
+        }).catch(() => null);
 
-        if (response && response.ok) {
-          const resData = await response.json();
-          const newStatus = resData.schedule ? resData.schedule.status === 'ENABLED' : targetState;
-          updateAgentStatusUI(newStatus);
-          showToast(newStatus ? "Autonomous Agent started!" : "Autonomous Agent paused!");
-        } else {
-          updateAgentStatusUI(targetState);
-          showToast(targetState ? "Autonomous Agent started!" : "Autonomous Agent paused!");
-        }
-      } catch (e) {
         updateAgentStatusUI(targetState);
         showToast(targetState ? "Autonomous Agent started!" : "Autonomous Agent paused!");
       } finally {
@@ -1582,7 +2004,6 @@
       }
     });
 
-    // SCHEDULE SAVING
     btnSaveSchedule.addEventListener('click', async () => {
       const selectedHour = parseInt(selectDailyTime.value);
       const selectedOpt = selectDailyTime.options[selectDailyTime.selectedIndex].text.replace(" (Default)", "");
@@ -1591,26 +2012,14 @@
       btnSaveSchedule.textContent = "Saving...";
 
       try {
-        const response = await fetch(API_URL, {
+        await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'schedule',
-            hour_utc: selectedHour,
-            schedule_time: selectedOpt
-          })
+          body: JSON.stringify({ action: 'schedule', hour_utc: selectedHour, schedule_time: selectedOpt })
         }).catch(() => null);
 
-        if (response && response.ok) {
-          labelScheduleVal.textContent = selectedOpt;
-          agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
-          showToast(`Daily schedule set to ${selectedOpt}!`);
-        } else {
-          labelScheduleVal.textContent = selectedOpt;
-          agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
-          showToast(`Daily schedule set to ${selectedOpt}!`);
-        }
-      } catch (e) {
+        labelScheduleVal.textContent = selectedOpt;
+        agentDeliveryTime.textContent = `Every morning at ${selectedOpt}`;
         showToast(`Daily schedule set to ${selectedOpt}!`);
       } finally {
         btnSaveSchedule.disabled = false;
@@ -1629,9 +2038,7 @@
             agentDeliveryTime.textContent = `Every morning at ${sData.schedule_time}`;
             if (sData.hour_utc) selectDailyTime.value = sData.hour_utc;
           }
-          if (sData.status) {
-            updateAgentStatusUI(sData.status === 'ENABLED');
-          }
+          if (sData.status) updateAgentStatusUI(sData.status === 'ENABLED');
         }
 
         const latestRes = await fetch(`${API_URL}?action=latest`).catch(() => null);
@@ -1646,37 +2053,62 @@
         if (historyRes && historyRes.ok) {
           const histData = await historyRes.json();
           historyPostcards = histData.history || [];
-          renderHistoryGrid(historyPostcards);
         } else {
-          renderHistoryGrid([
-            generateDemoResponse({ theme_id: "rainyDay", memory: "Rain outside cafe" }),
-            generateDemoResponse({ theme_id: "snowyMorning", memory: "Mountain cabin snow" }),
-            generateDemoResponse({ theme_id: "sunsetEscape", memory: "Coastal golden hour" }),
-            generateDemoResponse({ theme_id: "cityLights", memory: "Neon street evening" })
-          ]);
+          historyPostcards = [
+            generateDemoResponse({ theme_id: "rainyDay", memory: "Rain outside cafe", location: "Waterfront" }),
+            generateDemoResponse({ theme_id: "snowyMorning", memory: "Mountain cabin snow", location: "Alpine Summit" }),
+            generateDemoResponse({ theme_id: "sunsetEscape", memory: "Coastal golden hour", location: "Goa Beach" }),
+            generateDemoResponse({ theme_id: "cityLights", memory: "Neon street evening", location: "Tokyo Shinjuku" }),
+            generateDemoResponse({ theme_id: "autumnPath", memory: "Forest walk", location: "Kyoto Forest" }),
+            generateDemoResponse({ theme_id: "cozyEvening", memory: "Reading by hearth", location: "Cabin Interior" })
+          ];
         }
+        
+        renderHistoryGrid(historyPostcards);
+        updateCollectionStats(historyPostcards);
       } catch (err) {
         displayPostcard(generateDemoResponse({ theme_id: "rainyDay", memory: "Morning rain" }));
       }
     }
 
+    function updateCollectionStats(items) {
+      if (!items) return;
+      const total = items.length;
+      const worlds = new Set(items.map(i => i.location || i.theme || i.theme_id)).size;
+      const styles = new Set(items.map(i => i.style || "Realistic")).size;
+      const moods = new Set(items.map(i => i.mood || "Reflective")).size;
+
+      document.getElementById('stat-total').textContent = total || 12;
+      document.getElementById('stat-worlds').textContent = worlds || 8;
+      document.getElementById('stat-styles').textContent = styles || 6;
+      document.getElementById('stat-moods').textContent = moods || 4;
+    }
+
     function renderHistoryGrid(items) {
       if (!items || items.length === 0) {
-        historyGrid.innerHTML = '<p style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 2rem;">No previous postcards found.</p>';
+        historyGrid.innerHTML = '<p style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 2rem;">No postcards collected yet.</p>';
         return;
       }
 
-      historyGrid.innerHTML = items.map((item, idx) => {
+      let filtered = items;
+      if (currentFilter === 'places') {
+        filtered = items.filter(i => i.location && i.location.toLowerCase() !== 'somewhere peaceful');
+      } else if (currentFilter === 'moods') {
+        filtered = items.filter(i => i.mood);
+      } else if (currentFilter === 'styles') {
+        filtered = items.filter(i => i.style);
+      }
+
+      historyGrid.innerHTML = filtered.map((item, idx) => {
         let cleanUrl = item.image_url || getFallbackPhotoUrl(item.theme_id);
-        if (cleanUrl && cleanUrl.includes('?')) {
-          cleanUrl = cleanUrl.split('?')[0];
-        }
+        if (cleanUrl && cleanUrl.includes('?')) cleanUrl = cleanUrl.split('?')[0];
+
         return `
         <div class="history-card" onclick="viewHistoryDetail(${idx})">
           <img class="history-card-img" src="${cleanUrl}" alt="${item.title}" onerror="handleImageError(this, '${item.theme_id || 'rainyDay'}')">
           <div class="history-card-body">
             <div class="history-card-title">${item.title}</div>
-            <div class="history-card-date">${item.location || 'Memory'} · ${item.generated_at}</div>
+            <div class="history-card-date">${item.location || 'Memory'} · ${item.generated_at || 'Today'}</div>
             <div class="history-card-pills">
               <span class="history-pill">${item.theme || 'Rainy Day'}</span>
               <span class="history-pill">${item.mood || 'Reflective'}</span>
@@ -1691,21 +2123,19 @@
       if (!item) return;
 
       let cleanUrl = item.image_url || getFallbackPhotoUrl(item.theme_id);
-      if (cleanUrl && cleanUrl.includes('?')) {
-        cleanUrl = cleanUrl.split('?')[0];
-      }
+      if (cleanUrl && cleanUrl.includes('?')) cleanUrl = cleanUrl.split('?')[0];
 
       document.getElementById('detail-title').textContent = item.title;
       document.getElementById('detail-content').innerHTML = `
         <img src="${cleanUrl}" onerror="handleImageError(this, '${item.theme_id || 'rainyDay'}')" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; border: 4px solid #FFF; box-shadow: var(--shadow-md);">
-        <p style="font-family: var(--font-heading); font-style: italic; font-size: 1rem; color: var(--primary-brown); margin-bottom: 0.75rem; white-space: pre-line;">"${item.poem || item.quote}"</p>
+        <p style="font-family: var(--font-heading); font-style: italic; font-size: 1rem; color: var(--warm-brown); margin-bottom: 0.75rem; white-space: pre-line;">"${item.poem || item.quote}"</p>
         <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
           <span><strong>Theme:</strong> ${item.theme || 'Rainy Day'}</span>
           <span><strong>Style:</strong> ${item.style || 'Realistic'}</span>
           <span><strong>Mood:</strong> ${item.mood || 'Peaceful'}</span>
-          <span><strong>Date:</strong> ${item.generated_at}</span>
+          <span><strong>Date:</strong> ${item.generated_at || 'Today'}</span>
         </div>
-        ${item.creative_reasoning ? `<div class="reasoning-card"><strong>Bedrock Reasoning:</strong> ${item.creative_reasoning}</div>` : ''}
+        ${item.creative_reasoning ? `<div style="font-size:0.8rem; padding:0.5rem; background:var(--pale-sage); border-left:2px solid var(--forest-green); border-radius:4px;"><strong>Bedrock Reasoning:</strong> ${item.creative_reasoning}</div>` : ''}
       `;
       openModal(modalDetail);
     };
@@ -1717,30 +2147,25 @@
       resTitle.textContent = data.title;
       resLocation.textContent = data.location || 'Somewhere Peaceful';
       resTime.textContent = data.time || data.generated_at || 'Today';
-      resPoem.textContent = data.poem || data.quote;
-      resReasoning.textContent = data.creative_reasoning || "Selected theme for immersive visual storytelling.";
 
-      // Theme Graphics
+      backPoem.textContent = data.poem || data.quote;
+      backReasoning.textContent = data.creative_reasoning || "Selected theme for visual environment storytelling.";
+      backDate.textContent = data.time || data.generated_at || 'September 11, 2026';
+
       const tKey = data.theme_id || "rainyDay";
       const gfx = THEME_GRAPHICS[tKey] || THEME_GRAPHICS.rainyDay;
       stampArt.textContent = gfx.icon;
       postmarkText.innerHTML = gfx.mark;
 
-      // Badges
       badgeTheme.textContent = `THEME: ${data.theme || 'RAINY DAY'}`;
       badgeStyle.textContent = `STYLE: ${(data.style || 'REALISTIC').toUpperCase()}`;
       badgeMood.textContent = `MOOD: ${(data.mood || 'PEACEFUL').toUpperCase()}`;
-
-      if (data.created_label) {
-        document.getElementById('auto-badge').innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg> ${data.created_label}`;
-      }
     }
 
-    // FORM GENERATION
     async function triggerGeneration(customPayload = null) {
       errorAlert.style.display = 'none';
       submitBtn.disabled = true;
-      submitBtnText.textContent = "GENERATING THEMED ARTWORK...";
+      submitBtnText.textContent = "GENERATING DESTINATION ARTWORK...";
 
       const payload = customPayload || {
         memory: memoryInput.value.trim() || 'A quiet morning reflection',
@@ -1760,19 +2185,19 @@
         if (response && response.ok) {
           data = await response.json();
         } else {
-          await new Promise(r => setTimeout(r, 1200));
+          await new Promise(r => setTimeout(r, 1000));
           data = generateDemoResponse(payload);
         }
 
         displayPostcard(data);
-        showToast("New Themed Postcard generated!");
+        showToast("New Destination Postcard generated!");
         loadAutonomousPostcards();
       } catch (err) {
         errorAlert.textContent = err.message || "Failed to generate postcard.";
         errorAlert.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
-        submitBtnText.textContent = "GENERATE THEMED POSTCARD";
+        submitBtnText.textContent = "GENERATE DESTINATION POSTCARD";
       }
     }
 
@@ -1789,12 +2214,11 @@
       });
     });
 
-    // SHARE
     btnShare.addEventListener('click', async () => {
       if (!currentPostcardData) return;
       const shareData = {
         title: currentPostcardData.title,
-        text: `Memory Postcard [${currentPostcardData.theme}]: "${currentPostcardData.title}"`,
+        text: `Postcards from Elsewhere [${currentPostcardData.theme}]: "${currentPostcardData.title}"`,
         url: currentPostcardData.image_url
       };
 
@@ -1806,7 +2230,6 @@
       }
     });
 
-    // DOWNLOAD
     btnDownload.addEventListener('click', () => {
       if (!currentPostcardData) return;
       
@@ -1815,7 +2238,7 @@
       canvas.height = 768;
       const ctx = canvas.getContext('2d');
 
-      ctx.fillStyle = "#F7F1E4";
+      ctx.fillStyle = "#FFFDF7";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const img = new Image();
@@ -1823,36 +2246,36 @@
       img.onload = () => {
         ctx.drawImage(img, 20, 20, 720, 728);
 
-        ctx.fillStyle = "#F4ECE0";
+        ctx.fillStyle = "#FBF8F2";
         ctx.fillRect(750, 20, 382, 728);
         ctx.strokeStyle = "#E2D7C3";
         ctx.lineWidth = 2;
         ctx.strokeRect(750, 20, 382, 728);
 
-        ctx.fillStyle = "#E6DCD0";
+        ctx.fillStyle = "#E8EFE5";
         ctx.fillRect(1040, 40, 70, 90);
-        ctx.fillStyle = "#C1652F";
+        ctx.fillStyle = "#4F7F5F";
         ctx.fillRect(1045, 45, 60, 60);
 
-        ctx.fillStyle = "#4A3728";
+        ctx.fillStyle = "#5C4033";
         ctx.font = "bold 30px Georgia, serif";
         ctx.fillText(currentPostcardData.title.slice(0, 22), 770, 200);
 
-        ctx.fillStyle = "#C1652F";
+        ctx.fillStyle = "#4F7F5F";
         ctx.font = "bold 18px sans-serif";
-        ctx.fillText(`THEME: ${currentPostcardData.theme || 'RAINY DAY'}`, 770, 250);
+        ctx.fillText(`DESTINATION: ${currentPostcardData.theme || 'RAINY DAY'}`, 770, 250);
 
-        ctx.fillStyle = "#7D6B5D";
+        ctx.fillStyle = "#786C5E";
         ctx.font = "18px sans-serif";
         ctx.fillText(currentPostcardData.location || "Memory", 770, 285);
         ctx.fillText(currentPostcardData.time || "", 770, 315);
 
         ctx.font = "italic 36px Georgia, cursive";
-        ctx.fillStyle = "#4A3728";
+        ctx.fillStyle = "#5C4033";
         ctx.fillText("Wish you were here.", 770, 680);
 
         const link = document.createElement('a');
-        link.download = `memory-postcard-${Date.now()}.png`;
+        link.download = `postcards-from-elsewhere-${Date.now()}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         showToast("Postcard downloaded!");
@@ -1861,7 +2284,6 @@
       img.src = currentPostcardData.image_url;
     });
 
-    // DEMO REAL SCENE GENERATOR
     function generateDemoResponse(payload) {
       const themeKey = payload.theme || payload.theme_id || "rainyDay";
       const themesMap = {
@@ -1882,7 +2304,7 @@
       const time = payload.time || "21 Aug 2026";
 
       return {
-        title: `${tObj.name.toUpperCase()} MEMORY`,
+        title: `${tObj.name.toUpperCase()} JOURNEY`,
         poem: `Quiet moments in ${tObj.name.toLowerCase()}\nMoments frozen in time\nA gentle warmth remains.`,
         quote: "Every postcard tells a story of another world.",
         theme_id: themeKey,
@@ -1893,7 +2315,6 @@
         time: time,
         image_url: tObj.photo,
         generated_at: time,
-        created_label: "Created automatically this morning (8:00 AM)",
         creative_reasoning: `Selected ${tObj.name} theme with real high-resolution scene artwork for visual storytelling depth.`
       };
     }
