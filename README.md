@@ -2,7 +2,6 @@
 
 > An always-on creative AI agent built on AWS that autonomously creates a new illustrated digital postcard every morning — *a postcard you didn't have to make.*
 
-![AWS Builder Center Challenge](https://main.d3upkw4ewckj1x.amplifyapp.com)
 
 ---
 
